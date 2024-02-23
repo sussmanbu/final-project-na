@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://sussmanbu.github.io/final-project-na/posts/2023-12-20-examples/examples.html</loc>
-    <lastmod>2024-02-23T20:11:53.158Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sussmanbu.github.io/final-project-na/posts/2023-10-13-first-team-meeting/first-team-meeting.html</loc>
-    <lastmod>2024-02-23T20:11:51.680Z</lastmod>
-  </url>
-  <url>
     <loc>https://sussmanbu.github.io/final-project-na/data.html</loc>
-    <lastmod>2024-02-23T20:11:50.012Z</lastmod>
+    <lastmod>2024-02-23T20:16:35.301Z</lastmod>
   </url>
   <url>
     <loc>https://sussmanbu.github.io/final-project-na/analysis.html</loc>
-    <lastmod>2024-02-23T20:11:45.707Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sussmanbu.github.io/final-project-na/about.html</loc>
-    <lastmod>2024-02-23T20:11:41.892Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sussmanbu.github.io/final-project-na/big_picture.html</loc>
-    <lastmod>2024-02-23T20:11:46.540Z</lastmod>
+    <lastmod>2024-02-23T20:16:33.847Z</lastmod>
   </url>
   <url>
     <loc>https://sussmanbu.github.io/final-project-na/index.html</loc>
-    <lastmod>2024-02-23T20:11:51.015Z</lastmod>
+    <lastmod>2024-02-23T20:16:32.153Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sussmanbu.github.io/final-project-na/posts/2023-10-13-first-team-meeting/first-team-meeting.html</loc>
+    <lastmod>2024-02-23T20:16:31.345Z</lastmod>
   </url>
   <url>
     <loc>https://sussmanbu.github.io/final-project-na/posts/2023-10-15-getting-started/getting-started.html</loc>
-    <lastmod>2024-02-23T20:11:52.366Z</lastmod>
+    <lastmod>2024-02-23T20:16:31.020Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sussmanbu.github.io/final-project-na/posts/2023-12-20-examples/examples.html</loc>
+    <lastmod>2024-02-23T20:16:31.798Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sussmanbu.github.io/final-project-na/about.html</loc>
+    <lastmod>2024-02-23T20:16:32.396Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sussmanbu.github.io/final-project-na/big_picture.html</loc>
+    <lastmod>2024-02-23T20:16:34.121Z</lastmod>
   </url>
 </urlset>
