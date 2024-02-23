@@ -23,7 +23,7 @@ This is a website for the final project for MA[46]15 Data Science with R by Team
 The members of this team are below.
 
 ## Sizhe Chen
-Sizhe is a senior student majoring in Psychology and minor in Statistics.
+Sizhe is a senior student majoring in Psychology and minor in Statistics. aa
 
 <!-- Please leave in the information below -->
 
