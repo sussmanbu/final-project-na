@@ -28,7 +28,7 @@ Sizhe is a senior student majoring in Psychology and minor in Statistics.
 <!-- Please leave in the information below -->
 
 ## Jiatong Ding
-Jiatong is a junior student majoring in Economics and Mathematics and minoring in Business.
+Jiatong is a junior student majoring in Economics and Mathematics and minoring in Business 
 
 ## Jiakai Lin
 Jiakai is a junior student majoring Applied Mathematics and minoring in Economics.
