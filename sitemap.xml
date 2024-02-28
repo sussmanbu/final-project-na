@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://sussmanbu.github.io/final-project-na/data.html</loc>
-    <lastmod>2024-02-26T20:14:07.393Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sussmanbu.github.io/final-project-na/analysis.html</loc>
-    <lastmod>2024-02-26T20:14:05.937Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sussmanbu.github.io/final-project-na/index.html</loc>
-    <lastmod>2024-02-26T20:14:04.364Z</lastmod>
+    <loc>https://sussmanbu.github.io/final-project-na/posts/2023-12-20-examples/examples.html</loc>
+    <lastmod>2024-02-28T19:49:15.279Z</lastmod>
   </url>
   <url>
     <loc>https://sussmanbu.github.io/final-project-na/posts/2023-10-13-first-team-meeting/first-team-meeting.html</loc>
-    <lastmod>2024-02-26T20:14:03.546Z</lastmod>
+    <lastmod>2024-02-28T19:49:12.463Z</lastmod>
   </url>
   <url>
-    <loc>https://sussmanbu.github.io/final-project-na/posts/2023-10-15-getting-started/getting-started.html</loc>
-    <lastmod>2024-02-26T20:14:03.251Z</lastmod>
+    <loc>https://sussmanbu.github.io/final-project-na/data.html</loc>
+    <lastmod>2024-02-28T19:49:08.881Z</lastmod>
   </url>
   <url>
-    <loc>https://sussmanbu.github.io/final-project-na/posts/2023-12-20-examples/examples.html</loc>
-    <lastmod>2024-02-26T20:14:04.021Z</lastmod>
+    <loc>https://sussmanbu.github.io/final-project-na/analysis.html</loc>
+    <lastmod>2024-02-28T19:49:03.255Z</lastmod>
   </url>
   <url>
     <loc>https://sussmanbu.github.io/final-project-na/about.html</loc>
-    <lastmod>2024-02-26T20:14:04.611Z</lastmod>
+    <lastmod>2024-02-28T19:48:58.379Z</lastmod>
   </url>
   <url>
     <loc>https://sussmanbu.github.io/final-project-na/big_picture.html</loc>
-    <lastmod>2024-02-26T20:14:06.235Z</lastmod>
+    <lastmod>2024-02-28T19:49:04.030Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sussmanbu.github.io/final-project-na/index.html</loc>
+    <lastmod>2024-02-28T19:49:10.679Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sussmanbu.github.io/final-project-na/posts/2023-10-15-getting-started/getting-started.html</loc>
+    <lastmod>2024-02-28T19:49:13.529Z</lastmod>
   </url>
 </urlset>
