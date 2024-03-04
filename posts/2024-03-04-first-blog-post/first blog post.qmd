@@ -1,3 +1,10 @@
+---
+title: "First Blog Post"
+subtitle: ""
+author: "NA TEAM"
+date: "2024-03-04"
+draft: false
+---
 Dataset 1: US Police Shootings https://www.kaggle.com/datasets/ahsen1330/us-police-shootings
           The dataset takes out some insights on what factors would affect US police shootings. There are 10 columns and 4896 rows which contain basic information about “name”, “date”, “armed”, “age”, “gender”, “race”, “city”, and so on. The variables like “name” and “states” might be deleted because it seems not to influence the reasons on US shooting cases. We would like to address questions like whether or not factors such as “gender” and “armed” would affect the rate of shooting cases. Also, we could discuss if racism is objectively existing in the US by creating a bar chart to show the amount of US shooting cases based on different races.There are some challenges we need to solve like how to deal with “unknown” in the dataset. There is some data with different names that have the same identity and we could change them into one name in order to do the analysis more clearly.
 
