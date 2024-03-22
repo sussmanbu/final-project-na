@@ -37,21 +37,13 @@ select(-ARREST_KEY,-PD_CD,-KY_CD,-LAW_CODE,-ARREST_BORO,-JURISDICTION_CODE)
 #saveRDS(ds, "dataset/NYPD.rds")
 
 ```
-
-In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research.
-
 ```{r}
 na_count <- sum(is.na(ds))
 na_count
-
-
-# Remove rows with any NA values from the dataset
 ds <- na.omit(ds) 
-
 dim(ds)
-dim(ds) 
 ```
-
+In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. Remove rows with any NA values from the dataset.
 
 ```{r include=F}
 ds
@@ -75,4 +67,4 @@ labs(x = 'Race', y = 'Number of Cases', title = 'Number of Cases by Race') +
 theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-
+On this graph we are showing the number of cases per race among all races. On this graph we can see that the lowest number of cases per race are represented by the indian/alaskan native people. The highest is for colred people having over 11k cases during this period
