@@ -2,14 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.3.433">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="TEAM 14">
-<meta name="dcterms.date" content="2024-03-25">
 
-<title>MA [46]15 Final Project — TEAM 14 - Second Blog Post</title>
+<title>MA [46]15 Final Project --- TEAM 14 – second_blog_post</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -141,35 +139,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-body">
-      <h1 class="title">Second Blog Post</h1>
-                      </div>
-  </div>
-    
-  
-  <div class="quarto-title-meta">
-
-      <div>
-      <div class="quarto-title-meta-heading">Author</div>
-      <div class="quarto-title-meta-contents">
-               <p>TEAM 14 </p>
-            </div>
-    </div>
-      
-      <div>
-      <div class="quarto-title-meta-heading">Published</div>
-      <div class="quarto-title-meta-contents">
-        <p class="date">March 25, 2024</p>
-      </div>
-    </div>
-    
-      
-    </div>
-    
-  
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
@@ -178,124 +148,108 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-
-<p>Data background</p>
-<ol type="1">
-<li>Where does the data come from? Who collected it? Why was it collected? Are you able to find the data from the original source?</li>
-</ol>
+<section id="blog-2" class="level2">
+<h2 class="anchored" data-anchor-id="blog-2">Blog 2</h2>
+</section>
+<section id="data-background" class="level2">
+<h2 class="anchored" data-anchor-id="data-background">Data background</h2>
+<section id="where-does-the-data-come-from-who-collected-it-why-was-it-collected-are-you-able-to-find-the-data-from-the-original-source" class="level3">
+<h3 class="anchored" data-anchor-id="where-does-the-data-come-from-who-collected-it-why-was-it-collected-are-you-able-to-find-the-data-from-the-original-source">Where does the data come from? Who collected it? Why was it collected? Are you able to find the data from the original source?</h3>
 <p>This data comes from the NYPD website and is collected by the Office of Management Analysis and Planning of the New York City Police Department. This dataset provides a general overview of the nature of police enforcement activity in NYC by the NYPD to the public starting from 2006. The data can be found on the original website.</p>
-<ol start="2" type="1">
-<li>Are there any issues you can see with how the data was collected? What is the sample population? Are there reasons to think the sample is biased in some way?</li>
-</ol>
-<p>The collection of NYPD Arrest Data raises several concerns regarding its collection and subsequent analysis. Issues such as selection bias may emerge, given the dataset exclusively represents individuals who have been arrested, potentially skewing the representation of certain crimes or demographic groups due to law enforcement priorities or practices. Additionally, reporting biases might result from inconsistencies in how incidents are documented across different precincts or by individual officers, affecting data uniformity and reliability. Human error in data entry could introduce inaccuracies, including misclassifications or incorrect demographic information, which could mislead analyses, particularly in trend or demographic studies.</p>
-<p>This sample population consists of individuals arrested by the NYPD, as recorded in this dataset for the year to date. It represents only the subset of the population that has been arrested and does not reflect the broader New York City population.</p>
-<p>There might be some biases in the sample. In the dataset, certain age groups are disproportionately represented. Most arrested individuals are in the age group of 25-44. This could reflect targeted law enforcement actions towards specific age demographics or broader societal issues affecting those age groups. Additionally, the dataset disproportionately represents certain demographics in terms of race. It may introduce bias in analyses that rely on this data, potentially reflecting or exacerbating existing societal or systemic biases.</p>
-<p>3.How is this data used? Has there been other research on the same data? Is this data being used for some policy decisions? What questions have others ask about this data?</p>
-<p>This data can be used to inform policy decisions related to law enforcement practices, resource allocation, and community support programs. By analyzing patterns and trends in the data, policymakers can identify areas in need of intervention or reform. Moreover, researchers may examine the data to study crime trends, the effectiveness of policing strategies, and the impact of socio-economic factors on crime rates. Comparisons with previous years can reveal changes in crime patterns or the effectiveness of law enforcement policies. However, I didn’t find other research on the same data. Researchers, journalists, and policymakers have explored various questions using NYPD Arrest Data, such as: Are certain demographic groups disproportionately represented in arrest statistics? If so, what might be contributing to these disparities? How have changes in laws (e.g., marijuana decriminalization) impacted arrest rates for specific offenses?</p>
-<p>Data Loading and Cleaning (Part 1)</p>
+</section>
+<section id="are-there-any-issues-you-can-see-with-how-the-data-was-collected-what-is-the-sample-population-are-there-reasons-to-think-the-sample-is-biased-in-some-way" class="level3">
+<h3 class="anchored" data-anchor-id="are-there-any-issues-you-can-see-with-how-the-data-was-collected-what-is-the-sample-population-are-there-reasons-to-think-the-sample-is-biased-in-some-way">Are there any issues you can see with how the data was collected? What is the sample population? Are there reasons to think the sample is biased in some way?</h3>
+<p>The collection of NYPD Arrest Data raises several concerns regarding its collection and subsequent analysis. Reporting biases might result from inconsistencies in how incidents are documented across different precincts or by individual officers, affecting data uniformity and reliability. Human error in data entry could introduce inaccuracies, including misclassifications or incorrect demographic information, which could mislead analyses, particularly in trend or demographic studies. This sample population consists of individuals arrested by the NYPD, as recorded in this dataset for the year to date. It represents only the subset of the population that has been arrested and does not reflect the broader New York City population. There might be some biases in the sample. In the dataset, certain age groups are disproportionately represented.Over representation of the 25-44 age group and certain racial demographics suggests possible targeted enforcement or societal issues, which could bias data-driven analyses. Additionally, the dataset disproportionately represents certain demographics in terms of race.</p>
+</section>
+<section id="how-is-this-data-used-has-there-been-other-research-on-the-same-data-is-this-data-being-used-for-some-policy-decisions-what-questions-have-others-ask-about-this-data" class="level3">
+<h3 class="anchored" data-anchor-id="how-is-this-data-used-has-there-been-other-research-on-the-same-data-is-this-data-being-used-for-some-policy-decisions-what-questions-have-others-ask-about-this-data">How is this data used? Has there been other research on the same data? Is this data being used for some policy decisions? What questions have others ask about this data?</h3>
+<p>This data can be used to inform policy decisions related to law enforcement practices, resource allocation, and community support programs. By analyzing patterns and trends in the data, policymakers can identify areas in need of intervention or reform. Moreover, researchers may examine the data to study crime trends, the effectiveness of policing strategies, and the impact of socio-economic factors on crime rates. Comparisons with previous years can reveal changes in crime patterns or the effectiveness of law enforcement policies. However, I didn’t find other research on the same data. Researchers, journalists, and policymakers have explored various questions using NYPD Arrest Data, such as: Are certain demographic groups disproportionately represented in arrest statistics? If so, what might be contributing to these disparities? How have changes in laws (e.g., marijuana decriminalization) impacted arrest rates for specific offenses? Are there significant differences in arrest rates across different boroughs or neighborhoods, and what factors contribute to these differences?</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(tidyverse))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'tidyverse' was built under R version 4.2.3</code></pre>
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'ggplot2' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'tibble' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'readr' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'purrr' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'dplyr' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'forcats' was built under R version 4.2.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: package 'lubridate' was built under R version 4.2.3</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(stringr))</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(dplyr))</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"dataset/NYPD.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ds<span class="sc">|&gt;</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span>AGE_GROUP))<span class="sc">+</span> <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"dataset/NYPD.csv"</span>,<span class="at">show_col_types =</span> <span class="cn">FALSE</span> )<span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(<span class="sc">-</span>ARREST_KEY,<span class="sc">-</span>PD_CD,<span class="sc">-</span>KY_CD,<span class="sc">-</span>LAW_CODE,<span class="sc">-</span>ARREST_BORO,<span class="sc">-</span>JURISDICTION_CODE) </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#saveRDS(ds, "dataset/NYPD.rds")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>in the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>na_count <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(ds))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>na_count</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1599</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove rows with any NA values from the dataset</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(ds) </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(ds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 225273     13</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(ds) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 225273     13</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ds</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 225,273 × 13
+   ARREST_DATE PD_DESC   OFNS_DESC LAW_CAT_CD ARREST_PRECINCT AGE_GROUP PERP_SEX
+   &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;                &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;   
+ 1 01/03/2023  ROBBERY,… ROBBERY   F                       49 18-24     M       
+ 2 01/03/2023  STRANGUL… FELONY A… F                      120 25-44     M       
+ 3 01/04/2023  ROBBERY,… ROBBERY   F                       61 &lt;18       M       
+ 4 01/04/2023  STRANGUL… FELONY A… F                      114 18-24     M       
+ 5 01/05/2023  BURGLARY… BURGLARY  F                       44 25-44     F       
+ 6 01/08/2023  ASSAULT … FELONY A… F                       76 25-44     M       
+ 7 01/09/2023  ARSON 2,… ARSON     F                       49 25-44     M       
+ 8 01/14/2023  ASSAULT … FELONY A… F                       90 25-44     M       
+ 9 01/14/2023  ARSON 2,… ARSON     F                       63 25-44     M       
+10 02/03/2023  STRANGUL… FELONY A… F                       34 25-44     M       
+# ℹ 225,263 more rows
+# ℹ 6 more variables: PERP_RACE &lt;chr&gt;, X_COORD_CD &lt;dbl&gt;, Y_COORD_CD &lt;dbl&gt;,
+#   Latitude &lt;dbl&gt;, Longitude &lt;dbl&gt;, `New Georeferenced Column` &lt;chr&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(ds, <span class="st">"dataset/NYPD.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>unique_count <span class="ot">&lt;-</span> <span class="fu">unique</span>(ds<span class="sc">$</span>OFNS_DESC)  </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(unique_count) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 63</code></pre>
+</div>
+</div>
+<p>Through count unique cases based on the “OFNS_DESC, there are 64 different types of arrest cases.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>ds<span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(PERP_RACE)) <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">fill =</span> PERP_RACE)) <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Race'</span>, <span class="at">y =</span> <span class="st">'Number of Cases'</span>, <span class="at">title =</span> <span class="st">'Number of Cases by Race'</span>) <span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="second-blog-post_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>It shows all range of age level in the data, no unusual data.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ds<span class="sc">|&gt;</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(PERP_SEX)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 2
-  PERP_SEX      n
-  &lt;chr&gt;     &lt;int&gt;
-1 F         39278
-2 M        182504
-3 U          3491</code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>ds<span class="sc">|&gt;</span> </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(PD_DESC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 239 × 2
-   PD_DESC                             n
-   &lt;chr&gt;                           &lt;int&gt;
- 1 (null)                             17
- 2 A.B.C.,FALSE PROOF OF AGE           2
- 3 ABANDON ANIMAL                      2
- 4 ACCOSTING,FRAUDULENT               55
- 5 ADM.CODE,UNCLASSIFIED MISDEMEA     14
- 6 ADM.CODE,UNCLASSIFIED VIOLATIO     34
- 7 AGGRAVATED CRIMINAL CONTEMPT      292
- 8 AGGRAVATED GRAND LARCENY OF ATM   191
- 9 AGGRAVATED HARASSMENT 1           110
-10 AGGRAVATED HARASSMENT 2          3408
-# ℹ 229 more rows</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>PD_count <span class="ot">&lt;-</span> <span class="fu">unique</span>(ds<span class="sc">$</span>PD_DESC) <span class="co"># </span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(PD_count)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 239</code></pre>
-</div>
-</div>
-<p>there are 239 subcategories for all 63 crimes</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>category_details <span class="ot">&lt;-</span> ds <span class="sc">%&gt;%</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(OFNS_DESC) <span class="sc">%&gt;%</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">PD_DESC_Details =</span> <span class="fu">paste</span>(<span class="fu">unique</span>(PD_DESC), <span class="at">split=</span> <span class="st">""</span>, <span class="at">collapse =</span> <span class="st">", "</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(OFNS_DESC)</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(category_details)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 63 × 2
-   OFNS_DESC                            PD_DESC_Details                         
-   &lt;chr&gt;                                &lt;chr&gt;                                   
- 1 (null)                               "(null) "                               
- 2 ADMINISTRATIVE CODE                  "ADM.CODE,UNCLASSIFIED VIOLATIO , ALCOH…
- 3 ADMINISTRATIVE CODES                 "NOISE,UNECESSARY "                     
- 4 AGRICULTURE &amp; MRKTS LAW-UNCLASSIFIED "TORTURE/INJURE ANIMAL CRUELTY , ABANDO…
- 5 ALCOHOLIC BEVERAGE CONTROL LAW       "ALCOHOLIC BEVERAGE CONTROL LAW "       
- 6 ANTICIPATORY OFFENSES                "CONSPIRACY 6, 5 , FACILITATION 4, CRIM…
- 7 ARSON                                "ARSON 2,3,4 , ARSON 1 "                
- 8 ASSAULT 3 &amp; RELATED OFFENSES         "ASSAULT 3 , MENACING,UNCLASSIFIED , OB…
- 9 BURGLAR'S TOOLS                      "BURGLARS TOOLS,UNCLASSIFIED "          
-10 BURGLARY                             "BURGLARY,UNCLASSIFIED,UNKNOWN , BURGLA…
-# ℹ 53 more rows</code></pre>
+<p><img src="second_blog_post_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
