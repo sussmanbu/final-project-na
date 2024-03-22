@@ -1,4 +1,10 @@
-## Blog 2
+---
+title: "Second Blog Post"
+subtitle: ""
+author: "TEAM 14"
+date: "2024-03-25"
+draft: false
+---
 
 ## Data background
 
@@ -24,7 +30,7 @@ library(ggplot2)
 ```
 
 
-```{r} 
+```{r include=F} 
 ds <- read_csv("dataset/NYPD.csv",show_col_types = FALSE )|>
 select(-ARREST_KEY,-PD_CD,-KY_CD,-LAW_CODE,-ARREST_BORO,-JURISDICTION_CODE) 
 
@@ -32,7 +38,7 @@ select(-ARREST_KEY,-PD_CD,-KY_CD,-LAW_CODE,-ARREST_BORO,-JURISDICTION_CODE)
 
 ```
 
-in the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research.
+In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research.
 
 ```{r}
 na_count <- sum(is.na(ds))
@@ -46,9 +52,11 @@ dim(ds)
 dim(ds) 
 ```
 
-```{r}
+
+```{r include=F}
 ds
 saveRDS(ds, "dataset/NYPD.rds")
+
 ```
 
 
