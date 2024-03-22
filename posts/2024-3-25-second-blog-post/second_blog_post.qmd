@@ -67,4 +67,6 @@ labs(x = 'Race', y = 'Number of Cases', title = 'Number of Cases by Race') +
 theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-On this graph we are showing the number of cases per race among all races. On this graph we can see that the lowest number of cases per race are represented by the indian/alaskan native people. The highest is for colred people having over 11k cases during this period
+On this graph we are showing the number of cases per race among all races. On this graph we can see that the lowest number of cases per race are represented by the Indian/Alaskan native people. The highest is for colred people having over 11k cases during this period.
+
+
