@@ -23,7 +23,27 @@ library(ggplot2)
 ``` r
 ds <- read_csv("dataset/NYPD.csv",show_col_types = FALSE )|>
 select(-ARREST_KEY,-PD_CD,-KY_CD,-LAW_CODE,-ARREST_BORO,-JURISDICTION_CODE) 
+ds 
+```
 
+    # A tibble: 226,872 × 13
+       ARREST_DATE PD_DESC   OFNS_DESC LAW_CAT_CD ARREST_PRECINCT AGE_GROUP PERP_SEX
+       <chr>       <chr>     <chr>     <chr>                <dbl> <chr>     <chr>   
+     1 01/03/2023  ROBBERY,… ROBBERY   F                       49 18-24     M       
+     2 01/03/2023  STRANGUL… FELONY A… F                      120 25-44     M       
+     3 01/04/2023  ROBBERY,… ROBBERY   F                       61 <18       M       
+     4 01/04/2023  STRANGUL… FELONY A… F                      114 18-24     M       
+     5 01/05/2023  BURGLARY… BURGLARY  F                       44 25-44     F       
+     6 01/08/2023  ASSAULT … FELONY A… F                       76 25-44     M       
+     7 01/09/2023  ARSON 2,… ARSON     F                       49 25-44     M       
+     8 01/14/2023  ASSAULT … FELONY A… F                       90 25-44     M       
+     9 01/14/2023  ARSON 2,… ARSON     F                       63 25-44     M       
+    10 02/03/2023  STRANGUL… FELONY A… F                       34 25-44     M       
+    # ℹ 226,862 more rows
+    # ℹ 6 more variables: PERP_RACE <chr>, X_COORD_CD <dbl>, Y_COORD_CD <dbl>,
+    #   Latitude <dbl>, Longitude <dbl>, `New Georeferenced Column` <chr>
+
+``` r
 #saveRDS(ds, "dataset/NYPD.rds")
 ```
 
@@ -72,6 +92,15 @@ ds
 
 ``` r
 saveRDS(ds, "dataset/NYPD.rds")
+unique(ds$AGE_GROUP)
+```
+
+    [1] "18-24" "25-44" "<18"   "45-64" "65+"  
+
+``` r
+# Knowing that this type of robery was done by a white guy which category is more probable 
+
+#si un abid cometio un felony es un abid d q edad
 ```
 
 ``` r
