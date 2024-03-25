@@ -24,7 +24,7 @@ This data can be used to inform policy decisions related to law enforcement prac
 
 
 
-```{r}
+```{r include=F}
 library(tidyverse) 
 library(ggplot2)
 ```
@@ -69,4 +69,4 @@ theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 On this graph we are showing the number of cases per race among all races. On this graph we can see that the lowest number of cases per race are represented by the Indian/Alaskan native people. The highest is for colred people having over 11k cases during this period.
 
-
+ 
