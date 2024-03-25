@@ -15,7 +15,7 @@ Relevance: For the NYPD Arrest Data, transparency involves providing clear, acce
 Adhering to the practice: Transparency would be enhanced by releasing detailed metadata with the dataset, explanations of each category, the decision-making processes behind data collection, and any changes or inconsistencies in data recording over time.
 
 Limitations and potential for misuse: A limitation in analyzing the NYPD Arrest Data could be the potential under-reporting or misclassification of incidents. Misuse of the data could occur for not understanding the systemic factors influencing policing, leading to skewed narratives about crime in different communities.
-
+`
 ## Justice
 
 Relevance: In the case of NYPD arrest data, justice means ensuring that the data collection and reporting process is fair and does not disproportionately target or negatively impact specific communities, especially marginalized groups.
