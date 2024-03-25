@@ -30,13 +30,13 @@ library(ggplot2)
 ```
 
 
-```{r} 
+```{r include=TRUE} 
 ds <- read_csv("dataset/NYPD.csv",show_col_types = FALSE )|>
 select(-ARREST_KEY,-PD_CD,-KY_CD,-LAW_CODE,-ARREST_BORO,-JURISDICTION_CODE) 
-
 #saveRDS(ds, "dataset/NYPD.rds")
-
 ```
+
+
 ```{r}
 na_count <- sum(is.na(ds))
 na_count
@@ -49,7 +49,6 @@ In the data cleaning, we delete the arrest ID, two classification ID, and jurisd
 ```{r include=F}
 ds
 saveRDS(ds, "dataset/NYPD.rds")
-
 ```
 
 
