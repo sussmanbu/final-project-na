@@ -30,7 +30,7 @@ library(ggplot2)
 ```
 
 
-```{r include=F} 
+```{r} 
 ds <- read_csv("dataset/NYPD.csv",show_col_types = FALSE )|>
 select(-ARREST_KEY,-PD_CD,-KY_CD,-LAW_CODE,-ARREST_BORO,-JURISDICTION_CODE) 
 
@@ -44,6 +44,7 @@ ds <- na.omit(ds)
 dim(ds)
 ```
 In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. Remove rows with any NA values from the dataset.
+
 
 ```{r include=F}
 ds
