@@ -40,6 +40,7 @@ Using these principles with the NYPD Arrest Data means we need to carefully cons
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(stringr))
 suppressPackageStartupMessages(library(dplyr))
+library(kableExtra)
 ds <- read_rds("dataset/NYPD.rds")
 ```
 
@@ -63,14 +64,21 @@ ds|>
 PD_count <- unique(ds$PD_DESC) 
 print(length(PD_count))
 ```
-there are 63 crimes, the below table shows the specific description in 63 crimes.
+There are 63 crimes, the below table shows the specific description in 63 crimes.
 
-
-```{r}
+```{r echo=FALSE}
 category_details <- ds |>
   group_by(OFNS_DESC) |>
   summarise(PD_DESC_Details = paste(unique(PD_DESC), collapse = ", ")) |>
   ungroup() |>
   arrange(OFNS_DESC)
-print(category_details)
+kable(category_details, format = "html")
+category_details |>
+  kable(format = "html", escape = F) |>
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                full_width = F, 
+                font_size = 12) |>
+  column_spec(1, bold = T, color = "black") |>
+  row_spec(0, background = "#D3D3D3") 
 ```
+
