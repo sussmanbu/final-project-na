@@ -33,6 +33,38 @@ library(tidyverse)
 library(ggplot2)
 ```
 
+```{r echo=F}
+library(knitr)
+variables_df <- data.frame(
+  Variable = c("ARREST_KEY", "ARREST_DATE", "PD_CD", "PD_DESC", "KY_CD", "OFNS_DESC", "LAW_CODE", "LAW_CAT_CD", 
+               "ARREST_BORO", "ARREST_PRECINCT", "JURISDICTION_CODE", "AGE_GROUP", "PERP_SEX", "PERP_RACE", 
+               "X_COORD_CD", "Y_COORD_CD", "Latitude", "Longitude", "Lon_Lat"),
+  Data_Types = c("text", "calendar date", "number", "text", "number", "text", "text", "text", 
+                 "text", "number", "number", "text", "text", "text", 
+                 "text", "text", "number", "number", "point"),
+  Description = c("Randomly generated persistent ID for each arrest", 
+                  "Exact date of arrest for the reported event", 
+                  "Three digit internal classification code (more granular than Key Code)", 
+                  "Description of internal classification corresponding with PD code (more granular than Offense Description)", 
+                  "Three digit internal classification code (more general category than PD code)", 
+                  "Description of internal classification corresponding with KY code (more general category than PD description)", 
+                  "Law code charges corresponding to the NYS Penal Law, VTL, and other various local laws", 
+                  "Level of offense: felony, misdemeanor, violation", 
+                  "Borough of arrest. B(Bronx), S(Staten Island), K(Brooklyn), M(Manhattan), Q(Queens)", 
+                  "Precinct where the arrest occurred", 
+                  "Jurisdiction responsible for arrest. Jurisdiction codes 0(Patrol), 1(Transit), and 2(Housing) represent NYPD whilst codes 3 and more represent non-NYPD jurisdictions", 
+                  "Perpetrator’s age within a category", 
+                  "Perpetrator’s sex description", 
+                  "Perpetrator’s race description", 
+                  "Midblock X-coordinate for New York State Plane Coordinate System", 
+                  "Midblock Y-coordinate for New York State Plane Coordinate System", 
+                  "Latitude coordinate for Global Coordinate System", 
+                  "Longitude coordinate for Global Coordinate System", 
+                  "Georeferenced Point Column based on Longitude and Latitude fields")
+)
+kable(variables_df, format = "html")
+```
+
 ```{r include=TRUE} 
 ds <- read_csv("dataset/NYPD.csv",show_col_types = FALSE )|>
 select(-ARREST_KEY,-PD_CD,-KY_CD,-LAW_CODE,-ARREST_BORO,-JURISDICTION_CODE) 
@@ -40,7 +72,7 @@ select(-ARREST_KEY,-PD_CD,-KY_CD,-LAW_CODE,-ARREST_BORO,-JURISDICTION_CODE)
 ```
 
 
-```{r}
+```{r }
 na_count <- sum(is.na(ds))
 na_count
 ds <- na.omit(ds) 
@@ -61,7 +93,7 @@ length(unique_count)
 ```
 Through count unique cases based on the "OFNS_DESC, there are 64 different types of arrest cases.
 
-```{r}
+```{r echo=F}
 ds|>
 ggplot(aes(PERP_RACE)) +
 geom_bar(aes(fill = PERP_RACE)) +
