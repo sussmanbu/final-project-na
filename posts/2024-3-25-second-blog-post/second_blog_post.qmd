@@ -52,7 +52,7 @@ ds <- ds %>%
   filter(PD_DESC != "(null)")
 ```
 
-In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. Remove rows with any NA values from the dataset. All in all, it have 225273 rows and 13 columns. Below part shows the modified variables table.
+In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. Remove rows with any NA and null values from the dataset. All in all, it have 225273 rows and 13 columns. Below part shows the modified variables table.
 
 ```{r echo=F}
 library(knitr)
