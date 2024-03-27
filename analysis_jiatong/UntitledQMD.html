@@ -171,8 +171,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code># A tibble: 3 × 2
   PERP_SEX      n
   &lt;chr&gt;     &lt;int&gt;
-1 F         39278
-2 M        182504
+1 F         39271
+2 M        182494
 3 U          3491</code></pre>
 </div>
 </div>
@@ -180,25 +180,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ds<span class="sc">|&gt;</span> </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(PD_DESC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 239 × 2
+<pre><code># A tibble: 238 × 2
    PD_DESC                             n
    &lt;chr&gt;                           &lt;int&gt;
- 1 (null)                             17
- 2 A.B.C.,FALSE PROOF OF AGE           2
- 3 ABANDON ANIMAL                      2
- 4 ACCOSTING,FRAUDULENT               55
- 5 ADM.CODE,UNCLASSIFIED MISDEMEA     14
- 6 ADM.CODE,UNCLASSIFIED VIOLATIO     34
- 7 AGGRAVATED CRIMINAL CONTEMPT      292
- 8 AGGRAVATED GRAND LARCENY OF ATM   191
- 9 AGGRAVATED HARASSMENT 1           110
-10 AGGRAVATED HARASSMENT 2          3408
-# ℹ 229 more rows</code></pre>
+ 1 A.B.C.,FALSE PROOF OF AGE           2
+ 2 ABANDON ANIMAL                      2
+ 3 ACCOSTING,FRAUDULENT               55
+ 4 ADM.CODE,UNCLASSIFIED MISDEMEA     14
+ 5 ADM.CODE,UNCLASSIFIED VIOLATIO     34
+ 6 AGGRAVATED CRIMINAL CONTEMPT      292
+ 7 AGGRAVATED GRAND LARCENY OF ATM   191
+ 8 AGGRAVATED HARASSMENT 1           110
+ 9 AGGRAVATED HARASSMENT 2          3408
+10 AGGRAVATED SEXUAL ASBUSE           16
+# ℹ 228 more rows</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>PD_count <span class="ot">&lt;-</span> <span class="fu">unique</span>(ds<span class="sc">$</span>PD_DESC) <span class="co"># </span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(PD_count)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 239</code></pre>
+<pre><code>[1] 238</code></pre>
 </div>
 </div>
 <p>there are 239 subcategories for all 63 crimes</p>
@@ -211,20 +211,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(category_details)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 63 × 2
+<pre><code># A tibble: 62 × 2
    OFNS_DESC                            PD_DESC_Details                         
    &lt;chr&gt;                                &lt;chr&gt;                                   
- 1 (null)                               "(null) "                               
- 2 ADMINISTRATIVE CODE                  "ADM.CODE,UNCLASSIFIED VIOLATIO , ALCOH…
- 3 ADMINISTRATIVE CODES                 "NOISE,UNECESSARY "                     
- 4 AGRICULTURE &amp; MRKTS LAW-UNCLASSIFIED "TORTURE/INJURE ANIMAL CRUELTY , ABANDO…
- 5 ALCOHOLIC BEVERAGE CONTROL LAW       "ALCOHOLIC BEVERAGE CONTROL LAW "       
- 6 ANTICIPATORY OFFENSES                "CONSPIRACY 6, 5 , FACILITATION 4, CRIM…
- 7 ARSON                                "ARSON 2,3,4 , ARSON 1 "                
- 8 ASSAULT 3 &amp; RELATED OFFENSES         "ASSAULT 3 , MENACING,UNCLASSIFIED , OB…
- 9 BURGLAR'S TOOLS                      "BURGLARS TOOLS,UNCLASSIFIED "          
-10 BURGLARY                             "BURGLARY,UNCLASSIFIED,UNKNOWN , BURGLA…
-# ℹ 53 more rows</code></pre>
+ 1 ADMINISTRATIVE CODE                  "ADM.CODE,UNCLASSIFIED VIOLATIO , ALCOH…
+ 2 ADMINISTRATIVE CODES                 "NOISE,UNECESSARY "                     
+ 3 AGRICULTURE &amp; MRKTS LAW-UNCLASSIFIED "TORTURE/INJURE ANIMAL CRUELTY , ABANDO…
+ 4 ALCOHOLIC BEVERAGE CONTROL LAW       "ALCOHOLIC BEVERAGE CONTROL LAW "       
+ 5 ANTICIPATORY OFFENSES                "CONSPIRACY 6, 5 , FACILITATION 4, CRIM…
+ 6 ARSON                                "ARSON 2,3,4 , ARSON 1 "                
+ 7 ASSAULT 3 &amp; RELATED OFFENSES         "ASSAULT 3 , MENACING,UNCLASSIFIED , OB…
+ 8 BURGLAR'S TOOLS                      "BURGLARS TOOLS,UNCLASSIFIED "          
+ 9 BURGLARY                             "BURGLARY,UNCLASSIFIED,UNKNOWN , BURGLA…
+10 CANNABIS RELATED OFFENSES            "CANNABIS POSSESSION, 2&amp;1 , CANNABIS PO…
+# ℹ 52 more rows</code></pre>
 </div>
 </div>
 
