@@ -31,6 +31,7 @@ This data can be used to inform policy decisions related to law enforcement prac
 ```{r include=F}
 library(tidyverse) 
 library(ggplot2)
+library(dplyr)
 ```
 
 
@@ -46,6 +47,9 @@ na_count <- sum(is.na(ds))
 na_count
 ds <- na.omit(ds) 
 dim(ds)
+ds <- ds %>%
+  na.omit() %>%
+  filter(PD_DESC != "(null)")
 ```
 
 In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. Remove rows with any NA values from the dataset. All in all, it have 225273 rows and 13 columns. Below part shows the modified variables table.
@@ -90,7 +94,7 @@ saveRDS(ds, "dataset/NYPD.rds")
 unique_count <- unique(ds$OFNS_DESC)  
 length(unique_count) 
 ```
-Through count unique cases based on the "OFNS_DESC, there are 64 different types of arrest cases.
+Through count unique cases based on the "OFNS_DESC, there are 62 different types of arrest cases.
 
 ```{r echo=F}
 ds|>

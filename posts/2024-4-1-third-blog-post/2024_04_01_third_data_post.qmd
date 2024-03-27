@@ -58,13 +58,8 @@ count(PERP_SEX)
 ```
 There are three big categories of sexes:male,female,undefined.
 
-```{r}
-ds|> 
-  count(PD_DESC)
-PD_count <- unique(ds$PD_DESC) 
-print(length(PD_count))
-```
-There are 63 crimes, the below table shows the specific description in 63 crimes.
+
+There are 62 crimes, the below table shows the specific description and level in 62 crimes.
 
 ```{r echo=FALSE}
 category_details <- ds |>
@@ -72,7 +67,6 @@ category_details <- ds |>
   summarise(PD_DESC_Details = paste(unique(PD_DESC), collapse = ", ")) |>
   ungroup() |>
   arrange(OFNS_DESC)
-kable(category_details, format = "html")
 category_details |>
   kable(format = "html", escape = F) |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
@@ -81,4 +75,10 @@ category_details |>
   column_spec(1, bold = T, color = "black") |>
   row_spec(0, background = "#D3D3D3") 
 ```
-
+```{r}
+ds|> 
+  count(PD_DESC)
+PD_count <- unique(ds$PD_DESC) 
+print(length(PD_count))
+```
+The above table shows the number of cases in subcategories of crimes.
