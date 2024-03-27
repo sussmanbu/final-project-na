@@ -52,10 +52,10 @@ ds|>
 It shows all range of age level in the data, no unusual data.
 
 
-```{r}
-ds %>%
-  count(PERP_SEX) %>%
-  kable("html") %>%
+```{r echo=FALSE}
+ds |>
+  count(PERP_SEX) |>
+  kable("html") |>
   kable_styling(bootstrap_options = c("striped", "hover"), full_width = F)
 ```
 There are three big categories of sexes:male,female,undefined.
