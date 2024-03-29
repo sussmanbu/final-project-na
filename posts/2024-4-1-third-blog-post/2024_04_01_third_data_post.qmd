@@ -6,7 +6,7 @@ date: "2024-04-01"
 draft: false
 ---
 
-### Principles for NYPD ARREST DATA
+## Principles for NYPD ARREST DATA
 
 ## Transparency
 
@@ -15,7 +15,7 @@ Relevance: For the NYPD Arrest Data, transparency involves providing clear, acce
 Adhering to the practice: Transparency would be enhanced by releasing detailed metadata with the dataset, explanations of each category, the decision-making processes behind data collection, and any changes or inconsistencies in data recording over time.
 
 Limitations and potential for misuse: A limitation in analyzing the NYPD Arrest Data could be the potential under-reporting or misclassification of incidents. Misuse of the data could occur for not understanding the systemic factors influencing policing, leading to skewed narratives about crime in different communities.
-`
+
 ## Justice
 
 Relevance: In the case of NYPD arrest data, justice means ensuring that the data collection and reporting process is fair and does not disproportionately target or negatively impact specific communities, especially marginalized groups.
@@ -40,6 +40,7 @@ Using these principles with the NYPD Arrest Data means we need to carefully cons
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(stringr))
 suppressPackageStartupMessages(library(dplyr))
+library(kableExtra)
 ds <- read_rds("dataset/NYPD.rds")
 ```
 
@@ -51,26 +52,35 @@ ds|>
 It shows all range of age level in the data, no unusual data.
 
 
-```{r}
-ds|>
-count(PERP_SEX)
+```{r echo=FALSE}
+ds |>
+  count(PERP_SEX) |>
+  kable("html") |>
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = F)
 ```
 There are three big categories of sexes:male,female,undefined.
 
+
+There are 62 crimes, the below table shows the specific description and level in 62 crimes.
+
+```{r echo=FALSE}
+category_details <- ds |>
+  group_by(OFNS_DESC) |>
+  summarise(PD_DESC_Details = paste(unique(PD_DESC), collapse = ", ")) |>
+  ungroup() |>
+  arrange(OFNS_DESC)
+category_details |>
+  kable(format = "html", escape = F) |>
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                full_width = F, 
+                font_size = 12) |>
+  column_spec(1, bold = T, color = "black") |>
+  row_spec(0, background = "#D3D3D3") 
+```
 ```{r}
 ds|> 
   count(PD_DESC)
 PD_count <- unique(ds$PD_DESC) 
 print(length(PD_count))
 ```
-there are 239 subcategories for all 63 crimes, the below table shows the specific subcategories in 63 crimes.
-
-
-```{r}
-category_details <- ds |>
-  group_by(OFNS_DESC) |>
-  summarise(PD_DESC_Details = paste(unique(PD_DESC), collapse = ", ")) |>
-  ungroup() |>
-  arrange(OFNS_DESC)
-print(category_details)
-```
+The above table shows the number of cases in subcategories of crimes.
