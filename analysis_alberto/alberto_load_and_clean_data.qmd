@@ -1,0 +1,60 @@
+---
+title: "PROJECT ANALYSIS ALBERTO"
+author: "Alberto Attie"
+format: gfm
+---
+
+
+
+```{r}
+library(tidyverse) 
+library(ggplot2)
+```
+
+
+```{r} 
+ds <- read_csv("dataset/NYPD.csv",show_col_types = FALSE )|>
+select(-ARREST_KEY,-PD_CD,-KY_CD,-LAW_CODE,-ARREST_BORO,-JURISDICTION_CODE) 
+ds 
+#saveRDS(ds, "dataset/NYPD.rds")
+
+```
+
+
+```{r}
+na_count <- sum(is.na(ds))
+na_count
+
+# Remove rows with any NA values from the dataset
+ds <- na.omit(ds) 
+
+dim(ds)
+dim(ds) 
+```
+```{r}
+ds
+saveRDS(ds, "dataset/NYPD.rds")
+unique(ds$AGE_GROUP)
+
+# Knowing that this type of robery was done by a white guy which category is more probable 
+
+#si un abid cometio un felony es un abid d q edad
+```
+```{r} 
+unique_count <- unique(ds$OFNS_DESC) # Count unique cases based on the "OFNS_DESC" 
+length(unique_count) # there are 64 different types of arrest cases 
+```
+
+```{r}
+ds|>
+ggplot(aes(PERP_RACE)) +
+geom_bar(aes(fill = PERP_RACE)) +
+theme_minimal() +
+labs(x = 'Race', y = 'Number of Cases', title = 'Number of Cases by Race') +
+theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+
+
+

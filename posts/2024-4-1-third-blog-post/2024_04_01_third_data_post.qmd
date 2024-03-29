@@ -1,0 +1,76 @@
+---
+title: "Third Blog Post"
+subtitle: ""
+author: "TEAM 14"
+date: "2024-04-01"
+draft: false
+---
+
+### Principles for NYPD ARREST DATA
+
+## Transparency
+
+Relevance: For the NYPD Arrest Data, transparency involves providing clear, accessible information about how arrests are defined, categorized, and recorded. It is crucial for the NYPD Arrest Data as it ensures that the data collection and reporting processes are open and understandable to the public.
+
+Adhering to the practice: Transparency would be enhanced by releasing detailed metadata with the dataset, explanations of each category, the decision-making processes behind data collection, and any changes or inconsistencies in data recording over time.
+
+Limitations and potential for misuse: A limitation in analyzing the NYPD Arrest Data could be the potential under-reporting or misclassification of incidents. Misuse of the data could occur for not understanding the systemic factors influencing policing, leading to skewed narratives about crime in different communities.
+`
+## Justice
+
+Relevance: In the case of NYPD arrest data, justice means ensuring that the data collection and reporting process is fair and does not disproportionately target or negatively impact specific communities, especially marginalized groups.
+
+Adhering to the practice: For fairness, NYPD should analyze arrest data for bias and disproportionality, particularly regarding race, ethnicity, and neighborhood. Corrective actions should be informed by these analyses to ensure equitable policing. Transparently sharing the outcomes with the public will further uphold justice and build community trust.
+
+Limitations and potential for misuse: The principle of justice faces the challenge of systemic biases in the NYPD Arrest Data, with issues like racial disparities. This complexity makes it difficult to directly address these biases through data analysis.
+
+## Respect for Persons 
+Relevance: This principle emphasizes the importance of respecting the dignity and rights of individuals who are arrested, ensuring that their personal data is handled with enough privacy.
+
+Adhering to the practice: For the NYPD Arrest Data, this means implementing strict data privacy measures to protect the identities of individuals, especially in cases that have not led to convictions. Additionally, it would require careful consideration of how data is shared in public and so to prevent stigmatization or harm to individuals’ futures.
+
+Limitations and potential for misuse: Protecting people's privacy in the NYPD Arrest Data is hard because the dataset is big and has a lot of detailed information that could be used to identify someone. If the data isn’t kept anonymous, it might be used wrongly to single out people or places, causing problems like unfair treatment or more police attention.
+
+## Conclusion
+Using these principles with the NYPD Arrest Data means we need to carefully consider how this data is collected and used. It's important to keep talking to the communities involved, be clear about what data could be shown, watch out for any biases, and make sure to protect people's privacy and treat them with respect in the data.
+
+
+## Data Analysis part 2
+```{r include=FALSE}
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(stringr))
+suppressPackageStartupMessages(library(dplyr))
+ds <- read_rds("dataset/NYPD.rds")
+```
+
+
+```{r}
+ds|>
+  ggplot(aes(x =AGE_GROUP))+ geom_bar()
+```
+It shows all range of age level in the data, no unusual data.
+
+
+```{r}
+ds|>
+count(PERP_SEX)
+```
+There are three big categories of sexes:male,female,undefined.
+
+```{r}
+ds|> 
+  count(PD_DESC)
+PD_count <- unique(ds$PD_DESC) 
+print(length(PD_count))
+```
+there are 239 subcategories for all 63 crimes, the below table shows the specific subcategories in 63 crimes.
+
+
+```{r}
+category_details <- ds |>
+  group_by(OFNS_DESC) |>
+  summarise(PD_DESC_Details = paste(unique(PD_DESC), collapse = ", ")) |>
+  ungroup() |>
+  arrange(OFNS_DESC)
+print(category_details)
+```
