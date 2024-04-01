@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="We describe the sources of our data and the cleaning process.">
+<meta name="description" content="We describe the sources of our data and the cleaning process, and some explantory analysis.">
 
 <title>MA [46]15 Final Project — TEAM 14 - Data</title>
 <style>
@@ -95,6 +95,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -148,13 +151,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-makes-a-good-data-set" id="toc-what-makes-a-good-data-set" class="nav-link active" data-scroll-target="#what-makes-a-good-data-set">What makes a good data set?</a></li>
-  <li><a href="#where-to-keep-data" id="toc-where-to-keep-data" class="nav-link" data-scroll-target="#where-to-keep-data">Where to keep data?</a>
+  <li><a href="#data-background" id="toc-data-background" class="nav-link active" data-scroll-target="#data-background">Data background</a>
   <ul class="collapse">
-  <li><a href="#sharing-your-data" id="toc-sharing-your-data" class="nav-link" data-scroll-target="#sharing-your-data">Sharing your data</a></li>
-  <li><a href="#load-and-clean-data-script" id="toc-load-and-clean-data-script" class="nav-link" data-scroll-target="#load-and-clean-data-script">Load and clean data script</a></li>
+  <li><a href="#where-does-the-data-come-from-who-collected-it-why-was-it-collected-are-you-able-to-find-the-data-from-the-original-source" id="toc-where-does-the-data-come-from-who-collected-it-why-was-it-collected-are-you-able-to-find-the-data-from-the-original-source" class="nav-link" data-scroll-target="#where-does-the-data-come-from-who-collected-it-why-was-it-collected-are-you-able-to-find-the-data-from-the-original-source">Where does the data come from? Who collected it? Why was it collected? Are you able to find the data from the original source?</a></li>
+  <li><a href="#are-there-any-issues-you-can-see-with-how-the-data-was-collected-what-is-the-sample-population-are-there-reasons-to-think-the-sample-is-biased-in-some-way" id="toc-are-there-any-issues-you-can-see-with-how-the-data-was-collected-what-is-the-sample-population-are-there-reasons-to-think-the-sample-is-biased-in-some-way" class="nav-link" data-scroll-target="#are-there-any-issues-you-can-see-with-how-the-data-was-collected-what-is-the-sample-population-are-there-reasons-to-think-the-sample-is-biased-in-some-way">Are there any issues you can see with how the data was collected? What is the sample population? Are there reasons to think the sample is biased in some way?</a></li>
+  <li><a href="#how-is-this-data-used-has-there-been-other-research-on-the-same-data-is-this-data-being-used-for-some-policy-decisions-what-questions-have-others-ask-about-this-data" id="toc-how-is-this-data-used-has-there-been-other-research-on-the-same-data-is-this-data-being-used-for-some-policy-decisions-what-questions-have-others-ask-about-this-data" class="nav-link" data-scroll-target="#how-is-this-data-used-has-there-been-other-research-on-the-same-data-is-this-data-being-used-for-some-policy-decisions-what-questions-have-others-ask-about-this-data">How is this data used? Has there been other research on the same data? Is this data being used for some policy decisions? What questions have others ask about this data?</a></li>
   </ul></li>
-  <li><a href="#rubric-on-this-page" id="toc-rubric-on-this-page" class="nav-link" data-scroll-target="#rubric-on-this-page">Rubric: On this page</a></li>
+  <li><a href="#data-loading-and-cleaning" id="toc-data-loading-and-cleaning" class="nav-link" data-scroll-target="#data-loading-and-cleaning">Data Loading and Cleaning</a></li>
   </ul>
 </nav>
     </div>
@@ -168,7 +171,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div>
   <div class="description">
-    We describe the sources of our data and the cleaning process.
+    We describe the sources of our data and the cleaning process, and some explantory analysis.
   </div>
 </div>
 
@@ -184,111 +187,435 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <p><img src="images/data-import-cheatsheet-thumbs.png" class="img-fluid"></p>
-<p>This comes from the file <code>data.qmd</code>.</p>
-<p>Your first steps in this project will be to find data to work on.</p>
-<p>I recommend trying to find data that interests you and that you are knowledgeable about. A bad example would be if you have no interest in video games but your data set is about video games. I also recommend finding data that is related to current events, social justice, and other areas that have an impact.</p>
-<p>Initially, you will study <em>one dataset</em> but later you will need to combine that data with another dataset. For this reason, I recommend finding data that has some date and/or location components. These types of data are conducive to interesting visualizations and analysis and you can also combine this data with other data that also has a date or location variable. Data from the census, weather data, economic data, are all relatively easy to combine with other data with time/location components.</p>
-<section id="what-makes-a-good-data-set" class="level2">
-<h2 class="anchored" data-anchor-id="what-makes-a-good-data-set">What makes a good data set?</h2>
-<ul>
-<li>Data you are interested in and care about.</li>
-<li>Data where there are a lot of potential questions that you can explore.</li>
-<li>A data set that isn’t completely cleaned already.</li>
-<li>Multiple sources for data that you can combine.</li>
-<li>Some type of time and/or location component.</li>
-</ul>
+<section id="data-background" class="level2">
+<h2 class="anchored" data-anchor-id="data-background">Data background</h2>
+<section id="where-does-the-data-come-from-who-collected-it-why-was-it-collected-are-you-able-to-find-the-data-from-the-original-source" class="level3">
+<h3 class="anchored" data-anchor-id="where-does-the-data-come-from-who-collected-it-why-was-it-collected-are-you-able-to-find-the-data-from-the-original-source">Where does the data come from? Who collected it? Why was it collected? Are you able to find the data from the original source?</h3>
+<p>This data comes from the NYPD website and is collected by the Office of Management Analysis and Planning of the New York City Police Department. This dataset provides a general overview of the nature of police enforcement activity in NYC by the NYPD to the public starting from 2006.</p>
+<p>Sources: https://data.cityofnewyork.us/w/uip8-fykc/25te-f2tw?cur=r4FZeyikcAn</p>
 </section>
-<section id="where-to-keep-data" class="level2">
-<h2 class="anchored" data-anchor-id="where-to-keep-data">Where to keep data?</h2>
-<p>Below 50mb: In <code>dataset</code> folder</p>
-<p>Above 50mb: In <code>dataset_ignore</code> folder. This folder will be ignored by <code>git</code> so you’ll have to manually sync these files across your team.</p>
-<section id="sharing-your-data" class="level3">
-<h3 class="anchored" data-anchor-id="sharing-your-data">Sharing your data</h3>
-<p>For small datasets (&lt;50mb), you can use the <code>dataset</code> folder that is tracked by github. Add the files just like you would any other file.</p>
-<p>If you create a folder named <code>data</code> this will cause problems.</p>
-<p>For larger datasets, you’ll need to create a new folder in the project root directory named <code>dataset-ignore</code>. This will be ignored by git (based off the <code>.gitignore</code> file in the project root directory) which will help you avoid issues with Github’s size limits. Your team will have to manually make sure the data files in <code>dataset-ignore</code> are synced across team members.</p>
-<p>Your <a href="./scripts/load_and_clean_data.R">load_and_clean_data.R</a> file is how you will load and clean your data. Here is a an example of a very simple one.</p>
+<section id="are-there-any-issues-you-can-see-with-how-the-data-was-collected-what-is-the-sample-population-are-there-reasons-to-think-the-sample-is-biased-in-some-way" class="level3">
+<h3 class="anchored" data-anchor-id="are-there-any-issues-you-can-see-with-how-the-data-was-collected-what-is-the-sample-population-are-there-reasons-to-think-the-sample-is-biased-in-some-way">Are there any issues you can see with how the data was collected? What is the sample population? Are there reasons to think the sample is biased in some way?</h3>
+<p>The collection of NYPD Arrest Data raises several concerns regarding its collection and subsequent analysis. Reporting biases might result from inconsistencies in how incidents are documented across different precincts or by individual officers, affecting data uniformity and reliability. Human error in data entry could introduce inaccuracies, including misclassifications or incorrect demographic information, which could mislead analyses, particularly in trend or demographic studies.</p>
+<p>This sample population consists of individuals arrested by the NYPD, as recorded in this dataset for the year to date. It represents only the subset of the population that has been arrested and does not reflect the broader New York City population.</p>
+<p>There might be some biases in the sample. In the dataset, certain age groups are disproportionately represented.Over representation of the 25-44 age group and certain racial demographics suggests possible targeted enforcement or societal issues, which could bias data-driven analyses. Additionally, the dataset disproportionately represents certain demographics in terms of race.</p>
+</section>
+<section id="how-is-this-data-used-has-there-been-other-research-on-the-same-data-is-this-data-being-used-for-some-policy-decisions-what-questions-have-others-ask-about-this-data" class="level3">
+<h3 class="anchored" data-anchor-id="how-is-this-data-used-has-there-been-other-research-on-the-same-data-is-this-data-being-used-for-some-policy-decisions-what-questions-have-others-ask-about-this-data">How is this data used? Has there been other research on the same data? Is this data being used for some policy decisions? What questions have others ask about this data?</h3>
+<p>This data can be used to inform policy decisions related to law enforcement practices, resource allocation, and community support programs. By analyzing patterns and trends in the data, policymakers can identify areas in need of intervention or reform. Moreover, researchers may examine the data to study crime trends, the effectiveness of policing strategies, and the impact of socio-economic factors on crime rates. Comparisons with previous years can reveal changes in crime patterns or the effectiveness of law enforcement policies. However, I didn’t find other research on the same data. Researchers, journalists, and policymakers have explored various questions using NYPD Arrest Data, such as: Are certain demographic groups disproportionately represented in arrest statistics? If so, what might be contributing to these disparities? Are there significant differences in arrest rates across different boroughs or neighborhoods, and what factors contribute to these differences?</p>
+</section>
+</section>
+<section id="data-loading-and-cleaning" class="level2">
+<h2 class="anchored" data-anchor-id="data-loading-and-cleaning">Data Loading and Cleaning</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"scripts/load_and_clean_data.R"</span>,</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">echo =</span> <span class="cn">TRUE</span> <span class="co"># Use echo=FALSE or omit it to avoid code output  </span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"dataset/NYPD.csv"</span>,<span class="at">show_col_types =</span> <span class="cn">FALSE</span> )<span class="sc">|&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(<span class="sc">-</span>ARREST_KEY,<span class="sc">-</span>PD_CD,<span class="sc">-</span>KY_CD,<span class="sc">-</span>LAW_CODE,<span class="sc">-</span>ARREST_BORO,<span class="sc">-</span>JURISDICTION_CODE) </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>na_count <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(ds))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>na_count</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>
-&gt; library(tidyverse)</code></pre>
+<pre><code>[1] 1599</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(ds) </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(ds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 225273     13</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> ds <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(PD_DESC <span class="sc">!=</span> <span class="st">"(null)"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(ds, <span class="st">"dataset/load_and_clean_data.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. Remove rows with any NA and null values from the dataset. All in all, it have 225256 rows and 13 columns. Below part shows the modified variables table.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Variable</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Data_Types</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ARREST_DATE</td>
+<td style="text-align: left;">calendar date</td>
+<td style="text-align: left;">Exact date of arrest for the reported event</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PD_DESC</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">Description of internal classification corresponding with PD code (more granular than Offense Description)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">OFNS_DESC</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">Description of internal classification corresponding with KY code (more general category than PD description)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">LAW_CAT_CD</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">Level of offense: felony, misdemeanor, violation</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ARREST_PRECINCT</td>
+<td style="text-align: left;">number</td>
+<td style="text-align: left;">Precinct where the arrest occurred</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AGE_GROUP</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">Perpetrator’s age within a category</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PERP_SEX</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">Perpetrator’s sex description</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PERP_RACE</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">Perpetrator’s race description</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">X_COORD_CD</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">Midblock X-coordinate for New York State Plane Coordinate System</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Y_COORD_CD</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">Midblock Y-coordinate for New York State Plane Coordinate System</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Latitude</td>
+<td style="text-align: left;">number</td>
+<td style="text-align: left;">Latitude coordinate for Global Coordinate System</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Longitude</td>
+<td style="text-align: left;">number</td>
+<td style="text-align: left;">Longitude coordinate for Global Coordinate System</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Lon_Lat</td>
+<td style="text-align: left;">point</td>
+<td style="text-align: left;">Georeferenced Point Column based on Longitude and Latitude fields</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed table-sm small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th" style="text-align: left; background-color: rgba(211, 211, 211, 255) !important;">OFNS_DESC</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; background-color: rgba(211, 211, 211, 255) !important;">PD_DESC_Details</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">ADMINISTRATIVE CODE</td>
+<td style="text-align: left;">ADM.CODE,UNCLASSIFIED VIOLATIO, ALCOHOLIC BEVERAGES,PUBLIC CON, ADM.CODE,UNCLASSIFIED MISDEMEA, UNLAWFUL DISCLOSURE OF AN INTIMATE IMAGE, PEDDLING,UNLAWFUL, PARKR&amp;R,UNCLASSIFIED VIOLATION</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">ADMINISTRATIVE CODES</td>
+<td style="text-align: left;">NOISE,UNECESSARY</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">AGRICULTURE &amp; MRKTS LAW-UNCLASSIFIED</td>
+<td style="text-align: left;">TORTURE/INJURE ANIMAL CRUELTY, ABANDON ANIMAL</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">ALCOHOLIC BEVERAGE CONTROL LAW</td>
+<td style="text-align: left;">ALCOHOLIC BEVERAGE CONTROL LAW</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">ANTICIPATORY OFFENSES</td>
+<td style="text-align: left;">CONSPIRACY 6, 5, FACILITATION 4, CRIMINAL, SOLICITATION 4, CRIMINAL</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">ARSON</td>
+<td style="text-align: left;">ARSON 2,3,4, ARSON 1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">ASSAULT 3 &amp; RELATED OFFENSES</td>
+<td style="text-align: left;">ASSAULT 3, MENACING,UNCLASSIFIED, OBSTR BREATH/CIRCUL</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">BURGLAR'S TOOLS</td>
+<td style="text-align: left;">BURGLARS TOOLS,UNCLASSIFIED</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">BURGLARY</td>
+<td style="text-align: left;">BURGLARY,UNCLASSIFIED,UNKNOWN, BURGLARY,RESIDENCE,NIGHT</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">CANNABIS RELATED OFFENSES</td>
+<td style="text-align: left;">CANNABIS POSSESSION, 2&amp;1, CANNABIS POSSESSION, 3, CANNABIS SALE, 3, CANNABIS SALE, 2&amp;1, CANNABIS SALE, AGGRAVATED, CANNABIS SALE, CANNABIS POSSESSION</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">CHILD ABANDONMENT/NON SUPPORT</td>
+<td style="text-align: left;">CHILD ABANDONMENT</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">CRIMINAL MISCHIEF &amp; RELATED OF</td>
+<td style="text-align: left;">CRIMINAL MIS 2 &amp; 3, MISCHIEF,CRIMINAL, UNCL 2ND, CRIMINAL MISCHIEF,UNCLASSIFIED 4, CRIMINAL MISCHIEF 4TH, GRAFFIT, FALSE ALARM FIRE, TAMPERING 1,CRIMINAL, TAMPERING 3,2, CRIMINAL, MISCHIEF, CRIMINAL 4, BY FIRE, MISCHIEF 1,CRIMINAL,EXPLOSIVE, RECKLESS ENDANGERMENT OF PROPE, MISCHIEF, CRIMINAL 4, OF MOTOR, MISCHIEF, CRIMINAL 3 &amp; 2, OF M</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">CRIMINAL TRESPASS</td>
+<td style="text-align: left;">TRESPASS 2, CRIMINAL, TRESPASS 3, CRIMINAL</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">DANGEROUS DRUGS</td>
+<td style="text-align: left;">CONTROLLED SUBSTANCE, POSSESSI, CONTROLLED SUBSTANCE,INTENT TO, SALE SCHOOL GROUNDS, CONTROLLED SUBSTANCE,POSSESS., DRUG PARAPHERNALIA, POSSESSE, CONTROLLED SUBSTANCE, INTENT T, CONTROLLED SUBSTANCE,SALE 3, CONTROLLED SUBSTANCE,SALE 2, CONTROLLED SUBSTANCE,SALE 1, CONTROLLED SUBSTANCE, SALE 5, CONTROLLED SUBSTANCE, SALE 4, SALE SCHOOL GROUNDS 4, POSS METH MANUFACT MATERIAL, SALES OF PRESCRIPTION</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">DANGEROUS WEAPONS</td>
+<td style="text-align: left;">CRIMINAL POSSESSION WEAPON, WEAPONS, POSSESSION, ETC, WEAPONS POSSESSION 3, WEAPONS,MFR,TRANSPORT,ETC., CRIMINAL DISPOSAL FIREARM 1, CRIM POS WEAP 4, WEAPONS DISPOSITION OF, UNFINSH FRAME 2, MANUFATURE, TRANSPORT, DEFACE, ETC..., FIREARMS LICENSING LAWS</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">DISORDERLY CONDUCT</td>
+<td style="text-align: left;">DISORDERLY CONDUCT</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">DISRUPTION OF A RELIGIOUS SERV</td>
+<td style="text-align: left;">DIS. CON.,AGGRAVATED</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">ENDAN WELFARE INCOMP</td>
+<td style="text-align: left;">INCOMPETENT PERSON,RECKLESSY ENDANGERING, INCOMPETENT PERSON,KNOWINGLY ENDANGERING</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">ESCAPE 3</td>
+<td style="text-align: left;">ESCAPE 3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">FELONY ASSAULT</td>
+<td style="text-align: left;">STRANGULATION 1ST, ASSAULT 2,1,UNCLASSIFIED, ASSAULT POLICE/PEACE OFFICER</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">FELONY SEX CRIMES</td>
+<td style="text-align: left;">STALKING COMMIT SEX OFFENSE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">FORGERY</td>
+<td style="text-align: left;">FORGERY,ETC.,UNCLASSIFIED-FELO, FORGERY,M.V. REGISTRATION, FORGERY,PRESCRIPTION</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">FRAUDS</td>
+<td style="text-align: left;">IMPERSONATION 2, PUBLIC SERVAN, FRAUD,UNCLASSIFIED-MISDEMEANOR, CHECK,BAD, COMPUTER UNAUTH. USE/TAMPER</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">FRAUDULENT ACCOSTING</td>
+<td style="text-align: left;">ACCOSTING,FRAUDULENT</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">GAMBLING</td>
+<td style="text-align: left;">GAMBLING, DEVICE, POSSESSION, GAMBLING 2,PROMOTING,UNCLASSIF, GAMBLING 1,PROMOTING,POLICY, GAMBLING 1,PROMOTING,BOOKMAKIN, GAMBLING 2, PROMOTING, POLICY-</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">GRAND LARCENY</td>
+<td style="text-align: left;">LARCENY,GRAND FROM OPEN AREAS, UNATTENDED, LARCENY,GRAND FROM PERSON,UNCL, LARCENY,GRAND BY EXTORTION, AGGRAVATED GRAND LARCENY OF ATM, LARCENY,GRAND BY THEFT OF CREDIT CARD, LARCENY,GRAND FROM BUILDING (NON-RESIDENCE) UNATTENDED</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">GRAND LARCENY OF MOTOR VEHICLE</td>
+<td style="text-align: left;">LARCENY,GRAND OF AUTO</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">HARRASSMENT 2</td>
+<td style="text-align: left;">HARASSMENT,SUBD 3,4,5, HARASSMENT,SUBD 1,CIVILIAN</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">HOMICIDE-NEGLIGENT,UNCLASSIFIE</td>
+<td style="text-align: left;">HOMICIDE,NEGLIGENT,UNCLASSIFIE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">HOMICIDE-NEGLIGENT-VEHICLE</td>
+<td style="text-align: left;">HOMICIDE, NEGLIGENT, VEHICLE,</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">INTOXICATED &amp; IMPAIRED DRIVING</td>
+<td style="text-align: left;">INTOXICATED DRIVING,ALCOHOL, IMPAIRED DRIVING,DRUG</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">INTOXICATED/IMPAIRED DRIVING</td>
+<td style="text-align: left;">INTOXICATED DRIVING,ALCOHOL, IMPAIRED DRIVING, DRUGS</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">JOSTLING</td>
+<td style="text-align: left;">JOSTLING</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">KIDNAPPING</td>
+<td style="text-align: left;">LURING A CHILD</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">KIDNAPPING &amp; RELATED OFFENSES</td>
+<td style="text-align: left;">IMPRISONMENT 1,UNLAWFUL, KIDNAPPING 2, KIDNAPPING 1, CUSTODIAL INTERFERENCE 1</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">MISCELLANEOUS PENAL LAW</td>
+<td style="text-align: left;">PUBLIC ADMINISTRATION,UNCLASSI, AGGRAVATED HARASSMENT 1, MENACING 1ST DEGREE (VICT NOT, BRIBERY,PUBLIC ADMINISTRATION, RECKLESS ENDANGERMENT 1, UNAUTHORIZED USE VEHICLE 2, AGGRAVATED CRIMINAL CONTEMPT, TRESPASS 4,CRIMINAL SUB 2, CRIMINAL CONTEMPT 1, THEFT OF SERVICES- CABLE TV SE, FORGERY-ILLEGAL POSSESSION,VEH, FALSE REPORT 1,FIRE, BAIL JUMPING 1 &amp; 2, CONSPIRACY 2, 1, PROMOTING A SEXUAL PERFORMANCE, TRESPASS 1,CRIMINAL, MAKING TERRORISTIC THREAT, BRIBERY,FRAUD, IMPERSONATION 1, POLICE OFFICE, CONSPIRACY 4, 3, ESCAPE 2,1, SOLICITATION 3,2,1, CRIMINAL, VEHICULAR ASSAULT (INTOX DRIVE, COERCION 1, TAMPERING WITH A WITNESS, FACILITATION 3,2,1, CRIMINAL, POSTING ADVERTISEMENTS, PERJURY 2,1,ETC, USURY,CRIMINAL, SUPP. ACT TERR 2ND, RIOT 1, EXPOSURE OF A PERSON, END WELFARE VULNERABLE ELDERLY PERSON, USE OF A CHILD IN A SEXUAL PER, FIREWORKS, POSSESS/USE, ENTERPRISE CORRUPTION, NUISANCE, CRIMINAL</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">MOVING INFRACTIONS</td>
+<td style="text-align: left;">UNLICENSED OPERATOR, SEAT BELTS, IMPAIRED DRIVING / ALCOHOL, FAIL TO STOP ON SIGNAL, USE CELL PHONE WHILE DRIVING</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">MURDER &amp; NON-NEGL. MANSLAUGHTE</td>
+<td style="text-align: left;">MURDER,UNCLASSIFIED, MANSLAUGHTER,UNCLASSIFIED - NO</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">NYS LAWS-UNCLASSIFIED FELONY</td>
+<td style="text-align: left;">NY STATE LAWS,UNCLASSIFIED FEL, CAUSE SPI/KILL ANIMAL</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">OFF. AGNST PUB ORD SENSBLTY &amp;</td>
+<td style="text-align: left;">AGGRAVATED HARASSMENT 2, LEWDNESS,PUBLIC, MATERIAL OFFENSIV, NUISANCE,CRIMINAL,UNCLASSIFIED, FALSE REPORT UNCLASSIFIED, RADIO DEVICES,UNLAWFUL POSSESS, FALSE REPORT BOMB, SALE OF UNAUTHORIZED RECORDING, RIOT 2/INCITING, ASSEMBLY,UNLAWFUL</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">OFFENSES AGAINST PUBLIC ADMINI</td>
+<td style="text-align: left;">PUBLIC ADMINISTATION,UNCLASS M, BAIL JUMPING 3, RESISTING ARREST, CONTEMPT,CRIMINAL, PERJURY 3,ETC.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">OFFENSES AGAINST PUBLIC SAFETY</td>
+<td style="text-align: left;">PUBLIC SAFETY,UNCLASSIFIED MIS, FIREWORKS, SALE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">OFFENSES AGAINST THE PERSON</td>
+<td style="text-align: left;">RECKLESS ENDANGERMENT 2, IMPRISONMENT 2,UNLAWFUL, CUSTODIAL INTERFERENCE 2, COERCION 2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">OFFENSES INVOLVING FRAUD</td>
+<td style="text-align: left;">FORGERY,ETC.-MISD., BRIBERY,COMMERCIAL, RECORDS,FALSIFY-TAMPER</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">OFFENSES RELATED TO CHILDREN</td>
+<td style="text-align: left;">CHILD,OFFENSES AGAINST,UNCLASS</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">OTHER OFFENSES RELATED TO THEF</td>
+<td style="text-align: left;">THEFT OF SERVICES, UNCLASSIFIE, THEFT,RELATED OFFENSES,UNCLASS, CREDIT CARD,UNLAWFUL USE OF</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">OTHER STATE LAWS</td>
+<td style="text-align: left;">NY STATE LAWS,UNCLASSIFIED VIO, A.B.C.,FALSE PROOF OF AGE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">OTHER STATE LAWS (NON PENAL LA</td>
+<td style="text-align: left;">NY STATE LAWS,UNCLASSIFIED MIS, TAX LAW, PUBLIC HEALTH LAW,UNCLASSIFIED</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">OTHER STATE LAWS (NON PENAL LAW)</td>
+<td style="text-align: left;">GENERAL BUSINESS LAW / UNCLASSIFIED</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">OTHER TRAFFIC INFRACTION</td>
+<td style="text-align: left;">TRAFFIC,UNCLASSIFIED INFRACTIO, IMPROPER LIGHTS, LEAVING THE SCENE / PROPERTY DAMAGE / INJURED ANIMAL, FAIL TO SIGNAL</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">PARKING OFFENSES</td>
+<td style="text-align: left;">UNCLASSIFIED</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">PETIT LARCENY</td>
+<td style="text-align: left;">LARCENY,PETIT FROM OPEN AREAS,, LARCENY,PETIT BY ACQUIRING LOS</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">POSSESSION OF STOLEN PROPERTY</td>
+<td style="text-align: left;">STOLEN PROPERTY 3,POSSESSION, STOLEN PROPERTY 2,1,POSSESSION, STOLEN PROPERTY-MOTOR VEH 2ND,, STOLEN PROPERTY 2,POSSESSION B</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">PROSTITUTION &amp; RELATED OFFENSES</td>
+<td style="text-align: left;">PROSTITUTION, PROSTITUTION 4,PROMOTING&amp;SECUR, PROSTITUTION, PATRONIZING 4, 3, SEX TRAFFICKING, PROSTITUTION,PERMITTING, PROSTITUTION 3,PROMOTING BUSIN, PROSTITUTION 3, PROMOTING UNDE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">RAPE</td>
+<td style="text-align: left;">RAPE 3, RAPE 1, RAPE 2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">ROBBERY</td>
+<td style="text-align: left;">ROBBERY,OPEN AREA UNCLASSIFIED, ROBBERY,CAR JACKING, ROBBERY,GAS STATION</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">SEX CRIMES</td>
+<td style="text-align: left;">SEXUAL ABUSE, SEXUAL ABUSE 3,2, SODOMY 1, SEX CRIMES, CHILD, ENDANGERING WELFARE, FORCIBLE TOUCHING, AGGRAVATED SEXUAL ASBUSE, COURSE OF SEXUAL CONDUCT AGAIN, OBSCENITY 1, SEXUAL MISCONDUCT,INTERCOURSE, SEXUAL MISCONDUCT,DEVIATE, INCEST 3, OBSCENE MATERIAL - UNDER 17 YE, SODOMY 3, SODOMY 2, OBSCENITY, PERFORMANCE 3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">THEFT OF SERVICES</td>
+<td style="text-align: left;">UNAUTH. SALE OF TRANS. SERVICE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">THEFT-FRAUD</td>
+<td style="text-align: left;">FRAUD,UNCLASSIFIED-FELONY, COMPUTER TAMPER/TRESSPASS, MONEY LAUNDERING 1 &amp; 2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">UNAUTHORIZED USE OF A VEHICLE</td>
+<td style="text-align: left;">UNAUTHORIZED USE VEHICLE 3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">UNLAWFUL POSS. WEAP. ON SCHOOL</td>
+<td style="text-align: left;">UNLAWFUL POSS. WEAPON UPON SCH</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">VEHICLE AND TRAFFIC LAWS</td>
+<td style="text-align: left;">TRAFFIC,UNCLASSIFIED MISDEMEAN, LEAVING SCENE-ACCIDENT-PERSONA, RECKLESS DRIVING</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+</div>
+</div>
+<p>There are 62 crimes, the above table shows the specific description and level in 62 crimes.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="data_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>On this graph we are showing the number of cases per race among all races. On this graph we can see that the lowest number of cases per race are represented by the Indian/Alaskan native people. The highest is for colred people having over 11k cases during this period.</p>
+<div class="cell">
 <div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.4.4     ✔ tibble    3.2.1
-✔ lubridate 1.9.3     ✔ tidyr     1.3.0
-✔ purrr     1.0.2     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre><code>Selecting by Incident_Count</code></pre>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-&gt; loan_data &lt;- read_csv(here::here("dataset", "loan_refusal.csv"))</code></pre>
+<div class="cell-output-display">
+<p><img src="data_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
+</div>
+<div class="cell">
 <div class="cell-output cell-output-stderr">
-<pre><code>Rows: 20 Columns: 5
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (1): bank
-dbl (4): min, white, himin, hiwhite
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre><code>Selecting by Incident_Count
+`summarise()` has grouped output by 'OFNS_DESC'. You can override using the
+`.groups` argument.</code></pre>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-&gt; loan_data_clean &lt;- loan_data
-
-&gt; write_csv(loan_data_clean, file = here::here("dataset", 
-+     "loan_refusal_clean.csv"))
-
-&gt; save(loan_data_clean, file = here::here("dataset/loan_refusal.RData"))</code></pre>
+<div class="cell-output-display">
+<p><img src="data_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>You should never use absolute paths (eg. <code>/Users/danielsussman/path/to/project/</code> or <code>C:\MA415\\Final_Project\</code>).</p>
-<p>You might consider using the <code>here</code> function from the <a href="https://here.r-lib.org/articles/here.html"><code>here</code> package</a> to avoid path problems.</p>
-</section>
-<section id="load-and-clean-data-script" class="level3">
-<h3 class="anchored" data-anchor-id="load-and-clean-data-script">Load and clean data script</h3>
-<p>The idea behind this file is that someone coming to your website could largely replicate your analyses after running this script on the original data sets to clean them. This file might create a derivative data set that you then use for your subsequent analysis. Note that you don’t need to run this script from every post/page. Instead, you can load in the results of this script, which could be plain text files or <code>.RData</code> files. In your data page you’ll describe how these results were created. If you have a very large data set, you might save smaller data sets that you can use for exploration purposes. To link to this file, you can use <code>[cleaning script](/scripts/load_and_clean_data.R)</code> wich appears as <a href="./scripts/load_and_clean_data.R">cleaning script</a>.</p>
-<hr>
-</section>
-</section>
-<section id="rubric-on-this-page" class="level2">
-<h2 class="anchored" data-anchor-id="rubric-on-this-page">Rubric: On this page</h2>
-<p>You will</p>
-<ul>
-<li>Describe where/how to find data.
-<ul>
-<li>You must include a link to the original data source(s). Make sure to provide attribution to those who collected the data.</li>
-<li>Why was the data collected/curated? Who put it together? (This is important, if you don’t know why it was collected then that might not be a good dataset to look at.</li>
-</ul></li>
-<li>Describe the different data files used and what each variable means.
-<ul>
-<li>If you have many variables then only describe the most relevant ones and summarize the rest.</li>
-</ul></li>
-<li>Describe any cleaning you had to do for your data.
-<ul>
-<li>You <em>must</em> include a link to your <code>load_and_clean_data.R</code> file.</li>
-<li>Rrename variables and recode factors to make data more clear.</li>
-<li>Also, describe any additional R packages you used outside of those covered in class.</li>
-<li>Describe and show code for how you combined multiple data files and any cleaning that was necessary for that.</li>
-<li>Some repetition of what you do in your <code>load_and_clean_data.R</code> file is fine and encouraged if it helps explain what you did.</li>
-</ul></li>
-<li>Organization, clarity, cleanliness of the page
-<ul>
-<li>Make sure to remove excessive warnings, use clean easy-to-read code (without side scrolling), organize with sections, use bullets and other organization tools, etc.</li>
-<li>This page should be self-contained.</li>
-</ul></li>
-</ul>
+<div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Selecting by Incident_Count
+`summarise()` has grouped output by 'OFNS_DESC'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="data_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="data_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 
 
 </section>
