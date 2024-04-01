@@ -158,6 +158,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#how-is-this-data-used-has-there-been-other-research-on-the-same-data-is-this-data-being-used-for-some-policy-decisions-what-questions-have-others-ask-about-this-data" id="toc-how-is-this-data-used-has-there-been-other-research-on-the-same-data-is-this-data-being-used-for-some-policy-decisions-what-questions-have-others-ask-about-this-data" class="nav-link" data-scroll-target="#how-is-this-data-used-has-there-been-other-research-on-the-same-data-is-this-data-being-used-for-some-policy-decisions-what-questions-have-others-ask-about-this-data">How is this data used? Has there been other research on the same data? Is this data being used for some policy decisions? What questions have others ask about this data?</a></li>
   </ul></li>
   <li><a href="#data-loading-and-cleaning" id="toc-data-loading-and-cleaning" class="nav-link" data-scroll-target="#data-loading-and-cleaning">Data Loading and Cleaning</a></li>
+  <li><a href="#variables-description" id="toc-variables-description" class="nav-link" data-scroll-target="#variables-description">Variables Description</a></li>
   </ul>
 </nav>
     </div>
@@ -228,6 +229,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(ds, <span class="st">"dataset/load_and_clean_data.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. Remove rows with any NA and null values from the dataset. All in all, it have 225256 rows and 13 columns. Below part shows the modified variables table.</p>
+</section>
+<section id="variables-description" class="level2">
+<h2 class="anchored" data-anchor-id="variables-description">Variables Description</h2>
 <div class="cell">
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
@@ -310,6 +314,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </div>
 </div>
+<p>There are 62 crimes, the below table shows the specific description and level in 62 crimes.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div class="table-responsive">
@@ -576,7 +581,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </div>
 </div>
-<p>There are 62 crimes, the above table shows the specific description and level in 62 crimes.</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="data_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
