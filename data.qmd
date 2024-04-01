@@ -1,6 +1,6 @@
 ---
 title: Data
-description: We describe the sources of our data and the cleaning process, and some explantory analysis.
+description: We describe the sources of our data and the cleaning process.
 toc: true
 draft: false
 ---
@@ -8,230 +8,79 @@ draft: false
 ![](images/data-import-cheatsheet-thumbs.png)
 
 
-## Data background
+This comes from the file `data.qmd`.
 
-### Where does the data come from? Who collected it? Why was it collected? Are you able to find the data from the original source?
+Your first steps in this project will be to find data to work on.
 
-This data comes from the NYPD website and is collected by the Office of Management Analysis and Planning of the New York City Police Department. This dataset provides a general overview of the nature of police enforcement activity in NYC by the NYPD to the public starting from 2006. 
+I recommend trying to find data that interests you and that you are knowledgeable about. A bad example would be if you have no interest in video games but your data set is about video games. I also recommend finding data that is related to current events, social justice, and other areas that have an impact.
 
-Sources: https://data.cityofnewyork.us/w/uip8-fykc/25te-f2tw?cur=r4FZeyikcAn
 
-### Are there any issues you can see with how the data was collected? What is the sample population? Are there reasons to think the sample is biased in some way?
+Initially, you will study _one dataset_ but later you will need to combine that data with another dataset. For this reason, I recommend finding data that has some date and/or location components. These types of data are conducive to interesting visualizations and analysis and you can also combine this data with other data that also has a date or location variable.
+Data from the census, weather data, economic data, are all relatively easy to combine with other data with time/location components.
 
-The collection of NYPD Arrest Data raises several concerns regarding its collection and subsequent analysis. Reporting biases might result from inconsistencies in how incidents are documented across different precincts or by individual officers, affecting data uniformity and reliability. Human error in data entry could introduce inaccuracies, including misclassifications or incorrect demographic information, which could mislead analyses, particularly in trend or demographic studies.
 
-This sample population consists of individuals arrested by the NYPD, as recorded in this dataset for the year to date. It represents only the subset of the population that has been arrested and does not reflect the broader New York City population.
+## What makes a good data set?
 
-There might be some biases in the sample. In the dataset, certain age groups are disproportionately represented.Over representation of the 25-44 age group and certain racial demographics suggests possible targeted enforcement or societal issues, which could bias data-driven analyses. Additionally, the dataset disproportionately represents certain demographics in terms of race.
+* Data you are interested in and care about.
+* Data where there are a lot of potential questions that you can explore.
+* A data set that isn't completely cleaned already.
+* Multiple sources for data that you can combine.
+* Some type of time and/or location component.
 
-### How is this data used? Has there been other research on the same data? Is this data being used for some policy decisions? What questions have others ask about this data?
 
-This data can be used to inform policy decisions related to law enforcement practices, resource allocation, and community support programs. By analyzing patterns and trends in the data, policymakers can identify areas in need of intervention or reform. Moreover, researchers may examine the data to study crime trends, the effectiveness of policing strategies, and the impact of socio-economic factors on crime rates. Comparisons with previous years can reveal changes in crime patterns or the effectiveness of law enforcement policies. However, I didn’t find other research on the same data. Researchers, journalists, and policymakers have explored various questions using NYPD Arrest Data, such as: Are certain demographic groups disproportionately represented in arrest statistics? If so, what might be contributing to these disparities? Are there significant differences in arrest rates across different boroughs or neighborhoods, and what factors contribute to these differences?
+## Where to keep data?
 
-## Data Loading and Cleaning
 
-```{r include=F}
-library(tidyverse) 
-library(ggplot2)
-library(dplyr)
-library(kableExtra)
-```
+Below 50mb: In `dataset` folder
 
-```{r include=T} 
-ds <- read_csv("dataset/NYPD.csv",show_col_types = FALSE )|>
-select(-ARREST_KEY,-PD_CD,-KY_CD,-LAW_CODE,-ARREST_BORO,-JURISDICTION_CODE) 
+Above 50mb: In `dataset_ignore` folder. This folder will be ignored by `git` so you'll have to manually sync these files across your team.
 
-na_count <- sum(is.na(ds))
-na_count
-ds <- na.omit(ds) 
-ds <- ds |>
-  na.omit() |>
-  filter(PD_DESC != "(null)")
-dim(ds)
+### Sharing your data
 
-saveRDS(ds, "dataset/load_and_clean_data.rds")
 
-```
+For small datasets (<50mb), you can use the `dataset` folder that is tracked by github. Add the files just like you would any other file.
 
-In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. Remove rows with any NA and null values from the dataset. All in all, it have 225256 rows and 13 columns. Below part shows the modified variables table.
+If you create a folder named `data` this will cause problems.
 
-## Variables Description
+For larger datasets, you'll need to create a new folder in the project root directory named `dataset-ignore`. This will be ignored by git (based off the `.gitignore` file in the project root directory) which will help you avoid issues with Github's size limits. Your team will have to manually make sure the data files in `dataset-ignore` are synced across team members.
 
-```{r echo=F}
-library(knitr)
-variables_df <- data.frame(
-  Variable = c("ARREST_DATE",  "PD_DESC",  "OFNS_DESC", "LAW_CAT_CD", 
-              "ARREST_PRECINCT","AGE_GROUP", "PERP_SEX", "PERP_RACE", 
-               "X_COORD_CD", "Y_COORD_CD", "Latitude", "Longitude", "Lon_Lat"),
-  Data_Types = c("calendar date", "text", "text", 
-                 "text", "number","text", "text", "text", 
-                 "text", "text", "number", "number", "point"),
-  Description = c( 
-                  "Exact date of arrest for the reported event", 
- 
-                  "Description of internal classification corresponding with PD code (more granular than Offense Description)", 
-                  
-                  "Description of internal classification corresponding with KY code (more general category than PD description)", 
-                  "Level of offense: felony, misdemeanor, violation", 
-                  "Precinct where the arrest occurred", 
-                  "Perpetrator’s age within a category", 
-                  "Perpetrator’s sex description", 
-                  "Perpetrator’s race description", 
-                  "Midblock X-coordinate for New York State Plane Coordinate System", 
-                  "Midblock Y-coordinate for New York State Plane Coordinate System", 
-                  "Latitude coordinate for Global Coordinate System", 
-                  "Longitude coordinate for Global Coordinate System", 
-                  "Georeferenced Point Column based on Longitude and Latitude fields")
+Your [load_and_clean_data.R](/scripts/load_and_clean_data.R) file is how you will load and clean your data. Here is a an example of a very simple one.
+
+```{r}
+source(
+  "scripts/load_and_clean_data.R",
+  echo = TRUE # Use echo=FALSE or omit it to avoid code output  
 )
-kable(variables_df, format = "html")
 ```
+You should never use absolute paths (eg. `/Users/danielsussman/path/to/project/` or `C:\MA415\\Final_Project\`).
 
-There are 62 crimes, the below table shows the specific description and level in 62 crimes.
+You might consider using the `here` function from the [`here` package](https://here.r-lib.org/articles/here.html) to avoid path problems.
 
-```{r echo=FALSE}
-category_details <- ds |>
-  group_by(OFNS_DESC) |>
-  summarise(PD_DESC_Details = paste(unique(PD_DESC), collapse = ", ")) |>
-  ungroup() |>
-  arrange(OFNS_DESC)
-category_details |>
-  kable(format = "html", escape = F) |>
-  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
-                full_width = F, 
-                font_size = 12) |>
-  column_spec(1, bold = T, color = "black") |>
-  row_spec(0, background = "#D3D3D3") 
-```
+### Load and clean data script
 
-## Explantory Analysis
+The idea behind this file is that someone coming to your website could largely replicate your analyses after running this script on the original data sets to clean them.
+This file might create a derivative data set that you then use for your subsequent analysis.
+Note that you don't need to run this script from every post/page.
+Instead, you can load in the results of this script, which could be plain text files or `.RData` files. In your data page you'll describe how these results were created. If you have a very large data set, you might save smaller data sets that you can use for exploration purposes.
+To link to this file, you can use `[cleaning script](/scripts/load_and_clean_data.R)` wich appears as [cleaning script](/scripts/load_and_clean_data.R). 
 
-```{r echo=F}
-ds|>
-ggplot(aes(PERP_RACE)) +
-geom_bar(aes(fill = PERP_RACE)) +
-theme_minimal() +
-labs(x = 'Race', y = 'Number of Cases', title = 'Number of Cases by Race') +
-theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
+----
 
-On this graph we are showing the number of cases per race among all races. On this graph we can see that the lowest number of cases per race are represented by the Indian/Alaskan native people. The highest is for colred people having over 11k cases during this period.
+## Rubric: On this page
 
+You will
 
-```{r echo=FALSE}
-  
-# Group by OFNS_DESC and summarize the count
-crime_summary <- ds %>%
-  group_by(OFNS_DESC) %>%
-  summarize(Incident_Count = n()) %>%
-  arrange(desc(Incident_Count)) %>%
-  top_n(10) 
-
-# Create a bar plot
-ggplot(crime_summary, aes(x = reorder(OFNS_DESC, Incident_Count), y = Incident_Count)) +
-  geom_bar(stat = "identity", fill = "skyblue") +
-  labs(title = "Top 10 Crime Categories by Incident Count",
-       x = "Crime Categories",
-       y = "Count") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-  
-  
-```
-
-```{r include=FALSE}
-ds
-```
-
-
-```{r echo=F}
-# Group by OFNS_DESC and PERP_SEX, and summarize the count
-crime_summary <- ds %>%
-  group_by(OFNS_DESC) %>%
-  summarize(Incident_Count = n()) %>%
-  arrange(desc(Incident_Count)) %>%
-  top_n(10) 
-
-# Group by OFNS_DESC and PERP_SEX, and summarize the count
-crime_gender_summary <- ds %>%
-  filter(OFNS_DESC %in% crime_summary$OFNS_DESC) %>%
-  group_by(OFNS_DESC, PERP_SEX) %>%
-  summarize(Incident_Count = n()) 
-
-
-# Calculate the total count for each crime category
-total_counts <- crime_gender_summary %>%
-  group_by(OFNS_DESC) %>%
-  summarize(Total_Count = sum(Incident_Count))
-
-# Calculate the proportion for each gender within each category
-crime_gender_summary <- crime_gender_summary %>%
-  left_join(total_counts, by = "OFNS_DESC") %>%
-  mutate(Proportion = Incident_Count / Total_Count)
-
-# Create a bar plot
-ggplot(crime_gender_summary, aes(x = reorder(OFNS_DESC, Proportion), y = Proportion, fill = PERP_SEX)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Proportion of Top 10 Crime Categories by Gender",
-       x = "Crime Categories",
-       y = "Proportion",
-       fill = "Gender") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
-
-```{r echo= F}
-crime_summary <- ds %>%
-  group_by(OFNS_DESC) %>% 
-  summarize(Incident_Count = n()) %>%
-  arrange(desc(Incident_Count)) %>%
-  top_n(10)
-
-# Group by OFNS_DESC and PERP_SEX, and summarize the count
-crime_gender_summary <- ds %>%
-  filter(OFNS_DESC %in% crime_summary$OFNS_DESC) %>%
-  group_by(OFNS_DESC, PERP_SEX) %>%
-  summarize(Incident_Count = n()) 
-
-# Create a bar plot
-ggplot(crime_gender_summary, aes(x = reorder(OFNS_DESC, Incident_Count), y = Incident_Count, fill = PERP_SEX)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Total Incidents in Top 10 Crime Categories by Gender",
-       x = "Crime Categories",
-       y = "Incident Count",
-       fill = "Gender") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
-```{r echo= F}
-crime_summary <- ds |>
-  group_by(OFNS_DESC) |>
-  summarize(Incident_Count = n(), .groups = "drop") |>
-  arrange(desc(Incident_Count)) |>
-  slice_max(Incident_Count, n = 10)
-
-crime_race_summary <- ds |>
-  filter(OFNS_DESC %in% crime_summary$OFNS_DESC) |>
-  group_by(OFNS_DESC, PERP_RACE) |>
-  summarize(Incident_Count = n(), .groups = "drop")
-
-total_counts <- crime_race_summary |>
-  group_by(OFNS_DESC) |>
-  summarize(Total_Count = sum(Incident_Count), .groups = "drop")
-
-crime_race_summary <- crime_race_summary |>
-  left_join(total_counts, by = "OFNS_DESC") |>
-  mutate(Proportion = Incident_Count / Total_Count)
-
-ggplot(crime_race_summary, aes(x = reorder(OFNS_DESC, -Proportion), y = Proportion, fill = PERP_RACE)) +
-  geom_bar(stat = "identity", position = "fill") +  # Using 'fill' to show proportions
-  labs(title = "Proportion of Top 10 Crime Categories by Race",
-       x = "Crime Categories",
-       y = "Proportion",
-       fill = "Race") +
-  theme_grey() +
-  theme(axis.text.x = element_text(angle = 60, hjust = 1, size = rel(0.8) ))
-
-```
-
+* Describe where/how to find data.
+  * You must include a link to the original data source(s). Make sure to provide attribution to those who collected the data.
+  * Why was the data collected/curated? Who put it together? (This is important, if you don't know why it was collected then that might not be a good dataset to look at.
+* Describe the different data files used and what each variable means. 
+  * If you have many variables then only describe the most relevant ones and summarize the rest.
+* Describe any cleaning you had to do for your data.
+  * You *must* include a link to your `load_and_clean_data.R` file.
+  * Rrename variables and recode factors to make data more clear.
+  * Also, describe any additional R packages you used outside of those covered in class.
+  * Describe and show code for how you combined multiple data files and any cleaning that was necessary for that.
+  * Some repetition of what you do in your `load_and_clean_data.R` file is fine and encouraged if it helps explain what you did.
+* Organization, clarity, cleanliness of the page
+  * Make sure to remove excessive warnings, use clean easy-to-read code (without side scrolling), organize with sections, use bullets and other organization tools, etc.
+  * This page should be self-contained.
