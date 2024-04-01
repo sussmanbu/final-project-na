@@ -1,0 +1,29 @@
+---
+title: "four_alberto Blog Post"
+subtitle: ""
+author: "TEAM 14"
+date: "2024-03-25"
+draft: false
+---
+
+```{r}
+library(tidyverse) 
+library(ggplot2)
+library(dplyr) 
+```
+
+
+```{r}
+ds <- read_rds("dataset/load_and_clean_data.rds") 
+ds 
+```
+```{r}
+ds|>
+ggplot(aes(LAW_CAT_CD)) +
+geom_bar(aes(fill = LAW_CAT_CD)) + 
+theme_minimal() +
+labs(x = 'Types_of_Crimes', y = 'Number of Cases', title = 'Number of Cases by Race') +
+theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
