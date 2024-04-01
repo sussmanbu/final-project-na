@@ -78,9 +78,35 @@ category_details |>
   row_spec(0, background = "#D3D3D3") 
 ```
 ```{r}
-ds|> 
-  count(PD_DESC)
-PD_count <- unique(ds$PD_DESC) 
-print(length(PD_count))
+crime_summary <- ds |>
+  group_by(OFNS_DESC) |>
+  summarize(Incident_Count = n(), .groups = "drop") |>
+  arrange(desc(Incident_Count)) |>
+  slice_max(Incident_Count, n = 10)
+
+crime_race_summary <- ds |>
+  filter(OFNS_DESC %in% crime_summary$OFNS_DESC) |>
+  group_by(OFNS_DESC, PERP_RACE) |>
+  summarize(Incident_Count = n(), .groups = "drop")
+
+total_counts <- crime_race_summary |>
+  group_by(OFNS_DESC) |>
+  summarize(Total_Count = sum(Incident_Count), .groups = "drop")
+
+crime_race_summary <- crime_race_summary |>
+  left_join(total_counts, by = "OFNS_DESC") |>
+  mutate(Proportion = Incident_Count / Total_Count)
+
+ggplot(crime_race_summary, aes(x = reorder(OFNS_DESC, -Proportion), y = Proportion, fill = PERP_RACE)) +
+  geom_bar(stat = "identity", position = "fill") +  # Using 'fill' to show proportions
+  labs(title = "Proportion of Top 10 Crime Categories by Race",
+       x = "Crime Categories",
+       y = "Proportion",
+       fill = "Race") +
+  theme_grey() +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1, size = rel(0.8) ))
+
 ```
-The above table shows the number of cases in subcategories of crimes.
+
+
+
