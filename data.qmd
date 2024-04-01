@@ -37,17 +37,17 @@ library(dplyr)
 library(kableExtra)
 ```
 
-```{r include=TRUE} 
+```{r include=T} 
 ds <- read_csv("dataset/NYPD.csv",show_col_types = FALSE )|>
 select(-ARREST_KEY,-PD_CD,-KY_CD,-LAW_CODE,-ARREST_BORO,-JURISDICTION_CODE) 
 
 na_count <- sum(is.na(ds))
 na_count
 ds <- na.omit(ds) 
-dim(ds)
 ds <- ds |>
   na.omit() |>
   filter(PD_DESC != "(null)")
+dim(ds)
 
 saveRDS(ds, "dataset/load_and_clean_data.rds")
 
@@ -103,6 +103,7 @@ category_details |>
   row_spec(0, background = "#D3D3D3") 
 ```
 
+## Explantory Analysis
 
 ```{r echo=F}
 ds|>
