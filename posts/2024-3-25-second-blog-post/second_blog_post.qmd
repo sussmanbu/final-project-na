@@ -187,7 +187,7 @@ crime_gender_summary <- ds %>%
   summarize(Incident_Count = n()) 
 
 # Create a bar plot
-ggplot(crime_gender_summary, aes(x = reorder(OFNS_DESC, Incident_Count), y = Incident_Count, fill = PERP_SEX)) +
+ggplot(crime_gender_summary, aes(x = reorder(OFNS_DESC, Incident_Count), y = Incident_Count, fill = PERP_SEX)) + 
   geom_bar(stat = "identity", position = "dodge") +
   labs(title = "Total Incidents in Top 10 Robbery Categories by Gender",
        x = "Robbery Categories",
