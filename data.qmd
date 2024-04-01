@@ -55,6 +55,8 @@ saveRDS(ds, "dataset/load_and_clean_data.rds")
 
 In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. Remove rows with any NA and null values from the dataset. All in all, it have 225256 rows and 13 columns. Below part shows the modified variables table.
 
+## Variables Description
+
 ```{r echo=F}
 library(knitr)
 variables_df <- data.frame(
@@ -84,6 +86,8 @@ variables_df <- data.frame(
 kable(variables_df, format = "html")
 ```
 
+There are 62 crimes, the below table shows the specific description and level in 62 crimes.
+
 ```{r echo=FALSE}
 category_details <- ds |>
   group_by(OFNS_DESC) |>
@@ -98,7 +102,7 @@ category_details |>
   column_spec(1, bold = T, color = "black") |>
   row_spec(0, background = "#D3D3D3") 
 ```
-There are 62 crimes, the above table shows the specific description and level in 62 crimes.
+
 
 ```{r echo=F}
 ds|>
