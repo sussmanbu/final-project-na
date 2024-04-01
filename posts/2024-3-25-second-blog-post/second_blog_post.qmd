@@ -69,7 +69,7 @@ variables_df <- data.frame(
                   "Description of internal classification corresponding with PD code (more granular than Offense Description)", 
                   
                   "Description of internal classification corresponding with KY code (more general category than PD description)", 
-                  "Level of offense: felony, misdemeanor, violation", 
+                  "Level of offense: felony, misdemeanor, violation, infraction", 
                   "Precinct where the arrest occurred", 
                   "Perpetrator’s age within a category", 
                   "Perpetrator’s sex description", 

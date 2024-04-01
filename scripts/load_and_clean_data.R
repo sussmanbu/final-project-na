@@ -1,9 +1,5 @@
-# This file is purely as an example. 
-# There are a few places
 
 library(tidyverse)
-
-
 ## CLEAN the data
 ds <- read_csv("dataset/NYPD.csv",show_col_types = FALSE )|>
   select(-ARREST_KEY,-PD_CD,-KY_CD,-LAW_CODE,-ARREST_BORO,-JURISDICTION_CODE) 
@@ -16,5 +12,5 @@ ds <- ds |>
   filter(PD_DESC != "(null)")|>
   filter(LAW_CAT_CD != "9")
 
+saveRDS(ds, here::here("dataset","load_and_clean_data.rds"))
 
-saveRDS(ds, "dataset/load_and_clean_data.rds")

@@ -32,6 +32,7 @@ library(tidyverse)
 library(ggplot2)
 library(dplyr)
 library(kableExtra)
+library(ggcorrplot)
 ```
 
 ```{r include=T} 
@@ -51,10 +52,7 @@ dim(ds)
 saveRDS(ds, "dataset/load_and_clean_data.rds")
 
 ```
-```{r echo=}
-source(
-  "dataset/load_and_clean_data.rds",
-)
+```{r echo=F}
 ```
 
 In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. Remove rows with any NA and null values from the dataset. We also delete non correlate data in LAW_CAT_CD. All in all, it have 224645 rows and 13 columns. Below part shows the modified variables table.
@@ -88,7 +86,6 @@ variables_df <- data.frame(
 )
 kable(variables_df, format = "html")
 ```
-
 
 
 There are 62 crimes, the below table shows the specific description and level in 62 crimes.
@@ -247,3 +244,15 @@ ggplot(crime_race_summary, aes(x = reorder(OFNS_DESC, -Proportion), y = Proporti
 ```
 
 This bar chart illustrates the racial composition of crime across ten categories, with the green segment indicating a dominant proportion of Black individuals in every category, followed by White Hispanics, represented by the pink segment. The smallest proportions are contributed by Asian/Pacific Islanders and American Indian/Alaskan Natives, shown in orange and red. This visualization provides a proportional breakdown by race, with each color-coded segment corresponding to the percentage of total incidents attributed to that racial group, reflecting the diversity and potential disparities within crime statistics.
+
+
+```{r}
+num_data <-ds |>
+  select_if(is.numeric)
+
+cor_matrix <- cor(num_data, use ="pairwise.complete.obs")
+
+ggcorrplot(cor_matrix, method ="circle", type= "lower", 
+       lab= TRUE,lab_size=4, tl.cex =10, tl.col= "steelblue", title="correlation Matrix of Numeric Variables")
+```
+
