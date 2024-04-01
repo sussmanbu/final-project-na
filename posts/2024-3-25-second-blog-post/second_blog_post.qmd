@@ -108,3 +108,94 @@ theme(axis.text.x = element_text(angle = 45, hjust = 1))
 On this graph we are showing the number of cases per race among all races. On this graph we can see that the lowest number of cases per race are represented by the Indian/Alaskan native people. The highest is for colred people having over 11k cases during this period.
 
 
+```{r}
+  
+# Group by OFNS_DESC and summarize the count
+crime_summary <- ds %>%
+  group_by(OFNS_DESC) %>%
+  summarize(Incident_Count = n()) %>%
+  arrange(desc(Incident_Count)) %>%
+  top_n(10) 
+
+# Create a bar plot
+ggplot(crime_summary, aes(x = reorder(OFNS_DESC, Incident_Count), y = Incident_Count)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  labs(title = "Top 10 Robbery Categories by Incident Count",
+       x = "Robbery Categories",
+       y = "Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  
+  
+```
+
+```{r}
+ds
+```
+
+
+```{r}
+# Group by OFNS_DESC and PERP_SEX, and summarize the count
+crime_summary <- ds %>%
+  group_by(OFNS_DESC) %>%
+  summarize(Incident_Count = n()) %>%
+  arrange(desc(Incident_Count)) %>%
+  top_n(10) 
+
+# Group by OFNS_DESC and PERP_SEX, and summarize the count
+crime_gender_summary <- ds %>%
+  filter(OFNS_DESC %in% crime_summary$OFNS_DESC) %>%
+  group_by(OFNS_DESC, PERP_SEX) %>%
+  summarize(Incident_Count = n()) 
+
+
+# Calculate the total count for each robbery category
+total_counts <- crime_gender_summary %>%
+  group_by(OFNS_DESC) %>%
+  summarize(Total_Count = sum(Incident_Count))
+
+# Calculate the proportion for each gender within each category
+crime_gender_summary <- crime_gender_summary %>%
+  left_join(total_counts, by = "OFNS_DESC") %>%
+  mutate(Proportion = Incident_Count / Total_Count)
+
+# Create a bar plot
+ggplot(crime_gender_summary, aes(x = reorder(OFNS_DESC, Proportion), y = Proportion, fill = PERP_SEX)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Proportion of Top 10 Robbery Categories by Gender",
+       x = "Robbery Categories",
+       y = "Proportion",
+       fill = "Gender") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+
+
+```{r}
+crime_summary <- ds %>%
+  group_by(OFNS_DESC) %>% 
+  summarize(Incident_Count = n()) %>%
+  arrange(desc(Incident_Count)) %>%
+  top_n(10)
+
+# Group by OFNS_DESC and PERP_SEX, and summarize the count
+crime_gender_summary <- ds %>%
+  filter(OFNS_DESC %in% crime_summary$OFNS_DESC) %>%
+  group_by(OFNS_DESC, PERP_SEX) %>%
+  summarize(Incident_Count = n()) 
+
+# Create a bar plot
+ggplot(crime_gender_summary, aes(x = reorder(OFNS_DESC, Incident_Count), y = Incident_Count, fill = PERP_SEX)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Total Incidents in Top 10 Robbery Categories by Gender",
+       x = "Robbery Categories",
+       y = "Incident Count",
+       fill = "Gender") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+
