@@ -39,20 +39,20 @@ library(dplyr)
 ```{r include=TRUE} 
 ds <- read_csv("dataset/NYPD.csv",show_col_types = FALSE )|>
 select(-ARREST_KEY,-PD_CD,-KY_CD,-LAW_CODE,-ARREST_BORO,-JURISDICTION_CODE) 
-#saveRDS(ds, "dataset/NYPD.rds")
-```
 
-```{r }
 na_count <- sum(is.na(ds))
 na_count
 ds <- na.omit(ds) 
 dim(ds)
-ds <- ds %>%
-  na.omit() %>%
+ds <- ds |>
+  na.omit() |>
   filter(PD_DESC != "(null)")
+
+saveRDS(ds, "dataset/load_and_clean_data.rds")
+
 ```
 
-In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. Remove rows with any NA and null values from the dataset. All in all, it have 225273 rows and 13 columns. Below part shows the modified variables table.
+In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. Remove rows with any NA and null values from the dataset. All in all, it have 225256 rows and 13 columns. Below part shows the modified variables table.
 
 ```{r echo=F}
 library(knitr)
@@ -83,13 +83,6 @@ variables_df <- data.frame(
 kable(variables_df, format = "html")
 ```
 
-
-```{r include=F}
-ds
-saveRDS(ds, "dataset/NYPD.rds")
-```
-
-
 ```{r} 
 unique_count <- unique(ds$OFNS_DESC)  
 length(unique_count) 
@@ -108,7 +101,7 @@ theme(axis.text.x = element_text(angle = 45, hjust = 1))
 On this graph we are showing the number of cases per race among all races. On this graph we can see that the lowest number of cases per race are represented by the Indian/Alaskan native people. The highest is for colred people having over 11k cases during this period.
 
 
-```{r}
+```{r echo=FALSE}
   
 # Group by OFNS_DESC and summarize the count
 crime_summary <- ds %>%
@@ -120,8 +113,8 @@ crime_summary <- ds %>%
 # Create a bar plot
 ggplot(crime_summary, aes(x = reorder(OFNS_DESC, Incident_Count), y = Incident_Count)) +
   geom_bar(stat = "identity", fill = "skyblue") +
-  labs(title = "Top 10 Robbery Categories by Incident Count",
-       x = "Robbery Categories",
+  labs(title = "Top 10 Crime Categories by Incident Count",
+       x = "Crime Categories",
        y = "Count") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
@@ -129,12 +122,12 @@ ggplot(crime_summary, aes(x = reorder(OFNS_DESC, Incident_Count), y = Incident_C
   
 ```
 
-```{r}
+```{r include=FALSE}
 ds
 ```
 
 
-```{r}
+```{r echo=F}
 # Group by OFNS_DESC and PERP_SEX, and summarize the count
 crime_summary <- ds %>%
   group_by(OFNS_DESC) %>%
@@ -149,7 +142,7 @@ crime_gender_summary <- ds %>%
   summarize(Incident_Count = n()) 
 
 
-# Calculate the total count for each robbery category
+# Calculate the total count for each crime category
 total_counts <- crime_gender_summary %>%
   group_by(OFNS_DESC) %>%
   summarize(Total_Count = sum(Incident_Count))
@@ -162,8 +155,8 @@ crime_gender_summary <- crime_gender_summary %>%
 # Create a bar plot
 ggplot(crime_gender_summary, aes(x = reorder(OFNS_DESC, Proportion), y = Proportion, fill = PERP_SEX)) +
   geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Proportion of Top 10 Robbery Categories by Gender",
-       x = "Robbery Categories",
+  labs(title = "Proportion of Top 10 Crime Categories by Gender",
+       x = "Crime Categories",
        y = "Proportion",
        fill = "Gender") +
   theme_minimal() +
@@ -173,7 +166,7 @@ ggplot(crime_gender_summary, aes(x = reorder(OFNS_DESC, Proportion), y = Proport
 
 
 
-```{r}
+```{r echo= F}
 crime_summary <- ds %>%
   group_by(OFNS_DESC) %>% 
   summarize(Incident_Count = n()) %>%
@@ -189,8 +182,8 @@ crime_gender_summary <- ds %>%
 # Create a bar plot
 ggplot(crime_gender_summary, aes(x = reorder(OFNS_DESC, Incident_Count), y = Incident_Count, fill = PERP_SEX)) + 
   geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Total Incidents in Top 10 Robbery Categories by Gender",
-       x = "Robbery Categories",
+  labs(title = "Total Incidents in Top 10 Crime Categories by Gender",
+       x = "Crime Categories",
        y = "Incident Count",
        fill = "Gender") +
   theme_minimal() +
