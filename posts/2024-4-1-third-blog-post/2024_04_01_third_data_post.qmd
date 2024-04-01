@@ -41,7 +41,7 @@ suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(stringr))
 suppressPackageStartupMessages(library(dplyr))
 library(kableExtra)
-ds <- read_rds("dataset/NYPD.rds")
+ds <- read_rds("dataset/load_and_clean_data.rds")
 ```
 
 
