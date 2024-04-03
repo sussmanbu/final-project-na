@@ -59,13 +59,18 @@ ggplot(crime_counts_by_month, aes(x = Month, y = Monthly_Crime_Count)) +
 ```
 
 
-```{r echo =F}
-ds|>
-ggplot(aes(LAW_CAT_CD)) +
-geom_bar(aes(fill = LAW_CAT_CD)) + 
-theme_minimal() +
-labs(x = 'Types_of_Crimes', y = 'Number of Cases', title = 'Number of Cases by Race') +
-theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```{r}
+ds |>
+  ggplot(aes(x = LAW_CAT_CD, fill = LAW_CAT_CD)) +
+  geom_bar() + 
+  theme_minimal() +
+  labs(
+    x = 'Type of Crime', 
+    y = 'Number of Cases', 
+    title = 'Number of Cases by Crime Category',
+    fill = 'Crime Category'  # Change legend title
+  ) +
+  scale_x_discrete(labels = c("F" = "Felony", "M" = "Misdemeanor", "V" = "Violation", "I"= "Infraction")) + theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 ```{r echo =F}
@@ -84,11 +89,12 @@ crime_gender_summary <- ds %>%
 ggplot(crime_gender_summary, aes(x = reorder(LAW_CAT_CD,Incident_Count), y=    
                                  Incident_Count, fill = AGE_GROUP)) +
   geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Total Incidents in General Robbery Categories by Age",
-       x = "General Robbery Categories",
+  labs(title = "Total Incidents in General crime Categories by Age",
+       x = "General crime Categories",
        y = "Incident Count",
        fill = "Age") +
   theme_minimal() +
+  scale_x_discrete(labels = c("F" = "Felony", "M" = "Misdemeanor", "V" = "Violation", "I"= "Infraction"))+
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
@@ -107,8 +113,8 @@ crime_gender_summary <- ds %>%
 # Create a bar plot
 ggplot(crime_gender_summary, aes(x = reorder(OFNS_DESC, Incident_Count), y = Incident_Count, fill = AGE_GROUP)) +
   geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Total Incidents in Top 10 Robbery Categories by Age",
-       x = "Robbery Categories",
+  labs(title = "Total Incidents in Top 10 crime Categories by Age",
+       x = "crime Categories",
        y = "Incident Count",
        fill = "Age") +
   theme_minimal() +

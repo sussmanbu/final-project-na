@@ -27,6 +27,11 @@ This data can be used to inform policy decisions related to law enforcement prac
 
 ## Data Loading and Cleaning
 
+```{r}
+source("scripts/load_and_clean_data.R", 
+       echo = T)
+```
+
 ```{r include=F}
 library(tidyverse) 
 library(ggplot2)
@@ -35,24 +40,6 @@ library(kableExtra)
 library(ggcorrplot)
 library(ggmap)
 library(leaflet)
-```
-
-```{r include=F} 
-ds <- read_csv("dataset/NYPD.csv",show_col_types = FALSE )|>
-select(-ARREST_KEY,-PD_CD,-KY_CD,-LAW_CODE,-ARREST_BORO,-JURISDICTION_CODE) 
-
-na_count <- sum(is.na(ds))
-na_count
-ds <- na.omit(ds) 
-ds <- ds |>
-  na.omit() |>
-  filter(PD_DESC != "(null)")|>
-  filter(LAW_CAT_CD != "9")
-
-dim(ds)
-
-saveRDS(ds, "dataset/load_and_clean_data.rds")
-
 ```
 
 In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. Remove rows with any NA and null values from the dataset. We also delete non correlate data in LAW_CAT_CD. All in all, it have 224645 rows and 13 columns. Below part shows the modified variables table.
@@ -116,6 +103,39 @@ theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 On this graph we are showing the number of cases per race among all races. On this graph we can see that the lowest number of cases per race are represented by the Indian/Alaskan native people. The highest is for colred people having over 11k cases during this period.
+
+```{r echo= F}
+crime_summary <- ds |>
+  group_by(OFNS_DESC) |>
+  summarize(Incident_Count = n(), .groups = "drop") |>
+  arrange(desc(Incident_Count)) |>
+  slice_max(Incident_Count, n = 10)
+
+crime_race_summary <- ds |>
+  filter(OFNS_DESC %in% crime_summary$OFNS_DESC) |>
+  group_by(OFNS_DESC, PERP_RACE) |>
+  summarize(Incident_Count = n(), .groups = "drop")
+
+total_counts <- crime_race_summary |>
+  group_by(OFNS_DESC) |>
+  summarize(Total_Count = sum(Incident_Count), .groups = "drop")
+
+crime_race_summary <- crime_race_summary |>
+  left_join(total_counts, by = "OFNS_DESC") |>
+  mutate(Proportion = Incident_Count / Total_Count)
+
+ggplot(crime_race_summary, aes(x = reorder(OFNS_DESC, -Proportion), y = Proportion, fill = PERP_RACE)) +
+  geom_bar(stat = "identity", position = "fill") +  # Using 'fill' to show proportions
+  labs(title = "Proportion of Top 10 Crime Categories by Race",
+       x = "Crime Categories",
+       y = "Proportion",
+       fill = "Race") +
+  theme_grey() +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1, size = rel(0.8) ))
+
+```
+
+This bar chart illustrates the racial composition of crime across ten categories, with the green segment indicating a dominant proportion of Black individuals in every category, followed by White Hispanics, represented by the pink segment. The smallest proportions are contributed by Asian/Pacific Islanders and American Indian/Alaskan Natives, shown in orange and red. This visualization provides a proportional breakdown by race, with each color-coded segment corresponding to the percentage of total incidents attributed to that racial group, reflecting the diversity and potential disparities within crime statistics.
 
 
 ```{r echo=FALSE}
@@ -210,39 +230,6 @@ ggplot(crime_gender_summary, aes(x = reorder(OFNS_DESC, Incident_Count), y = Inc
 ```
 
 This graph displays a breakdown of crime incidents by gender across different categories, with green bars representing males, red bars for females, and blue bars for unknown gender. A striking feature of the chart is the predominance of green bars (male incidents), which are consistently the highest in every crime category, indicating a higher number of male-associated incidents in these categories. The most significant numbers of incidents for both males and females are recorded in "PETIT LARCENY" and "ASSAULT 3 & RELATED OFFENSES." Incidents with an unknown gender, represented by blue bars, are the lowest across all categories, suggesting that gender data is more often available than not. The overall trend suggests that while crime affects all genders, males are associated with a higher number of incidents in the data represented.
-
-```{r echo= F}
-crime_summary <- ds |>
-  group_by(OFNS_DESC) |>
-  summarize(Incident_Count = n(), .groups = "drop") |>
-  arrange(desc(Incident_Count)) |>
-  slice_max(Incident_Count, n = 10)
-
-crime_race_summary <- ds |>
-  filter(OFNS_DESC %in% crime_summary$OFNS_DESC) |>
-  group_by(OFNS_DESC, PERP_RACE) |>
-  summarize(Incident_Count = n(), .groups = "drop")
-
-total_counts <- crime_race_summary |>
-  group_by(OFNS_DESC) |>
-  summarize(Total_Count = sum(Incident_Count), .groups = "drop")
-
-crime_race_summary <- crime_race_summary |>
-  left_join(total_counts, by = "OFNS_DESC") |>
-  mutate(Proportion = Incident_Count / Total_Count)
-
-ggplot(crime_race_summary, aes(x = reorder(OFNS_DESC, -Proportion), y = Proportion, fill = PERP_RACE)) +
-  geom_bar(stat = "identity", position = "fill") +  # Using 'fill' to show proportions
-  labs(title = "Proportion of Top 10 Crime Categories by Race",
-       x = "Crime Categories",
-       y = "Proportion",
-       fill = "Race") +
-  theme_grey() +
-  theme(axis.text.x = element_text(angle = 60, hjust = 1, size = rel(0.8) ))
-
-```
-
-This bar chart illustrates the racial composition of crime across ten categories, with the green segment indicating a dominant proportion of Black individuals in every category, followed by White Hispanics, represented by the pink segment. The smallest proportions are contributed by Asian/Pacific Islanders and American Indian/Alaskan Natives, shown in orange and red. This visualization provides a proportional breakdown by race, with each color-coded segment corresponding to the percentage of total incidents attributed to that racial group, reflecting the diversity and potential disparities within crime statistics.
 
 
 ```{r echo =F}
