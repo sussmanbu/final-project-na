@@ -1,13 +1,16 @@
-# This file is purely as an example. 
-# There are a few places
 
 library(tidyverse)
-
-loan_data <- read_csv(here::here("dataset", "loan_refusal.csv"))
-
 ## CLEAN the data
-loan_data_clean <- loan_data
+ds <- read_csv("dataset/NYPD.csv",show_col_types = FALSE )|>
+  select(-ARREST_KEY,-PD_CD,-KY_CD,-LAW_CODE,-ARREST_BORO,-JURISDICTION_CODE) 
 
-write_csv(loan_data_clean, file = here::here("dataset", "loan_refusal_clean.csv"))
+na_count <- sum(is.na(ds))
+na_count
+ds <- na.omit(ds) 
+ds <- ds |>
+  na.omit() |>
+  filter(PD_DESC != "(null)")|>
+  filter(LAW_CAT_CD != "9")
 
-save(loan_data_clean, file = here::here("dataset/loan_refusal.RData"))
+saveRDS(ds, here::here("dataset","load_and_clean_data.rds"))
+
