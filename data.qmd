@@ -37,7 +37,7 @@ library(ggmap)
 library(leaflet)
 ```
 
-```{r include=T} 
+```{r include=F} 
 ds <- read_csv("dataset/NYPD.csv",show_col_types = FALSE )|>
 select(-ARREST_KEY,-PD_CD,-KY_CD,-LAW_CODE,-ARREST_BORO,-JURISDICTION_CODE) 
 
@@ -54,14 +54,12 @@ dim(ds)
 saveRDS(ds, "dataset/load_and_clean_data.rds")
 
 ```
-```{r echo=F}
-```
 
 In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. Remove rows with any NA and null values from the dataset. We also delete non correlate data in LAW_CAT_CD. All in all, it have 224645 rows and 13 columns. Below part shows the modified variables table.
 
 ## Variables Description
 
-```{r}
+```{r echo =F}
 library(knitr)
 variables_df <- data.frame(
   Variable = c("ARREST_DATE",  "PD_DESC",  "OFNS_DESC", "LAW_CAT_CD", 
@@ -88,7 +86,6 @@ variables_df <- data.frame(
 )
 kable(variables_df, format = "html")
 ```
-
 
 There are 62 crimes, the below table shows the specific description and level in 62 crimes.
 
@@ -132,7 +129,7 @@ crime_summary <- ds %>%
 
 # Create a bar plot
 ggplot(crime_summary, aes(x = reorder(OFNS_DESC, Incident_Count), y = Incident_Count)) +
-  geom_bar(stat = "identity", fill = "skyblue") +
+  geom_bar(stat = "identity", fill = "steelblue") +
   labs(title = "Top 10 Crime Categories by Incident Count",
        x = "Crime Categories",
        y = "Count") +
@@ -248,7 +245,7 @@ ggplot(crime_race_summary, aes(x = reorder(OFNS_DESC, -Proportion), y = Proporti
 This bar chart illustrates the racial composition of crime across ten categories, with the green segment indicating a dominant proportion of Black individuals in every category, followed by White Hispanics, represented by the pink segment. The smallest proportions are contributed by Asian/Pacific Islanders and American Indian/Alaskan Natives, shown in orange and red. This visualization provides a proportional breakdown by race, with each color-coded segment corresponding to the percentage of total incidents attributed to that racial group, reflecting the diversity and potential disparities within crime statistics.
 
 
-```{r}
+```{r echo =F}
 num_data <-ds |>
   select_if(is.numeric)
 
