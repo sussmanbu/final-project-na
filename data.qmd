@@ -33,6 +33,8 @@ library(ggplot2)
 library(dplyr)
 library(kableExtra)
 library(ggcorrplot)
+library(ggmap)
+library(leaflet)
 ```
 
 ```{r include=T} 
@@ -255,4 +257,7 @@ cor_matrix <- cor(num_data, use ="pairwise.complete.obs")
 ggcorrplot(cor_matrix, method ="circle", type= "lower", 
        lab= TRUE,lab_size=4, tl.cex =10, tl.col= "steelblue", title="correlation Matrix of Numeric Variables")
 ```
+
+
+
 
