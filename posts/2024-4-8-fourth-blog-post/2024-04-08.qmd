@@ -2,7 +2,7 @@
 title: "Fourth Blog Post"
 subtitle: ""
 author: "TEAM 14"
-date: "2024-03-25"
+date: "2024-04-08"
 draft: false
 ---
 
@@ -16,10 +16,8 @@ library(ggcorrplot)
 library(ggmap)
 library(leaflet)
 ds <- read_rds("dataset/load_and_clean_data.rds") 
-
-
-
 ```
+
 ```{r echo =F}
 
 
