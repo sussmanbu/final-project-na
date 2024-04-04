@@ -266,7 +266,7 @@ ggplot(crime_gender_summary, aes(x = reorder(OFNS_DESC, Incident_Count), y = Inc
 
 This graph displays a breakdown of crime incidents by gender across different categories, with green bars representing males, red bars for females, and blue bars for unknown gender. A striking feature of the chart is the predominance of green bars (male incidents), which are consistently the highest in every crime category, indicating a higher number of male-associated incidents in these categories. The most significant numbers of incidents for both males and females are recorded in "PETIT LARCENY" and "ASSAULT 3 & RELATED OFFENSES." Incidents with an unknown gender, represented by blue bars, are the lowest across all categories, suggesting that gender data is more often available than not. The overall trend suggests that while crime affects all genders, males are associated with a higher number of incidents in the data represented.
 
-```{r}
+```{r echo =F}
 ds |>
   ggplot(aes(x = LAW_CAT_CD, fill = LAW_CAT_CD)) +
   geom_bar() + 
