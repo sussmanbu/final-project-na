@@ -7,21 +7,23 @@ draft: false
 
 ## Data background
 
-### Where does the data come from? Who collected it? Why was it collected? Are you able to find the data from the original source?
+### Data source and reasons to collect it
 
 This data comes from the NYPD website and is collected by the Office of Management Analysis and Planning of the New York City Police Department. This dataset provides a general overview of the nature of police enforcement activity in NYC by the NYPD to the public starting from 2006. 
 
 Sources: https://data.cityofnewyork.us/w/uip8-fykc/25te-f2tw?cur=r4FZeyikcAn
 
-### Are there any issues you can see with how the data was collected? What is the sample population? Are there reasons to think the sample is biased in some way?
+### Issues on how the data was collected  
 
 The collection of NYPD Arrest Data raises several concerns regarding its collection and subsequent analysis. Reporting biases might result from inconsistencies in how incidents are documented across different precincts or by individual officers, affecting data uniformity and reliability. Human error in data entry could introduce inaccuracies, including misclassifications or incorrect demographic information, which could mislead analyses, particularly in trend or demographic studies.
 
+### Sample's population
 This sample population consists of individuals arrested by the NYPD, as recorded in this dataset for the year to date. It represents only the subset of the population that has been arrested and does not reflect the broader New York City population.
 
+### Sample's biases
 There might be some biases in the sample. In the dataset, certain age groups are disproportionately represented.Over representation of the 25-44 age group and certain racial demographics suggests possible targeted enforcement or societal issues, which could bias data-driven analyses. Additionally, the dataset disproportionately represents certain demographics in terms of race.
 
-### How is this data used? Has there been other research on the same data? Is this data being used for some policy decisions? What questions have others ask about this data?
+### The purpose and formal research about data
 
 This data can be used to inform policy decisions related to law enforcement practices, resource allocation, and community support programs. By analyzing patterns and trends in the data, policymakers can identify areas in need of intervention or reform. Moreover, researchers may examine the data to study crime trends, the effectiveness of policing strategies, and the impact of socio-economic factors on crime rates. Comparisons with previous years can reveal changes in crime patterns or the effectiveness of law enforcement policies. However, I didn’t find other research on the same data. Researchers, journalists, and policymakers have explored various questions using NYPD Arrest Data, such as: Are certain demographic groups disproportionately represented in arrest statistics? If so, what might be contributing to these disparities? Are there significant differences in arrest rates across different boroughs or neighborhoods, and what factors contribute to these differences?
 
@@ -42,7 +44,7 @@ library(ggmap)
 library(leaflet)
 ```
 
-In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. Remove rows with any NA and null values from the dataset. We also delete non correlate data in LAW_CAT_CD. All in all, it have 224645 rows and 13 columns. Below part shows the modified variables table.
+In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. Remove rows with any NA and null values from the dataset. We also delete undefined data in LAW_CAT_CD. All in all, it have 224645 rows and 13 columns. Below part shows the modified variables table.
 
 ## Variables Description
 
@@ -94,11 +96,14 @@ category_details |>
 ## Explantory Analysis
 
 ```{r echo =F}
+
 crime_counts_by_day <- ds |>
   group_by(ARREST_DATE) |>
-  summarize(Daily_Crime_Count = n(), .groups = "drop")
-crime_counts_by_day$ARREST_DATE <- as.Date(crime_counts_by_day$ARREST_DATE)
+  summarize(Daily_Crime_Count = n(), .groups = "drop") %>%
+  mutate(ARREST_DATE = as.Date(ARREST_DATE, format = "%m/%d/%Y")) %>%
+  filter(!is.na(ARREST_DATE) & !is.na(Daily_Crime_Count))
 
+# Plot the data
 ggplot(crime_counts_by_day, aes(x = ARREST_DATE, y = Daily_Crime_Count)) +
   geom_line() +  # Use geom_line for time series
   geom_point(size = 0.5, color = "steelblue") +  # Optional: add points on each date
@@ -106,7 +111,8 @@ ggplot(crime_counts_by_day, aes(x = ARREST_DATE, y = Daily_Crime_Count)) +
        x = "Date",
        y = "Number of Crimes") +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels if necessary
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
 ```
 It displays the number of crimes for days over 2023. The line shows fluctuations in the crime counts with blue points marking the actual daily values. 
 
