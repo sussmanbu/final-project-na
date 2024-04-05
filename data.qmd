@@ -29,16 +29,19 @@ This data can be used to inform policy decisions related to law enforcement prac
 
 ## Data Loading and Cleaning
 
-```{r}
-source("scripts/load_and_clean_data.R", 
-       echo = T)
-```
-
 ```{r include=F}
 library(tidyverse) 
 library(ggplot2)
 library(dplyr)
 library(kableExtra)
+library(data.table)
+library(magrittr)
+
+```
+
+```{r}
+source("scripts/load_and_clean_data.R", 
+       echo = T)
 ```
 
 In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. We remove rows with any NA and null values from the dataset. We also delete undefined data in 	Level of offense: felony, misdemeanor, violation, infraction. All in all, it have 224645 rows and 13 columns. Below part shows the modified variables table.
@@ -111,7 +114,7 @@ ggplot(crime_counts_by_day, aes(x = ARREST_DATE, y = Daily_Crime_Count)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
-It displays the number of crimes for days over 2023. The line shows fluctuations in the crime counts with blue points marking the actual daily values. 
+It displays the number of crimes for days over 2022 to 2023. The line shows fluctuations in the crime counts with blue points marking the actual daily values. 
 
 ```{r echo =F}
 crime_counts_by_day <- ds %>%
@@ -125,7 +128,7 @@ crime_counts_by_month <- crime_counts_by_day %>%
 
 ggplot(crime_counts_by_month, aes(x = Month, y = Monthly_Crime_Count)) +
   geom_col(fill = "steelblue") +  # Use geom_col for bar charts
-  labs(title = "Monthly Crime Counts in 2023",
+  labs(title = "Monthly Crime Counts in 2022 to 2023",
        x = "Month",
        y = "Crime Incidents") +
   scale_x_date(date_labels = "%b", date_breaks = "1 month") +
@@ -133,7 +136,7 @@ ggplot(crime_counts_by_month, aes(x = Month, y = Monthly_Crime_Count)) +
   theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) 
 ```
 
-This is a bar chart titled "Monthly Crime Counts in 2023". It shows the number of crime incidents for each month of the year. The vertical axis indicates the number of crime incidents, ranging from 0 to above 20,000, while the horizontal axis represents the months from January (Jan) to December (Dec). The bars are fairly consistent in height, suggesting a relatively steady number of crimes throughout the year, with slight variations.
+This is a bar chart titled "Monthly Crime Counts in 2023". It shows the number of crime incidents for each month of the year. The vertical axis indicates the number of crime incidents, ranging from 0 to above 20,000. The bar chart shows a trend of increase in crime from 2022 to 2023.
 
 ```{r echo=FALSE}
 # Group by OFNS_DESC and summarize the count
