@@ -38,7 +38,5 @@ ds <- ds |>
   filter(LAW_CAT_CD != "9")|>
   filter(ARREST_DATE != "TRUE")
 
-fwrite(ds, 'NYPD_all.csv')
-
 saveRDS(ds, here::here("dataset","load_and_clean_data.rds"))
 
