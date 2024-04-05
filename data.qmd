@@ -23,7 +23,7 @@ This sample population consists of individuals arrested by the NYPD, as recorded
 ### Sample's biases
 There might be some biases in the sample. In the dataset, certain age groups are disproportionately represented.Over representation of the 25-44 age group and certain racial demographics suggests possible targeted enforcement or societal issues, which could bias data-driven analyses. Additionally, the dataset disproportionately represents certain demographics in terms of race.
 
-### The purpose and formal research about data
+### The purpose and previous research about data
 
 This data can be used to inform policy decisions related to law enforcement practices, resource allocation, and community support programs. By analyzing patterns and trends in the data, policymakers can identify areas in need of intervention or reform. Moreover, researchers may examine the data to study crime trends, the effectiveness of policing strategies, and the impact of socio-economic factors on crime rates. Comparisons with previous years can reveal changes in crime patterns or the effectiveness of law enforcement policies. However, I didn’t find other research on the same data. Researchers, journalists, and policymakers have explored various questions using NYPD Arrest Data, such as: Are certain demographic groups disproportionately represented in arrest statistics? If so, what might be contributing to these disparities? Are there significant differences in arrest rates across different boroughs or neighborhoods, and what factors contribute to these differences?
 
@@ -39,12 +39,9 @@ library(tidyverse)
 library(ggplot2)
 library(dplyr)
 library(kableExtra)
-library(ggcorrplot)
-library(ggmap)
-library(leaflet)
 ```
 
-In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. Remove rows with any NA and null values from the dataset. We also delete undefined data in LAW_CAT_CD. All in all, it have 224645 rows and 13 columns. Below part shows the modified variables table.
+In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. We remove rows with any NA and null values from the dataset. We also delete undefined data in 	Level of offense: felony, misdemeanor, violation, infraction. All in all, it have 224645 rows and 13 columns. Below part shows the modified variables table.
 
 ## Variables Description
 
