@@ -9,9 +9,11 @@ draft: false
 
 ### Data source and reasons to collect it
 
-This data comes from the NYPD website and is collected by the Office of Management Analysis and Planning of the New York City Police Department. This dataset provides a general overview of the nature of police enforcement activity in NYC by the NYPD to the public starting from 2006. 
+This two datasets comes from the NYPD website and is collected by the Office of Management Analysis and Planning of the New York City Police Department. These datasets provides a general overview of the nature of police enforcement activity in NYC by the NYPD to the public in 2022 and 2023.
 
-Sources: https://data.cityofnewyork.us/w/uip8-fykc/25te-f2tw?cur=r4FZeyikcAn
+The NYPD's initiative to collect and disseminate data on crime rates and police enforcement activities is a multifaceted strategy aimed at enhancing public safety, ensuring transparency, and fostering community trust. This effort not only serves to keep the public informed about the safety of their neighborhoods but also aids the police department in strategic planning and efficient resource allocation. By analyzing crime trends, the NYPD can deploy resources more effectively, targeting areas with higher crime rates or specific types of criminal activities. Furthermore, making such data accessible supports policy making and evaluation, enabling lawmakers to craft and assess laws and policies with an eye toward crime reduction. Additionally, this transparency encourages community engagement and collaboration, as residents become more aware of the challenges their communities face and are thus more likely to work alongside the police to develop strategies for crime prevention. In sum, the NYPD's collection and sharing of this dataset are integral to its broader objectives of improving public safety, enhancing operational efficiency, and building a collaborative relationship with the communities it serves.
+
+[Sources](https://data.cityofnewyork.us/w/uip8-fykc/25te-f2tw?cur=r4FZeyikcAn)
 
 ### Issues on how the data was collected  
 
@@ -39,14 +41,16 @@ library(magrittr)
 
 ```
 
-```{r}
-source("scripts/load_and_clean_data.R", 
-       echo = T)
-```
+[Data Loading and Cleaning Script](scripts/load_and_clean_data.R)
 
-In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. We remove rows with any NA and null values from the dataset. We also delete undefined data in 	Level of offense: felony, misdemeanor, violation, infraction. All in all, it have 224645 rows and 13 columns. Below part shows the modified variables table.
+In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. We remove rows with any NA and null values from the dataset. We also delete undefined data in 	Level of offense: felony, misdemeanor, violation, infraction. All in all, it have 224645 rows and 13 columns. Below part shows the modified variables table. 
 
 ## Variables Description
+
+```{r echo=FALSE}
+ds <- read_rds("dataset/load_and_clean_data.rds") 
+```
+
 
 ```{r echo =F}
 library(knitr)
@@ -76,14 +80,24 @@ variables_df <- data.frame(
 kable(variables_df, format = "html")
 ```
 
-There are 62 crimes, the below table shows the specific description and level in 62 crimes.
+There are 62 crimes, the below table shows the specific description and level of the top 10 crimes in oder of the incident number.
 
 ```{r echo=FALSE}
-category_details <- ds |>
+top_categories <- ds %>%
+  count(OFNS_DESC, sort = TRUE) %>%
+  top_n(10, wt = n)
+
+# Join the top categories back to the original dataset to filter and preserve the order
+filtered_ds <- ds %>%
+  inner_join(top_categories, by = "OFNS_DESC")
+
+# Summarise the details for these top categories without rearranging them alphabetically
+category_details <- filtered_ds |>
   group_by(OFNS_DESC) |>
-  summarise(PD_DESC_Details = paste(unique(PD_DESC), collapse = ", ")) |>
-  ungroup() |>
-  arrange(OFNS_DESC)
+  summarise(PD_DESC_Details = paste(unique(PD_DESC), collapse = ", "), .groups = "drop") %>%
+  arrange(match(OFNS_DESC, top_categories$OFNS_DESC))  # Order by frequency
+
+# Generate the table with kable and kableExtra
 category_details |>
   kable(format = "html", escape = F) |>
   kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
