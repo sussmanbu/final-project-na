@@ -127,7 +127,12 @@ ul.task-list li input[type="checkbox"] {
   </ul></li>
   <li><a href="#data-loading-and-cleaning" id="toc-data-loading-and-cleaning" class="nav-link" data-scroll-target="#data-loading-and-cleaning">Data Loading and Cleaning</a></li>
   <li><a href="#variables-description" id="toc-variables-description" class="nav-link" data-scroll-target="#variables-description">Variables Description</a></li>
-  <li><a href="#explantory-analysis" id="toc-explantory-analysis" class="nav-link" data-scroll-target="#explantory-analysis">Explantory Analysis</a></li>
+  <li><a href="#basic-explantory-analysis" id="toc-basic-explantory-analysis" class="nav-link" data-scroll-target="#basic-explantory-analysis">Basic Explantory Analysis</a>
+  <ul class="collapse">
+  <li><a href="#race" id="toc-race" class="nav-link" data-scroll-target="#race">RACE</a></li>
+  <li><a href="#crime-categories" id="toc-crime-categories" class="nav-link" data-scroll-target="#crime-categories">Crime Categories</a></li>
+  <li><a href="#age" id="toc-age" class="nav-link" data-scroll-target="#age">AGE</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -162,7 +167,7 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="data-source-and-reasons-to-collect-it">Data source and reasons to collect it</h3>
 <p>This two datasets comes from the NYPD website and is collected by the Office of Management Analysis and Planning of the New York City Police Department. These datasets provides a general overview of the nature of police enforcement activity in NYC by the NYPD to the public in 2022 and 2023.</p>
 <p>The NYPD’s initiative to collect and disseminate data on crime rates and police enforcement activities is a multifaceted strategy aimed at enhancing public safety, ensuring transparency, and fostering community trust. This effort not only serves to keep the public informed about the safety of their neighborhoods but also aids the police department in strategic planning and efficient resource allocation. By analyzing crime trends, the NYPD can deploy resources more effectively, targeting areas with higher crime rates or specific types of criminal activities. Furthermore, making such data accessible supports policy making and evaluation, enabling lawmakers to craft and assess laws and policies with an eye toward crime reduction. Additionally, this transparency encourages community engagement and collaboration, as residents become more aware of the challenges their communities face and are thus more likely to work alongside the police to develop strategies for crime prevention. In sum, the NYPD’s collection and sharing of this dataset are integral to its broader objectives of improving public safety, enhancing operational efficiency, and building a collaborative relationship with the communities it serves.</p>
-<p><a href="https://data.cityofnewyork.us/w/uip8-fykc/25te-f2tw?cur=r4FZeyikcAn">Sources</a></p>
+<p><a href="https://data.cityofnewyork.us/w/uip8-fykc/25te-f2tw?cur=r4FZeyikcAn">Sources1</a> <a href="https://catalog.data.gov/dataset/nypd-arrest-data-year-to-date">Sources2</a></p>
 </section>
 <section id="issues-on-how-the-data-was-collected" class="level3">
 <h3 class="anchored" data-anchor-id="issues-on-how-the-data-was-collected">Issues on how the data was collected</h3>
@@ -184,7 +189,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="data-loading-and-cleaning" class="level2">
 <h2 class="anchored" data-anchor-id="data-loading-and-cleaning">Data Loading and Cleaning</h2>
 <p><a href="scripts/load_and_clean_data.R">Data Loading and Cleaning Script</a></p>
-<p>In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. We remove rows with any NA and null values from the dataset. We also delete undefined data in Level of offense: felony, misdemeanor, violation, infraction. All in all, it have 224645 rows and 13 columns. Below part shows the modified variables table.</p>
+<p>We merge the data from 2022 and 2023 together, for the future trend and comparison analysis between these two years. In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. We remove rows with any NA and null values from the dataset. We also delete undefined data in Level of offense: felony, misdemeanor, violation, infraction. All in all, it have 411745 rows and 13 columns. Below part shows the modified variables table.</p>
 </section>
 <section id="variables-description" class="level2">
 <h2 class="anchored" data-anchor-id="variables-description">Variables Description</h2>
@@ -330,69 +335,28 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </section>
-<section id="explantory-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="explantory-analysis">Explantory Analysis</h2>
+<section id="basic-explantory-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="basic-explantory-analysis">Basic Explantory Analysis</h2>
+<section id="race" class="level3">
+<h3 class="anchored" data-anchor-id="race">RACE</h3>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="data_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>It displays the number of crimes for days over 2022 to 2023. The line shows fluctuations in the crime counts with blue points marking the actual daily values.</p>
+<p>On this graph we are showing the number of cases per race among all races. On this graph we can see that the lowest number of cases per race are represented by the Indian/Alaskan native people. The highest is for colred people having over 11k cases during this period.</p>
+</section>
+<section id="crime-categories" class="level3">
+<h3 class="anchored" data-anchor-id="crime-categories">Crime Categories</h3>
 <div class="cell">
-<div class="cell-output-display">
-<p><img src="data_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>This is a bar chart titled “Monthly Crime Counts in 2023”. It shows the number of crime incidents for each month of the year. The vertical axis indicates the number of crime incidents, ranging from 0 to above 20,000. The bar chart shows a trend of increase in crime from 2022 to 2023.</p>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Selecting by Incident_Count</code></pre>
-</div>
 <div class="cell-output-display">
 <p><img src="data_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>The bar chart presents a comparison of incident counts across the top 10 crime categories. The most frequently reported category is “Assault &amp; Related Offenses,” which leads the chart. “Petit Larceny” appears as the second most prevalent, followed closely by “Dangerous Drugs.” The categories at the lower end of the spectrum, “Dangerous Weapons” and “Grand Larceny,” have the fewest reported incidents among the top 10.</p>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="data_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>On this graph we are showing the number of cases per race among all races. On this graph we can see that the lowest number of cases per race are represented by the Indian/Alaskan native people. The highest is for colred people having over 11k cases during this period.</p>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="data_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>This bar chart illustrates the racial composition of crime across ten categories, with the green segment indicating a dominant proportion of Black individuals in every category, followed by White Hispanics, represented by the pink segment. The smallest proportions are contributed by Asian/Pacific Islanders and American Indian/Alaskan Natives, shown in orange and red. This visualization provides a proportional breakdown by race, with each color-coded segment corresponding to the percentage of total incidents attributed to that racial group, reflecting the diversity and potential disparities within crime statistics.</p>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Selecting by Incident_Count
-`summarise()` has grouped output by 'OFNS_DESC'. You can override using the
-`.groups` argument.</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="data_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>The stacked bar chart visualizes the proportions of the top 10 crime categories distributed by gender, distinguishing between female (F), male (M), and unspecified (U). It’s apparent that male-associated incidents dominate each crime category, with a markedly higher proportion compared to females and unspecified genders across the board. Notably, crimes associated with “Dangerous Drugs,” “Felony Assault,” and “Robbery” show a substantial majority of male involvement. This chart effectively conveys the gender distribution within these crime categories but does not provide the actual number of incidents or contextual background that might explain the observed gender differences.</p>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Selecting by Incident_Count
-`summarise()` has grouped output by 'OFNS_DESC'. You can override using the
-`.groups` argument.</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="data_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>This graph displays a breakdown of crime incidents by gender across different categories, with green bars representing males, red bars for females, and blue bars for unknown gender. A striking feature of the chart is the predominance of green bars (male incidents), which are consistently the highest in every crime category, indicating a higher number of male-associated incidents in these categories. The most significant numbers of incidents for both males and females are recorded in “PETIT LARCENY” and “ASSAULT 3 &amp; RELATED OFFENSES.” Incidents with an unknown gender, represented by blue bars, are the lowest across all categories, suggesting that gender data is more often available than not. The overall trend suggests that while crime affects all genders, males are associated with a higher number of incidents in the data represented.</p>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="data_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
 <p>The bar chart displays the frequency of various crime types, categorized as Felony, Infraction, Misdemeanor, and Violation. The vertical axis indicates the number of cases, while the horizontal axis lists the crime categories. Misdemeanor appears to be the most common, followed by felonies. The crime incidents of infraction and violation are the least with small numbers of cases.</p>
+</section>
+<section id="age" class="level3">
+<h3 class="anchored" data-anchor-id="age">AGE</h3>
 <div class="cell">
 <div class="cell-output cell-output-stderr">
 <pre><code>Selecting by Incident_Count
@@ -400,23 +364,13 @@ ul.task-list li input[type="checkbox"] {
 `.groups` argument.</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="data_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+<p><img src="data_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>The bar chart shows the distribution of crime incidents across different categories—Infraction, Violation, Felony, and Misdemeanor—segregated by age groups. The graph illustrates that the 25-44 age group has the highest incidence of felonies, a significant number of misdemeanors, and relatively lower counts for infractions and violations, suggesting this age range is the most involved in crime. The other age groups contribute fewer incidents across all categories, with the least involvement by those under 18 and over 65.</p>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Selecting by Incident_Count
-`summarise()` has grouped output by 'OFNS_DESC'. You can override using the
-`.groups` argument.</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="data_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>This bar chart illustrates the frequency of different crimes for various age groups. Notably, the 25-44 age group shows the highest incident counts in every category, while the groups under 18 and over 65 have significantly fewer incidents across all crime categories.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
