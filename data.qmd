@@ -13,7 +13,8 @@ This two datasets comes from the NYPD website and is collected by the Office of 
 
 The NYPD's initiative to collect and disseminate data on crime rates and police enforcement activities is a multifaceted strategy aimed at enhancing public safety, ensuring transparency, and fostering community trust. This effort not only serves to keep the public informed about the safety of their neighborhoods but also aids the police department in strategic planning and efficient resource allocation. By analyzing crime trends, the NYPD can deploy resources more effectively, targeting areas with higher crime rates or specific types of criminal activities. Furthermore, making such data accessible supports policy making and evaluation, enabling lawmakers to craft and assess laws and policies with an eye toward crime reduction. Additionally, this transparency encourages community engagement and collaboration, as residents become more aware of the challenges their communities face and are thus more likely to work alongside the police to develop strategies for crime prevention. In sum, the NYPD's collection and sharing of this dataset are integral to its broader objectives of improving public safety, enhancing operational efficiency, and building a collaborative relationship with the communities it serves.
 
-[Sources](https://data.cityofnewyork.us/w/uip8-fykc/25te-f2tw?cur=r4FZeyikcAn)
+[Sources1](https://data.cityofnewyork.us/w/uip8-fykc/25te-f2tw?cur=r4FZeyikcAn)
+[Sources2](https://catalog.data.gov/dataset/nypd-arrest-data-year-to-date)
 
 ### Issues on how the data was collected  
 
@@ -38,12 +39,11 @@ library(dplyr)
 library(kableExtra)
 library(data.table)
 library(magrittr)
-
 ```
 
 [Data Loading and Cleaning Script](scripts/load_and_clean_data.R)
 
-In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. We remove rows with any NA and null values from the dataset. We also delete undefined data in 	Level of offense: felony, misdemeanor, violation, infraction. All in all, it have 224645 rows and 13 columns. Below part shows the modified variables table. 
+We merge the data from 2022 and 2023 together, for the future trend and comparison analysis between these two years. In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. We remove rows with any NA and null values from the dataset. We also delete undefined data in Level of offense: felony, misdemeanor, violation, infraction. All in all, it have 411745 rows and 13 columns. Below part shows the modified variables table. 
 
 ## Variables Description
 
@@ -107,72 +107,9 @@ category_details |>
   row_spec(0, background = "#D3D3D3") 
 ```
 
-## Explantory Analysis
+## Basic Explantory Analysis
 
-```{r echo =F}
-
-crime_counts_by_day <- ds |>
-  group_by(ARREST_DATE) |>
-  summarize(Daily_Crime_Count = n(), .groups = "drop") %>%
-  mutate(ARREST_DATE = as.Date(ARREST_DATE, format = "%m/%d/%Y")) %>%
-  filter(!is.na(ARREST_DATE) & !is.na(Daily_Crime_Count))
-
-# Plot the data
-ggplot(crime_counts_by_day, aes(x = ARREST_DATE, y = Daily_Crime_Count)) +
-  geom_line() +  # Use geom_line for time series
-  geom_point(size = 0.5, color = "steelblue") +  # Optional: add points on each date
-  labs(title = "Daily Crime Counts",
-       x = "Date",
-       y = "Number of Crimes") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-```
-It displays the number of crimes for days over 2022 to 2023. The line shows fluctuations in the crime counts with blue points marking the actual daily values. 
-
-```{r echo =F}
-crime_counts_by_day <- ds %>%
-  mutate(ARREST_DATE = mdy(ARREST_DATE)) %>%  
-  count(ARREST_DATE)  
-  
-crime_counts_by_month <- crime_counts_by_day %>%
-  mutate(Month = floor_date(ARREST_DATE, "month")) %>%
-  group_by(Month) %>%
-  summarize(Monthly_Crime_Count = sum(n), .groups = "drop")
-
-ggplot(crime_counts_by_month, aes(x = Month, y = Monthly_Crime_Count)) +
-  geom_col(fill = "steelblue") +  # Use geom_col for bar charts
-  labs(title = "Monthly Crime Counts in 2022 to 2023",
-       x = "Month",
-       y = "Crime Incidents") +
-  scale_x_date(date_labels = "%b", date_breaks = "1 month") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) 
-```
-
-This is a bar chart titled "Monthly Crime Counts in 2023". It shows the number of crime incidents for each month of the year. The vertical axis indicates the number of crime incidents, ranging from 0 to above 20,000. The bar chart shows a trend of increase in crime from 2022 to 2023.
-
-```{r echo=FALSE}
-# Group by OFNS_DESC and summarize the count
-crime_summary <- ds %>%
-  group_by(OFNS_DESC) %>%
-  summarize(Incident_Count = n()) %>%
-  arrange(desc(Incident_Count)) %>%
-  top_n(10) 
-
-# Create a bar plot
-ggplot(crime_summary, aes(x = reorder(OFNS_DESC, Incident_Count), y = Incident_Count)) +
-  geom_bar(stat = "identity", fill = "steelblue") +
-  labs(title = "Top 10 Crime Categories by Incident Count",
-       x = "Crime Categories",
-       y = "Count") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
-The bar chart presents a comparison of incident counts across the top 10 crime categories. The most frequently reported category is "Assault & Related Offenses," which leads the chart. "Petit Larceny" appears as the second most prevalent, followed closely by "Dangerous Drugs." The categories at the lower end of the spectrum, "Dangerous Weapons" and "Grand Larceny," have the fewest reported incidents among the top 10. 
-
-
+### RACE
 ```{r echo=F}
 ds|>
 ggplot(aes(PERP_RACE)) +
@@ -184,108 +121,11 @@ theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 On this graph we are showing the number of cases per race among all races. On this graph we can see that the lowest number of cases per race are represented by the Indian/Alaskan native people. The highest is for colred people having over 11k cases during this period.
 
-```{r echo= F}
-crime_summary <- ds |>
-  group_by(OFNS_DESC) |>
-  summarize(Incident_Count = n(), .groups = "drop") |>
-  arrange(desc(Incident_Count)) |>
-  slice_max(Incident_Count, n = 10)
-
-crime_race_summary <- ds |>
-  filter(OFNS_DESC %in% crime_summary$OFNS_DESC) |>
-  group_by(OFNS_DESC, PERP_RACE) |>
-  summarize(Incident_Count = n(), .groups = "drop")
-
-total_counts <- crime_race_summary |>
-  group_by(OFNS_DESC) |>
-  summarize(Total_Count = sum(Incident_Count), .groups = "drop")
-
-crime_race_summary <- crime_race_summary |>
-  left_join(total_counts, by = "OFNS_DESC") |>
-  mutate(Proportion = Incident_Count / Total_Count)
-
-ggplot(crime_race_summary, aes(x = reorder(OFNS_DESC, -Proportion), y = Proportion, fill = PERP_RACE)) +
-  geom_bar(stat = "identity", position = "fill") +  # Using 'fill' to show proportions
-  labs(title = "Proportion of Top 10 Crime Categories by Race",
-       x = "Crime Categories",
-       y = "Proportion",
-       fill = "Race") +
-  theme_grey() +
-  theme(axis.text.x = element_text(angle = 60, hjust = 1, size = rel(0.8) ))
-
-```
-
-This bar chart illustrates the racial composition of crime across ten categories, with the green segment indicating a dominant proportion of Black individuals in every category, followed by White Hispanics, represented by the pink segment. The smallest proportions are contributed by Asian/Pacific Islanders and American Indian/Alaskan Natives, shown in orange and red. This visualization provides a proportional breakdown by race, with each color-coded segment corresponding to the percentage of total incidents attributed to that racial group, reflecting the diversity and potential disparities within crime statistics.
-
 ```{r include=FALSE}
 ds
 ```
 
-```{r echo=F}
-# Group by OFNS_DESC and PERP_SEX, and summarize the count
-crime_summary <- ds %>%
-  group_by(OFNS_DESC) %>%
-  summarize(Incident_Count = n()) %>%
-  arrange(desc(Incident_Count)) %>%
-  top_n(10) 
-
-# Group by OFNS_DESC and PERP_SEX, and summarize the count
-crime_gender_summary <- ds %>%
-  filter(OFNS_DESC %in% crime_summary$OFNS_DESC) %>%
-  group_by(OFNS_DESC, PERP_SEX) %>%
-  summarize(Incident_Count = n()) 
-
-
-# Calculate the total count for each crime category
-total_counts <- crime_gender_summary %>%
-  group_by(OFNS_DESC) %>%
-  summarize(Total_Count = sum(Incident_Count))
-
-# Calculate the proportion for each gender within each category
-crime_gender_summary <- crime_gender_summary %>%
-  left_join(total_counts, by = "OFNS_DESC") %>%
-  mutate(Proportion = Incident_Count / Total_Count)
-
-# Create a bar plot
-ggplot(crime_gender_summary, aes(x = reorder(OFNS_DESC, Proportion), y = Proportion, fill = PERP_SEX)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Proportion of Top 10 Crime Categories by Gender",
-       x = "Crime Categories",
-       y = "Proportion",
-       fill = "Gender") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
-The stacked bar chart visualizes the proportions of the top 10 crime categories distributed by gender, distinguishing between female (F), male (M), and unspecified (U). It's apparent that male-associated incidents dominate each crime category, with a markedly higher proportion compared to females and unspecified genders across the board. Notably, crimes associated with "Dangerous Drugs," "Felony Assault," and "Robbery" show a substantial majority of male involvement. This chart effectively conveys the gender distribution within these crime categories but does not provide the actual number of incidents or contextual background that might explain the observed gender differences.
-
-
-```{r echo= F}
-crime_summary <- ds %>%
-  group_by(OFNS_DESC) %>% 
-  summarize(Incident_Count = n()) %>%
-  arrange(desc(Incident_Count)) %>%
-  top_n(10)
-
-# Group by OFNS_DESC and PERP_SEX, and summarize the count
-crime_gender_summary <- ds %>%
-  filter(OFNS_DESC %in% crime_summary$OFNS_DESC) %>%
-  group_by(OFNS_DESC, PERP_SEX) %>%
-  summarize(Incident_Count = n()) 
-
-# Create a bar plot
-ggplot(crime_gender_summary, aes(x = reorder(OFNS_DESC, Incident_Count), y = Incident_Count, fill = PERP_SEX)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Total Incidents in Top 10 Crime Categories by Gender",
-       x = "Crime Categories",
-       y = "Incident Count",
-       fill = "Gender") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
-This graph displays a breakdown of crime incidents by gender across different categories, with green bars representing males, red bars for females, and blue bars for unknown gender. A striking feature of the chart is the predominance of green bars (male incidents), which are consistently the highest in every crime category, indicating a higher number of male-associated incidents in these categories. The most significant numbers of incidents for both males and females are recorded in "PETIT LARCENY" and "ASSAULT 3 & RELATED OFFENSES." Incidents with an unknown gender, represented by blue bars, are the lowest across all categories, suggesting that gender data is more often available than not. The overall trend suggests that while crime affects all genders, males are associated with a higher number of incidents in the data represented.
-
+### Crime Categories
 ```{r echo =F}
 ds |>
   ggplot(aes(x = LAW_CAT_CD, fill = LAW_CAT_CD)) +
@@ -301,6 +141,8 @@ ds |>
 ```
 The bar chart displays the frequency of various crime types, categorized as Felony, Infraction, Misdemeanor, and Violation. The vertical axis indicates the number of cases, while the horizontal axis lists the crime categories. Misdemeanor appears to be the most common, followed by felonies. The crime incidents of infraction and violation are the least with small numbers of cases. 
 
+### AGE
+
 ```{r echo =F}
 crime_summary <- ds %>%
   group_by(LAW_CAT_CD) %>%
@@ -314,6 +156,7 @@ crime_gender_summary <- ds %>%
   group_by(LAW_CAT_CD, AGE_GROUP) %>%
   summarize(Incident_Count = n())
 # Create a bar plot
+
 ggplot(crime_gender_summary, aes(x = reorder(LAW_CAT_CD,Incident_Count), y=    
                                  Incident_Count, fill = AGE_GROUP)) +
   geom_bar(stat = "identity", position = "dodge") +
@@ -328,30 +171,5 @@ ggplot(crime_gender_summary, aes(x = reorder(LAW_CAT_CD,Incident_Count), y=
 
 The bar chart shows the distribution of crime incidents across different categories—Infraction, Violation, Felony, and Misdemeanor—segregated by age groups. The graph illustrates that the 25-44 age group has the highest incidence of felonies, a significant number of misdemeanors, and relatively lower counts for infractions and violations, suggesting this age range is the most involved in crime. The other age groups contribute fewer incidents across all categories, with the least involvement by those under 18 and over 65.
 
-```{r echo =F}
-crime_summary <- ds %>%
-  group_by(OFNS_DESC) %>%
-  summarize(Incident_Count = n()) %>%
-  arrange(desc(Incident_Count)) %>%
-  top_n(10)
-# Group by OFNS_DESC and AGE_GROUP, and summarize the count
-crime_gender_summary <- ds %>%
-  filter(OFNS_DESC %in% crime_summary$OFNS_DESC) %>%
-  group_by(OFNS_DESC, AGE_GROUP) %>%
-  summarize(Incident_Count = n())
-  
-# Create a bar plot
-ggplot(crime_gender_summary, aes(x = reorder(OFNS_DESC, Incident_Count), y = Incident_Count, fill = AGE_GROUP)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Total Incidents in Top 10 crime Categories by Age",
-       x = "crime Categories",
-       y = "Incident Count",
-       fill = "Age") +
-  theme_minimal() +
-  
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
-This bar chart illustrates the frequency of different crimes for various age groups. Notably, the 25-44 age group shows the highest incident counts in every category, while the groups under 18 and over 65 have significantly fewer incidents across all crime categories.
 
 
