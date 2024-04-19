@@ -5,7 +5,7 @@ library(tidyverse)
 
 ## CLEAN the data
 ds_2023 <- read_csv("dataset/NYPD.csv",show_col_types = FALSE )|>
-  select(-ARREST_KEY,-PD_CD,-KY_CD,-LAW_CODE,-ARREST_BORO,-JURISDICTION_CODE) 
+  select(-ARREST_KEY,-PD_CD,-KY_CD,-LAW_CODE,-JURISDICTION_CODE) 
 
 na_count <- sum(is.na(ds_2023))
 na_count
@@ -16,7 +16,7 @@ ds_2023 <- ds_2023 |>
   filter(LAW_CAT_CD != "9")
 
 ds_2022 <-read_csv("dataset/NYPD_2022.csv",show_col_types = FALSE )|>
-  select(-ARREST_KEY,-PD_CD,-KY_CD,-LAW_CODE,-ARREST_BORO,-JURISDICTION_CODE) 
+  select(-ARREST_KEY,-PD_CD,-KY_CD,-LAW_CODE,-JURISDICTION_CODE) 
 na_count <- sum(is.na(ds_2022))
 na_count
 ds_2022 <- na.omit(ds_2022) 

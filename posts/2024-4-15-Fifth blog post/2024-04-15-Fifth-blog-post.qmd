@@ -16,7 +16,7 @@ library(ggcorrplot)
 library(ggmap)
 library(leaflet)
 library(magrittr)
-
+library(sf)
 ds <- read_rds("dataset/load_and_clean_data.rds") 
 ```
 
@@ -47,8 +47,15 @@ ggplot(crime_counts_by_month, aes(x = Month, y = Monthly_Crime_Count)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) 
 ```
-
-
 By examining the combined dataset through graphical analysis, we observed that there has been a steady increase in crime rates from 2022 to 2023. The proportion of different types of crimes remained relatively stable over the two years.
 
 And our next step is to do the regression and logistic analysis to understanding the trends and patterns within the data. Moreover, we will create a more localized heat map of New York neighborhoods which will provide clear visual insights into areas with higher crime rates, potentially informing policy decisions, law enforcement resource allocation, or community support initiatives.
+
+
+
+
+
+
+
+
+
