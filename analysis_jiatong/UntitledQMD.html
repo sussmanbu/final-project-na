@@ -179,19 +179,18 @@ Attaching package: 'kableExtra'</code></pre>
   OpenStreetMap's Tile Usage Policy: &lt;https://operations.osmfoundation.org/policies/tiles/&gt;
 ℹ Please cite ggmap if you use it! Use `citation("ggmap")` for details.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"dataset/load_and_clean_data.rds"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<pre><code>
-
-::: {.cell}
-
-```{.r .cell-code}
-ds|&gt;
-  ggplot(aes(x =AGE_GROUP))+ geom_bar()</code></pre>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ds<span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span>AGE_GROUP))<span class="sc">+</span> <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="UntitledQMD_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
-<p>::: It shows all range of age level in the data, no unusual data.</p>
+</div>
+<p>It shows all range of age level in the data, no unusual data.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ds<span class="sc">|&gt;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(PERP_SEX)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -199,34 +198,34 @@ ds|&gt;
 <pre><code># A tibble: 3 × 2
   PERP_SEX      n
   &lt;chr&gt;     &lt;int&gt;
-1 F         39278
-2 M        182504
-3 U          3491</code></pre>
+1 F         72064
+2 M        336193
+3 U          3488</code></pre>
 </div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ds<span class="sc">|&gt;</span> </span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(PD_DESC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 239 × 2
+<pre><code># A tibble: 255 × 2
    PD_DESC                             n
    &lt;chr&gt;                           &lt;int&gt;
- 1 (null)                             17
- 2 A.B.C.,FALSE PROOF OF AGE           2
- 3 ABANDON ANIMAL                      2
- 4 ACCOSTING,FRAUDULENT               55
- 5 ADM.CODE,UNCLASSIFIED MISDEMEA     14
- 6 ADM.CODE,UNCLASSIFIED VIOLATIO     34
- 7 AGGRAVATED CRIMINAL CONTEMPT      292
- 8 AGGRAVATED GRAND LARCENY OF ATM   191
- 9 AGGRAVATED HARASSMENT 1           110
-10 AGGRAVATED HARASSMENT 2          3408
-# ℹ 229 more rows</code></pre>
+ 1 A.B.C.,FALSE PROOF OF AGE           5
+ 2 ABANDON ANIMAL                      2
+ 3 ACCOSTING,FRAUDULENT              115
+ 4 ADM.CODE,UNCLASSIFIED MISDEMEA     32
+ 5 ADM.CODE,UNCLASSIFIED VIOLATIO     52
+ 6 AGGRAVATED CRIMINAL CONTEMPT      598
+ 7 AGGRAVATED GRAND LARCENY OF ATM   411
+ 8 AGGRAVATED HARASSMENT 1           241
+ 9 AGGRAVATED HARASSMENT 2          6743
+10 AGGRAVATED SEXUAL ASBUSE           27
+# ℹ 245 more rows</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>PD_count <span class="ot">&lt;-</span> <span class="fu">unique</span>(ds<span class="sc">$</span>PD_DESC) <span class="co"># </span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(PD_count)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 239</code></pre>
+<pre><code>[1] 255</code></pre>
 </div>
 </div>
 <p>there are 239 subcategories for all 63 crimes</p>
@@ -239,20 +238,20 @@ ds|&gt;
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(category_details)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 63 × 2
+<pre><code># A tibble: 65 × 2
    OFNS_DESC                            PD_DESC_Details                         
    &lt;chr&gt;                                &lt;chr&gt;                                   
- 1 (null)                               "(null) "                               
- 2 ADMINISTRATIVE CODE                  "ADM.CODE,UNCLASSIFIED VIOLATIO , ALCOH…
- 3 ADMINISTRATIVE CODES                 "NOISE,UNECESSARY "                     
- 4 AGRICULTURE &amp; MRKTS LAW-UNCLASSIFIED "TORTURE/INJURE ANIMAL CRUELTY , ABANDO…
- 5 ALCOHOLIC BEVERAGE CONTROL LAW       "ALCOHOLIC BEVERAGE CONTROL LAW "       
- 6 ANTICIPATORY OFFENSES                "CONSPIRACY 6, 5 , FACILITATION 4, CRIM…
- 7 ARSON                                "ARSON 2,3,4 , ARSON 1 "                
- 8 ASSAULT 3 &amp; RELATED OFFENSES         "ASSAULT 3 , MENACING,UNCLASSIFIED , OB…
- 9 BURGLAR'S TOOLS                      "BURGLARS TOOLS,UNCLASSIFIED "          
-10 BURGLARY                             "BURGLARY,UNCLASSIFIED,UNKNOWN , BURGLA…
-# ℹ 53 more rows</code></pre>
+ 1 ADMINISTRATIVE CODE                  "ADM.CODE,UNCLASSIFIED VIOLATIO , ALCOH…
+ 2 ADMINISTRATIVE CODES                 "NOISE,UNECESSARY "                     
+ 3 AGRICULTURE &amp; MRKTS LAW-UNCLASSIFIED "TORTURE/INJURE ANIMAL CRUELTY , ABANDO…
+ 4 ALCOHOLIC BEVERAGE CONTROL LAW       "ALCOHOLIC BEVERAGE CONTROL LAW "       
+ 5 ANTICIPATORY OFFENSES                "CONSPIRACY 6, 5 , FACILITATION 4, CRIM…
+ 6 ARSON                                "ARSON 2,3,4 , ARSON 1 "                
+ 7 ASSAULT 3 &amp; RELATED OFFENSES         "ASSAULT 3 , MENACING,UNCLASSIFIED , OB…
+ 8 BURGLAR'S TOOLS                      "BURGLARS TOOLS,UNCLASSIFIED "          
+ 9 BURGLARY                             "BURGLARY,UNCLASSIFIED,UNKNOWN , BURGLA…
+10 CANNABIS RELATED OFFENSES            "CANNABIS POSSESSION, 2&amp;1 , CANNABIS PO…
+# ℹ 55 more rows</code></pre>
 </div>
 </div>
 <div class="cell">
@@ -349,15 +348,15 @@ ds|&gt;
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">F</td>
-<td style="text-align: right;">39278</td>
+<td style="text-align: right;">72064</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">M</td>
-<td style="text-align: right;">182504</td>
+<td style="text-align: right;">336193</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">U</td>
-<td style="text-align: right;">3491</td>
+<td style="text-align: right;">3488</td>
 </tr>
 </tbody>
 </table>
@@ -377,164 +376,172 @@ ds|&gt;
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left; font-weight: bold; color: black !important;">(null)</td>
-<td style="text-align: left;">(null)</td>
+<td style="text-align: left; font-weight: bold; color: black !important;">ADMINISTRATIVE CODE</td>
+<td style="text-align: left;">ADM.CODE,UNCLASSIFIED VIOLATIO, ALCOHOLIC BEVERAGES,PUBLIC CON, ADM.CODE,UNCLASSIFIED MISDEMEA, UNLAWFUL DISCLOSURE OF AN INTIMATE IMAGE, PEDDLING,UNLAWFUL, PARKR&amp;R,UNCLASSIFIED VIOLATION, UNLAWFUL SALE SYNTHETIC MARIJUANA</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; font-weight: bold; color: black !important;">ADMINISTRATIVE CODE</td>
-<td style="text-align: left;">ADM.CODE,UNCLASSIFIED VIOLATIO, ALCOHOLIC BEVERAGES,PUBLIC CON, ADM.CODE,UNCLASSIFIED MISDEMEA, UNLAWFUL DISCLOSURE OF AN INTIMATE IMAGE, PEDDLING,UNLAWFUL, PARKR&amp;R,UNCLASSIFIED VIOLATION</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">ADMINISTRATIVE CODES</td>
 <td style="text-align: left;">NOISE,UNECESSARY</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">AGRICULTURE &amp; MRKTS LAW-UNCLASSIFIED</td>
 <td style="text-align: left;">TORTURE/INJURE ANIMAL CRUELTY, ABANDON ANIMAL</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">ALCOHOLIC BEVERAGE CONTROL LAW</td>
 <td style="text-align: left;">ALCOHOLIC BEVERAGE CONTROL LAW</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">ANTICIPATORY OFFENSES</td>
 <td style="text-align: left;">CONSPIRACY 6, 5, FACILITATION 4, CRIMINAL, SOLICITATION 4, CRIMINAL</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">ARSON</td>
 <td style="text-align: left;">ARSON 2,3,4, ARSON 1</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">ASSAULT 3 &amp; RELATED OFFENSES</td>
 <td style="text-align: left;">ASSAULT 3, MENACING,UNCLASSIFIED, OBSTR BREATH/CIRCUL</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">BURGLAR'S TOOLS</td>
 <td style="text-align: left;">BURGLARS TOOLS,UNCLASSIFIED</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">BURGLARY</td>
 <td style="text-align: left;">BURGLARY,UNCLASSIFIED,UNKNOWN, BURGLARY,RESIDENCE,NIGHT</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">CANNABIS RELATED OFFENSES</td>
 <td style="text-align: left;">CANNABIS POSSESSION, 2&amp;1, CANNABIS POSSESSION, 3, CANNABIS SALE, 3, CANNABIS SALE, 2&amp;1, CANNABIS SALE, AGGRAVATED, CANNABIS SALE, CANNABIS POSSESSION</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">CHILD ABANDONMENT/NON SUPPORT</td>
 <td style="text-align: left;">CHILD ABANDONMENT</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">CRIMINAL MISCHIEF &amp; RELATED OF</td>
 <td style="text-align: left;">CRIMINAL MIS 2 &amp; 3, MISCHIEF,CRIMINAL, UNCL 2ND, CRIMINAL MISCHIEF,UNCLASSIFIED 4, CRIMINAL MISCHIEF 4TH, GRAFFIT, FALSE ALARM FIRE, TAMPERING 1,CRIMINAL, TAMPERING 3,2, CRIMINAL, MISCHIEF, CRIMINAL 4, BY FIRE, MISCHIEF 1,CRIMINAL,EXPLOSIVE, RECKLESS ENDANGERMENT OF PROPE, MISCHIEF, CRIMINAL 4, OF MOTOR, MISCHIEF, CRIMINAL 3 &amp; 2, OF M</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">CRIMINAL TRESPASS</td>
 <td style="text-align: left;">TRESPASS 2, CRIMINAL, TRESPASS 3, CRIMINAL</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left; font-weight: bold; color: black !important;">DANGEROUS DRUGS</td>
-<td style="text-align: left;">CONTROLLED SUBSTANCE, POSSESSI, CONTROLLED SUBSTANCE,INTENT TO, SALE SCHOOL GROUNDS, CONTROLLED SUBSTANCE,POSSESS., DRUG PARAPHERNALIA, POSSESSE, CONTROLLED SUBSTANCE, INTENT T, CONTROLLED SUBSTANCE,SALE 3, CONTROLLED SUBSTANCE,SALE 2, CONTROLLED SUBSTANCE,SALE 1, CONTROLLED SUBSTANCE, SALE 5, CONTROLLED SUBSTANCE, SALE 4, SALE SCHOOL GROUNDS 4, POSS METH MANUFACT MATERIAL, SALES OF PRESCRIPTION</td>
-</tr>
 <tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">DANGEROUS DRUGS</td>
+<td style="text-align: left;">CONTROLLED SUBSTANCE, POSSESSI, CONTROLLED SUBSTANCE,INTENT TO, SALE SCHOOL GROUNDS, CONTROLLED SUBSTANCE,POSSESS., DRUG PARAPHERNALIA, POSSESSE, CONTROLLED SUBSTANCE, INTENT T, CONTROLLED SUBSTANCE,SALE 3, CONTROLLED SUBSTANCE,SALE 2, CONTROLLED SUBSTANCE,SALE 1, CONTROLLED SUBSTANCE, SALE 5, CONTROLLED SUBSTANCE, SALE 4, SALE SCHOOL GROUNDS 4, POSS METH MANUFACT MATERIAL, SALES OF PRESCRIPTION, DRUG, INJECTION OF, USE CHILD TO COMMIT CONT SUB OFF, POSSESSION HYPODERMIC INSTRUME</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">DANGEROUS WEAPONS</td>
 <td style="text-align: left;">CRIMINAL POSSESSION WEAPON, WEAPONS, POSSESSION, ETC, WEAPONS POSSESSION 3, WEAPONS,MFR,TRANSPORT,ETC., CRIMINAL DISPOSAL FIREARM 1, CRIM POS WEAP 4, WEAPONS DISPOSITION OF, UNFINSH FRAME 2, MANUFATURE, TRANSPORT, DEFACE, ETC..., FIREARMS LICENSING LAWS</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">DISORDERLY CONDUCT</td>
 <td style="text-align: left;">DISORDERLY CONDUCT</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">DISRUPTION OF A RELIGIOUS SERV</td>
 <td style="text-align: left;">DIS. CON.,AGGRAVATED</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">ENDAN WELFARE INCOMP</td>
 <td style="text-align: left;">INCOMPETENT PERSON,RECKLESSY ENDANGERING, INCOMPETENT PERSON,KNOWINGLY ENDANGERING</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">ESCAPE 3</td>
 <td style="text-align: left;">ESCAPE 3</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">FELONY ASSAULT</td>
 <td style="text-align: left;">STRANGULATION 1ST, ASSAULT 2,1,UNCLASSIFIED, ASSAULT POLICE/PEACE OFFICER</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">FELONY SEX CRIMES</td>
 <td style="text-align: left;">STALKING COMMIT SEX OFFENSE</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">FORGERY</td>
 <td style="text-align: left;">FORGERY,ETC.,UNCLASSIFIED-FELO, FORGERY,M.V. REGISTRATION, FORGERY,PRESCRIPTION</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">FRAUDS</td>
 <td style="text-align: left;">IMPERSONATION 2, PUBLIC SERVAN, FRAUD,UNCLASSIFIED-MISDEMEANOR, CHECK,BAD, COMPUTER UNAUTH. USE/TAMPER</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">FRAUDULENT ACCOSTING</td>
 <td style="text-align: left;">ACCOSTING,FRAUDULENT</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">GAMBLING</td>
 <td style="text-align: left;">GAMBLING, DEVICE, POSSESSION, GAMBLING 2,PROMOTING,UNCLASSIF, GAMBLING 1,PROMOTING,POLICY, GAMBLING 1,PROMOTING,BOOKMAKIN, GAMBLING 2, PROMOTING, POLICY-</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">GRAND LARCENY</td>
 <td style="text-align: left;">LARCENY,GRAND FROM OPEN AREAS, UNATTENDED, LARCENY,GRAND FROM PERSON,UNCL, LARCENY,GRAND BY EXTORTION, AGGRAVATED GRAND LARCENY OF ATM, LARCENY,GRAND BY THEFT OF CREDIT CARD, LARCENY,GRAND FROM BUILDING (NON-RESIDENCE) UNATTENDED</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">GRAND LARCENY OF MOTOR VEHICLE</td>
 <td style="text-align: left;">LARCENY,GRAND OF AUTO</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">HARRASSMENT 2</td>
 <td style="text-align: left;">HARASSMENT,SUBD 3,4,5, HARASSMENT,SUBD 1,CIVILIAN</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">HOMICIDE-NEGLIGENT,UNCLASSIFIE</td>
 <td style="text-align: left;">HOMICIDE,NEGLIGENT,UNCLASSIFIE</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">HOMICIDE-NEGLIGENT-VEHICLE</td>
 <td style="text-align: left;">HOMICIDE, NEGLIGENT, VEHICLE,</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">INTOXICATED &amp; IMPAIRED DRIVING</td>
 <td style="text-align: left;">INTOXICATED DRIVING,ALCOHOL, IMPAIRED DRIVING,DRUG</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">INTOXICATED/IMPAIRED DRIVING</td>
 <td style="text-align: left;">INTOXICATED DRIVING,ALCOHOL, IMPAIRED DRIVING, DRUGS</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">JOSTLING</td>
 <td style="text-align: left;">JOSTLING</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">KIDNAPPING</td>
 <td style="text-align: left;">LURING A CHILD</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">KIDNAPPING &amp; RELATED OFFENSES</td>
 <td style="text-align: left;">IMPRISONMENT 1,UNLAWFUL, KIDNAPPING 2, KIDNAPPING 1, CUSTODIAL INTERFERENCE 1</td>
 </tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">LOITERING/GAMBLING (CARDS, DIC</td>
+<td style="text-align: left;">LOITERING,GAMBLING,OTHER</td>
+</tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">MISCELLANEOUS PENAL LAW</td>
-<td style="text-align: left;">PUBLIC ADMINISTRATION,UNCLASSI, AGGRAVATED HARASSMENT 1, MENACING 1ST DEGREE (VICT NOT, BRIBERY,PUBLIC ADMINISTRATION, RECKLESS ENDANGERMENT 1, UNAUTHORIZED USE VEHICLE 2, AGGRAVATED CRIMINAL CONTEMPT, TRESPASS 4,CRIMINAL SUB 2, CRIMINAL CONTEMPT 1, THEFT OF SERVICES- CABLE TV SE, FORGERY-ILLEGAL POSSESSION,VEH, FALSE REPORT 1,FIRE, BAIL JUMPING 1 &amp; 2, CONSPIRACY 2, 1, PROMOTING A SEXUAL PERFORMANCE, TRESPASS 1,CRIMINAL, MAKING TERRORISTIC THREAT, BRIBERY,FRAUD, IMPERSONATION 1, POLICE OFFICE, CONSPIRACY 4, 3, ESCAPE 2,1, SOLICITATION 3,2,1, CRIMINAL, VEHICULAR ASSAULT (INTOX DRIVE, COERCION 1, TAMPERING WITH A WITNESS, FACILITATION 3,2,1, CRIMINAL, POSTING ADVERTISEMENTS, PERJURY 2,1,ETC, USURY,CRIMINAL, SUPP. ACT TERR 2ND, RIOT 1, EXPOSURE OF A PERSON, END WELFARE VULNERABLE ELDERLY PERSON, USE OF A CHILD IN A SEXUAL PER, FIREWORKS, POSSESS/USE, ENTERPRISE CORRUPTION, NUISANCE, CRIMINAL</td>
+<td style="text-align: left;">PUBLIC ADMINISTRATION,UNCLASSI, AGGRAVATED HARASSMENT 1, MENACING 1ST DEGREE (VICT NOT, BRIBERY,PUBLIC ADMINISTRATION, RECKLESS ENDANGERMENT 1, UNAUTHORIZED USE VEHICLE 2, AGGRAVATED CRIMINAL CONTEMPT, TRESPASS 4,CRIMINAL SUB 2, CRIMINAL CONTEMPT 1, THEFT OF SERVICES- CABLE TV SE, FORGERY-ILLEGAL POSSESSION,VEH, FALSE REPORT 1,FIRE, BAIL JUMPING 1 &amp; 2, CONSPIRACY 2, 1, PROMOTING A SEXUAL PERFORMANCE, TRESPASS 1,CRIMINAL, MAKING TERRORISTIC THREAT, BRIBERY,FRAUD, IMPERSONATION 1, POLICE OFFICE, CONSPIRACY 4, 3, ESCAPE 2,1, SOLICITATION 3,2,1, CRIMINAL, VEHICULAR ASSAULT (INTOX DRIVE, COERCION 1, TAMPERING WITH A WITNESS, FACILITATION 3,2,1, CRIMINAL, POSTING ADVERTISEMENTS, PERJURY 2,1,ETC, USURY,CRIMINAL, SUPP. ACT TERR 2ND, RIOT 1, EXPOSURE OF A PERSON, END WELFARE VULNERABLE ELDERLY PERSON, USE OF A CHILD IN A SEXUAL PER, FIREWORKS, POSSESS/USE, ENTERPRISE CORRUPTION, NUISANCE, CRIMINAL, EAVESDROPPING, TERRORISM PROVIDE SUPPORT</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">MOVING INFRACTIONS</td>
-<td style="text-align: left;">UNLICENSED OPERATOR, SEAT BELTS, IMPAIRED DRIVING / ALCOHOL, FAIL TO STOP ON SIGNAL, USE CELL PHONE WHILE DRIVING</td>
+<td style="text-align: left;">UNLICENSED OPERATOR, SEAT BELTS, IMPAIRED DRIVING / ALCOHOL, FAIL TO STOP ON SIGNAL, USE CELL PHONE WHILE DRIVING, IMPROPER PASSING</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">MURDER &amp; NON-NEGL. MANSLAUGHTE</td>
 <td style="text-align: left;">MURDER,UNCLASSIFIED, MANSLAUGHTER,UNCLASSIFIED - NO</td>
 </tr>
 <tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">NEW YORK CITY HEALTH CODE</td>
+<td style="text-align: left;">HEALTH CODE,VIOLATION</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">NYS LAWS-UNCLASSIFIED FELONY</td>
-<td style="text-align: left;">NY STATE LAWS,UNCLASSIFIED FEL, CAUSE SPI/KILL ANIMAL</td>
+<td style="text-align: left;">NY STATE LAWS,UNCLASSIFIED FEL, CAUSE SPI/KILL ANIMAL, ALCOHOLIC BEVERAGE CONTROL</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">NYS LAWS-UNCLASSIFIED VIOLATION</td>
+<td style="text-align: left;">INAPPROPIATE SHELTER DOG LEFT</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">OFF. AGNST PUB ORD SENSBLTY &amp;</td>
@@ -558,7 +565,7 @@ ds|&gt;
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">OFFENSES RELATED TO CHILDREN</td>
-<td style="text-align: left;">CHILD,OFFENSES AGAINST,UNCLASS</td>
+<td style="text-align: left;">CHILD,OFFENSES AGAINST,UNCLASS, CHILD,LICENSED PREMISES</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">OTHER OFFENSES RELATED TO THEF</td>
@@ -570,7 +577,7 @@ ds|&gt;
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">OTHER STATE LAWS (NON PENAL LA</td>
-<td style="text-align: left;">NY STATE LAWS,UNCLASSIFIED MIS, TAX LAW, PUBLIC HEALTH LAW,UNCLASSIFIED</td>
+<td style="text-align: left;">NY STATE LAWS,UNCLASSIFIED MIS, TAX LAW, PUBLIC HEALTH LAW,UNCLASSIFIED, AGRICULTURE &amp; MARKETS LAW,UNCL</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">OTHER STATE LAWS (NON PENAL LAW)</td>
@@ -578,7 +585,7 @@ ds|&gt;
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">OTHER TRAFFIC INFRACTION</td>
-<td style="text-align: left;">TRAFFIC,UNCLASSIFIED INFRACTIO, IMPROPER LIGHTS, LEAVING THE SCENE / PROPERTY DAMAGE / INJURED ANIMAL, FAIL TO SIGNAL</td>
+<td style="text-align: left;">TRAFFIC,UNCLASSIFIED INFRACTIO, IMPROPER LIGHTS, LEAVING THE SCENE / PROPERTY DAMAGE / INJURED ANIMAL, FAIL TO SIGNAL, SPILLBACK</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">PARKING OFFENSES</td>
@@ -594,7 +601,7 @@ ds|&gt;
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">PROSTITUTION &amp; RELATED OFFENSES</td>
-<td style="text-align: left;">PROSTITUTION, PROSTITUTION 4,PROMOTING&amp;SECUR, PROSTITUTION, PATRONIZING 4, 3, SEX TRAFFICKING, PROSTITUTION,PERMITTING, PROSTITUTION 3,PROMOTING BUSIN, PROSTITUTION 3, PROMOTING UNDE</td>
+<td style="text-align: left;">PROSTITUTION, PROSTITUTION 4,PROMOTING&amp;SECUR, PROSTITUTION, PATRONIZING 4, 3, SEX TRAFFICKING, PROSTITUTION,PERMITTING, PROSTITUTION 3,PROMOTING BUSIN, PROSTITUTION 3, PROMOTING UNDE, PROSTITUTION 1, UNDER 11</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">RAPE</td>
@@ -606,7 +613,7 @@ ds|&gt;
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">SEX CRIMES</td>
-<td style="text-align: left;">SEXUAL ABUSE, SEXUAL ABUSE 3,2, SODOMY 1, SEX CRIMES, CHILD, ENDANGERING WELFARE, FORCIBLE TOUCHING, AGGRAVATED SEXUAL ASBUSE, COURSE OF SEXUAL CONDUCT AGAIN, OBSCENITY 1, SEXUAL MISCONDUCT,INTERCOURSE, SEXUAL MISCONDUCT,DEVIATE, INCEST 3, OBSCENE MATERIAL - UNDER 17 YE, SODOMY 3, SODOMY 2, OBSCENITY, PERFORMANCE 3</td>
+<td style="text-align: left;">SEXUAL ABUSE, SEXUAL ABUSE 3,2, SODOMY 1, SEX CRIMES, CHILD, ENDANGERING WELFARE, FORCIBLE TOUCHING, AGGRAVATED SEXUAL ASBUSE, COURSE OF SEXUAL CONDUCT AGAIN, OBSCENITY 1, SEXUAL MISCONDUCT,INTERCOURSE, SEXUAL MISCONDUCT,DEVIATE, INCEST 3, OBSCENE MATERIAL - UNDER 17 YE, SODOMY 3, SODOMY 2, OBSCENITY, PERFORMANCE 3, FAC. SEXUAL OFFENSE W/CONTROLL, OBSCENITY, MATERIAL 3</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">THEFT OF SERVICES</td>
@@ -679,13 +686,202 @@ ds|&gt;
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 221 rows containing missing values (`geom_line()`).</code></pre>
+<pre><code>Warning: Removed 442 rows containing missing values (`geom_line()`).</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 221 rows containing missing values (`geom_point()`).</code></pre>
+<pre><code>Warning: Removed 442 rows containing missing values (`geom_point()`).</code></pre>
 </div>
 <div class="cell-output-display">
 <p><img src="UntitledQMD_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sp)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Linking to GEOS 3.11.0, GDAL 3.5.3, PROJ 9.1.0; sf_use_s2() is TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'maps'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:purrr':
+
+    map</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmap)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">register_google</span>(<span class="at">key =</span> <span class="st">'AIzaSyCt0sZ-6YYL1V_VUw5PwA9jDOaexJR7r_Q'</span>, <span class="at">write =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ Replacing old key (AIzaSyCt0sZ) with new key in /Users/dingjiatong/.Renviron</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">register_stadiamaps</span>(<span class="at">key =</span> <span class="st">'AIzaSyCt0sZ-6YYL1V_VUw5PwA9jDOaexJR7r_Q'</span>, <span class="at">write =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ Replacing old key (AIzaSyCt0sZ) with new key in /Users/dingjiatong/.Renviron</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggsci)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>ds <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(Latitude <span class="sc">&gt;</span> <span class="dv">30</span>, Longitude <span class="sc">&lt;</span> <span class="sc">-</span><span class="dv">40</span>) <span class="ot">-&gt;</span> ds</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>bbox <span class="ot">&lt;-</span> <span class="fu">make_bbox</span>(<span class="at">lon =</span> Longitude, <span class="at">lat =</span> Latitude, <span class="at">data =</span> ds, <span class="at">f =</span> <span class="fl">0.1</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">get_map</span>(bbox)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>! Bounding box given to Google - spatial extent only approximate.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>ℹ &lt;https://maps.googleapis.com/maps/api/staticmap?center=40.706176,-73.97741&amp;zoom=11&amp;size=640x640&amp;scale=2&amp;maptype=terrain&amp;language=en-EN&amp;key=xxx-6YYL1V_VUw5PwA9jDOaexJR7r_Q&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggmap</span>(a)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="UntitledQMD_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>ds <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Longitude, Latitude) <span class="sc">|&gt;</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">name =</span> <span class="st">'n'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">G =</span> <span class="fu">cut</span>(n, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">2985</span>),</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">'&lt;3'</span>, <span class="st">'3~5'</span>, <span class="st">'5~10'</span>, <span class="st">'&gt;10'</span>), </span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">include.lowest =</span> T))<span class="ot">-&gt;</span> ds_res</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="co"># df_map &lt;- map_data("county", region = "new york")</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="co"># head(df_map)</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggmap</span>(a) <span class="sc">+</span></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> ds_res, <span class="fu">aes</span>(<span class="at">x =</span> Longitude, <span class="at">y =</span> Latitude, <span class="at">col =</span> G),</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">range</span>(ds<span class="sc">$</span>Longitude)) <span class="sc">+</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">range</span>(ds<span class="sc">$</span>Latitude))  <span class="sc">+</span></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Longitude'</span>, <span class="at">y =</span> <span class="st">'Latitude'</span>, <span class="at">col =</span> <span class="st">''</span>) <span class="sc">+</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">'seagreen'</span>, <span class="st">'blue'</span>, <span class="st">'orange'</span>, <span class="st">'tomato'</span>)) <span class="sc">+</span></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_map</span>() <span class="sc">+</span> </span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'top'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.
+Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="UntitledQMD_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(ds<span class="sc">$</span>Longitude)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -74.25422 -73.70060</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(ds<span class="sc">$</span>Latitude)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 40.49939 40.91296</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>ds <span class="sc">|&gt;</span> <span class="fu">group_by</span>(OFNS_DESC) <span class="sc">|&gt;</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">name =</span> <span class="st">'n'</span>) <span class="sc">|&gt;</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(n)) <span class="sc">|&gt;</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+# Groups:   OFNS_DESC [6]
+  OFNS_DESC                          n
+  &lt;chr&gt;                          &lt;int&gt;
+1 ASSAULT 3 &amp; RELATED OFFENSES   64409
+2 PETIT LARCENY                  44507
+3 FELONY ASSAULT                 39974
+4 MISCELLANEOUS PENAL LAW        27372
+5 DANGEROUS DRUGS                26346
+6 CRIMINAL MISCHIEF &amp; RELATED OF 21161</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co">#  ASSAULT 3 &amp; RELATED OFFENSES</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>ds <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(OFNS_DESC <span class="sc">==</span> <span class="st">'ASSAULT 3 &amp; RELATED OFFENSES'</span>) <span class="sc">|&gt;</span></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Longitude, Latitude) <span class="sc">|&gt;</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">name =</span> <span class="st">'n'</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">G =</span> <span class="fu">cut</span>(n, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">592</span>),</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">'1'</span>, <span class="st">'2'</span>, <span class="st">'3'</span>, <span class="st">'&gt;3'</span>), </span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">include.lowest =</span> T)) <span class="ot">-&gt;</span> df_res1</span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggmap</span>(a) <span class="sc">+</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_map</span>() <span class="sc">+</span></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df_res1, <span class="fu">aes</span>(<span class="at">x =</span> Longitude, <span class="at">y =</span> Latitude, <span class="at">col =</span> G),</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">range</span>(ds<span class="sc">$</span>Longitude)) <span class="sc">+</span></span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">range</span>(ds<span class="sc">$</span>Latitude))  <span class="sc">+</span></span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Longitude'</span>, <span class="at">y =</span> <span class="st">'Latitude'</span>, <span class="at">col =</span> <span class="st">''</span>, <span class="at">title =</span> <span class="st">'ASSAULT 3 &amp; RELATED OFFENSES'</span>) <span class="sc">+</span></span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">'seagreen'</span>, <span class="st">'blue'</span>, <span class="st">'orange'</span>, <span class="st">'tomato'</span>)) <span class="sc">+</span></span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'top'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="UntitledQMD_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># PETIT LARCENY</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>ds <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(OFNS_DESC <span class="sc">==</span> <span class="st">'PETIT LARCENY'</span>) <span class="sc">|&gt;</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Longitude, Latitude) <span class="sc">|&gt;</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">name =</span> <span class="st">'n'</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">G =</span> <span class="fu">cut</span>(n, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1523</span>),</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">'1'</span>, <span class="st">'2'</span>, <span class="st">'3'</span>, <span class="st">'&gt;3'</span>), </span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">include.lowest =</span> T)) <span class="ot">-&gt;</span> df_res2</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggmap</span>(a) <span class="sc">+</span></span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_map</span>() <span class="sc">+</span></span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df_res2, <span class="fu">aes</span>(<span class="at">x =</span> Longitude, <span class="at">y =</span> Latitude, <span class="at">col =</span> G),</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">range</span>(ds<span class="sc">$</span>Longitude)) <span class="sc">+</span></span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">range</span>(ds<span class="sc">$</span>Latitude))  <span class="sc">+</span></span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Longitude'</span>, <span class="at">y =</span> <span class="st">'Latitude'</span>, <span class="at">col =</span> <span class="st">''</span>, <span class="at">title =</span> <span class="st">'PETIT LARCENY'</span>) <span class="sc">+</span></span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">'seagreen'</span>, <span class="st">'blue'</span>, <span class="st">'orange'</span>, <span class="st">'tomato'</span>)) <span class="sc">+</span></span>
+<span id="cb43-17"><a href="#cb43-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'top'</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="UntitledQMD_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>ds <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">filter</span>(OFNS_DESC <span class="sc">==</span> <span class="st">'FELONY ASSAULT'</span>) <span class="sc">|&gt;</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Longitude, Latitude) <span class="sc">|&gt;</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">name =</span> <span class="st">'n'</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">G =</span> <span class="fu">cut</span>(n, <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">511</span>),</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">'1'</span>, <span class="st">'2'</span>, <span class="st">'3'</span>, <span class="st">'&gt;3'</span>), </span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">include.lowest =</span> T)) <span class="ot">-&gt;</span> df_res3</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggmap</span>(a) <span class="sc">+</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_map</span>() <span class="sc">+</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> df_res3, <span class="fu">aes</span>(<span class="at">x =</span> Longitude, <span class="at">y =</span> Latitude, <span class="at">col =</span> G),</span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">range</span>(ds<span class="sc">$</span>Longitude)) <span class="sc">+</span></span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">range</span>(ds<span class="sc">$</span>Latitude))  <span class="sc">+</span></span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">'Longitude'</span>, <span class="at">y =</span> <span class="st">'Latitude'</span>, <span class="at">col =</span> <span class="st">''</span>, <span class="at">title =</span> <span class="st">'FELONY ASSAULT'</span>) <span class="sc">+</span></span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">'seagreen'</span>, <span class="st">'blue'</span>, <span class="st">'orange'</span>, <span class="st">'tomato'</span>)) <span class="sc">+</span></span>
+<span id="cb45-16"><a href="#cb45-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'top'</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Coordinate system already present. Adding new coordinate system, which will
+replace the existing one.
+Scale for x is already present.
+Adding another scale for x, which will replace the existing scale.
+Scale for y is already present.
+Adding another scale for y, which will replace the existing scale.</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="UntitledQMD_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 

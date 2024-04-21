@@ -198,22 +198,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"dataset/load_and_clean_data.rds"</span>) </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>ds </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 411,745 × 13
-   ARREST_DATE PD_DESC   OFNS_DESC LAW_CAT_CD ARREST_PRECINCT AGE_GROUP PERP_SEX
-   &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;                &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;   
- 1 01/03/2023  ROBBERY,… ROBBERY   F                       49 18-24     M       
- 2 01/03/2023  STRANGUL… FELONY A… F                      120 25-44     M       
- 3 01/04/2023  ROBBERY,… ROBBERY   F                       61 &lt;18       M       
- 4 01/04/2023  STRANGUL… FELONY A… F                      114 18-24     M       
- 5 01/05/2023  BURGLARY… BURGLARY  F                       44 25-44     F       
- 6 01/08/2023  ASSAULT … FELONY A… F                       76 25-44     M       
- 7 01/09/2023  ARSON 2,… ARSON     F                       49 25-44     M       
- 8 01/14/2023  ASSAULT … FELONY A… F                       90 25-44     M       
- 9 01/14/2023  ARSON 2,… ARSON     F                       63 25-44     M       
-10 02/03/2023  STRANGUL… FELONY A… F                       34 25-44     M       
+<pre><code># A tibble: 411,745 × 14
+   ARREST_DATE PD_DESC          OFNS_DESC LAW_CAT_CD ARREST_BORO ARREST_PRECINCT
+   &lt;chr&gt;       &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;                 &lt;dbl&gt;
+ 1 01/03/2023  ROBBERY,OPEN AR… ROBBERY   F          B                        49
+ 2 01/03/2023  STRANGULATION 1… FELONY A… F          S                       120
+ 3 01/04/2023  ROBBERY,OPEN AR… ROBBERY   F          K                        61
+ 4 01/04/2023  STRANGULATION 1… FELONY A… F          Q                       114
+ 5 01/05/2023  BURGLARY,UNCLAS… BURGLARY  F          B                        44
+ 6 01/08/2023  ASSAULT 2,1,UNC… FELONY A… F          K                        76
+ 7 01/09/2023  ARSON 2,3,4      ARSON     F          B                        49
+ 8 01/14/2023  ASSAULT 2,1,UNC… FELONY A… F          K                        90
+ 9 01/14/2023  ARSON 2,3,4      ARSON     F          K                        63
+10 02/03/2023  STRANGULATION 1… FELONY A… F          M                        34
 # ℹ 411,735 more rows
-# ℹ 6 more variables: PERP_RACE &lt;chr&gt;, X_COORD_CD &lt;dbl&gt;, Y_COORD_CD &lt;dbl&gt;,
-#   Latitude &lt;dbl&gt;, Longitude &lt;dbl&gt;, `New Georeferenced Column` &lt;chr&gt;</code></pre>
+# ℹ 8 more variables: AGE_GROUP &lt;chr&gt;, PERP_SEX &lt;chr&gt;, PERP_RACE &lt;chr&gt;,
+#   X_COORD_CD &lt;dbl&gt;, Y_COORD_CD &lt;dbl&gt;, Latitude &lt;dbl&gt;, Longitude &lt;dbl&gt;,
+#   `New Georeferenced Column` &lt;chr&gt;</code></pre>
 </div>
 </div>
 <div class="cell">
