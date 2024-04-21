@@ -17,6 +17,8 @@ library(kableExtra)
 library(ggcorrplot)
 library(ggmap)
 library(leaflet)
+
+ds <- read_rds("dataset/load_and_clean_data.rds") 
 ```
 
 
@@ -54,7 +56,7 @@ print(category_details)
 
 ```{r echo=F}
 library(knitr)
-variables_df <- data.frame(
+variables_df<- data.frame(
   Variable = c("ARREST_DATE",  "PD_DESC",  "OFNS_DESC", "LAW_CAT_CD", 
               "ARREST_PRECINCT","AGE_GROUP", "PERP_SEX", "PERP_RACE", 
                "X_COORD_CD", "Y_COORD_CD", "Latitude", "Longitude", "Lon_Lat"),
