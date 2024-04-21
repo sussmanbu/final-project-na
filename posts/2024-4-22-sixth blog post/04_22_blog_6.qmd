@@ -2,7 +2,7 @@
 title: "6th Blog Post"
 subtitle: ""
 author: "TEAM 14"
-date: "2024-04-15"
+date: "2024-04-22"
 draft: false
 ---
 
@@ -199,10 +199,11 @@ plot_2023fa <- ggmap(a) +
   theme(legend.position = 'top')
 ```
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r echo=FALSE, message=FALSE, warning= FALSE}
 combined_plot_3 <- plot_2022fa + plot_2023fa
 combined_plot_3
 ```
+
 It has some increase 
 
 
