@@ -25,27 +25,26 @@ ds |> dplyr::filter(Latitude > 30, Longitude < -40) -> ds
 bbox <- make_bbox(lon = Longitude, lat = Latitude, data = ds, f = 0.1)
 a <- get_map(bbox)
 ggmap(a)
+
+ds <- ds |> mutate(ARREST_DATE =mdy(ARREST_DATE))
 ```
 
-```{r}
-```
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 #2022 ASSAULT 3
-ds <- ds |> mutate(ARREST_DATE = mdy(ARREST_DATE))
-ds_2022 <- ds |> 
-  filter(OFNS_DESC == 'ASSAULT 3 & RELATED OFFENSES',
-         ARREST_DATE >= as.Date("2022-01-01") & ARREST_DATE <= as.Date("2022-12-31"))
-df_res22 <- ds_2022 |>
+
+ds |> dplyr::filter(OFNS_DESC == 'ASSAULT 3 & RELATED OFFENSES',
+                    ARREST_DATE >= as.Date("2022-01-01") & ARREST_DATE <= as.Date("2022-12-31"))|>
   group_by(Longitude, Latitude) |>
   count(name = 'n') |> 
-  mutate(G = cut(n, breaks = c(0, 1, 2, 3, 592),
+  mutate(G = cut(n, breaks = c(0, 1, 2, 3, 1523),
                  labels = c('1', '2', '3', '>3'), 
-                 include.lowest = TRUE))
+                 include.lowest = T)) -> df_22as
+
 plot_2022as<- ggmap(a) +
-  geom_point(data = df_res22, aes(x = Longitude, y = Latitude, color = G),
-             alpha = 1, size = 0.5) +
+  geom_point(data = df_22as, aes(x = Longitude, y = Latitude, color = G),
+             alpha = 0.5, size = 0.5) +
   labs(x = 'Longitude', y = 'Latitude', color = '', title = 'ASSAULT 3 2022') +
   scale_color_manual(values = c('seagreen', 'blue', 'orange', 'tomato')) +
   theme(legend.position = 'top')
@@ -55,21 +54,21 @@ plot_2022as<- ggmap(a) +
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 # 2023 ASSAULT 3
-ds_2023 <- ds |> 
-  filter(OFNS_DESC == 'ASSAULT 3 & RELATED OFFENSES')
-df_res1 <- ds_2023 |>
+
+ds |> dplyr::filter(OFNS_DESC == 'ASSAULT 3 & RELATED OFFENSES',
+                    ARREST_DATE >= as.Date("2023-01-01") & ARREST_DATE <=  as.Date("2023-12-31"))|>
   group_by(Longitude, Latitude) |>
   count(name = 'n') |> 
-  mutate(G = cut(n, breaks = c(0, 1, 2, 3, 592),
+  mutate(G = cut(n, breaks = c(0, 1, 2, 3, 1523),
                  labels = c('1', '2', '3', '>3'), 
-                 include.lowest = TRUE))
+                 include.lowest = T)) -> df_23as
 
 plot_2023as <- ggmap(a) +
-  geom_point(data = df_res1, aes(x = Longitude, y = Latitude, color = G),
-             alpha = 1, size = 0.5) +
+  geom_point(data = df_23as, aes(x = Longitude, y = Latitude, color = G),
+             alpha = 0.5, size = 0.5) +
   labs(x = 'Longitude', y = 'Latitude', color = '', title = 'ASSAULT 3 2023') +
   scale_color_manual(values = c('seagreen', 'blue', 'orange', 'tomato')) +
-  theme(legend.position = 'top')+theme_classic()
+  theme(legend.position = 'top')
 
 ```
 
@@ -77,48 +76,90 @@ plot_2023as <- ggmap(a) +
 combined_plot <- plot_2022as + plot_2023as
 combined_plot
 ```
-
-```{r echo =FALSE}
-# PETIT LARCENY
-ds |> dplyr::filter(OFNS_DESC == 'PETIT LARCENY') |>
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# PETIT LARCENY 2022
+ds |> dplyr::filter(OFNS_DESC == 'PETIT LARCENY',
+                    ARREST_DATE >= as.Date("2022-01-01") & 
+                    ARREST_DATE <=    as.Date("2022-12-31"))|>
   group_by(Longitude, Latitude) |>
   count(name = 'n') |> 
   mutate(G = cut(n, breaks = c(0, 1, 2, 3, 1523),
                  labels = c('1', '2', '3', '>3'), 
-                 include.lowest = T)) -> df_res2
+                 include.lowest = T)) -> df_res_pt22
 
-ggmap(a) +
-  coord_map() +
-  geom_point(data = df_res2, aes(x = Longitude, y = Latitude, col = G),
+plot_2022pt <- ggmap(a) +
+  geom_point(data = df_res_pt22, aes(x = Longitude, y = Latitude, color = G),
              alpha = 0.5, size = 0.5) +
-  scale_x_continuous(limits = range(ds$Longitude)) +
-  scale_y_continuous(limits = range(ds$Latitude))  +
-  labs(x = 'Longitude', y = 'Latitude', col = '', title = 'PETIT LARCENY') +
+  labs(x = 'Longitude', y = 'Latitude', color = '', title = 'PETIT LARCENY 2022') +
   scale_color_manual(values = c('seagreen', 'blue', 'orange', 'tomato')) +
-  theme(legend.position = 'top') 
+  theme(legend.position = 'top')
 ```
 
-```{r echo=FALSE}
-ds |> dplyr::filter(OFNS_DESC == 'FELONY ASSAULT') |>
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# PETIT LARCENY 2023
+ds |> dplyr::filter(OFNS_DESC == 'PETIT LARCENY',
+                    ARREST_DATE >= as.Date("2023-01-01") & ARREST_DATE <= as.Date("2023-12-31"))|>
+  group_by(Longitude, Latitude) |>
+  count(name = 'n') |> 
+  mutate(G = cut(n, breaks = c(0, 1, 2, 3, 1523),
+                 labels = c('1', '2', '3', '>3'), 
+                 include.lowest = T)) -> df_res_pt23
+
+plot_2023pt <- ggmap(a) +
+  geom_point(data = df_res_pt23, aes(x = Longitude, y = Latitude, color = G),
+             alpha = 0.5, size = 0.5) +
+  labs(x = 'Longitude', y = 'Latitude', color = '', title = 'PETIT LARCENY 2023') +
+  scale_color_manual(values = c('seagreen', 'blue', 'orange', 'tomato')) +
+  theme(legend.position = 'top')
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+combined_plot_2 <- plot_2022pt + plot_2023pt
+combined_plot_2
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#2022 FA
+ds |> dplyr::filter(OFNS_DESC == 'FELONY ASSAULT',
+                    ARREST_DATE >= as.Date("2022-01-01") & ARREST_DATE <= as.Date("2022-12-31")) |>
   group_by(Longitude, Latitude) |>
   count(name = 'n') |> 
   mutate(G = cut(n, breaks = c(0, 1, 2, 3, 511),
                  labels = c('1', '2', '3', '>3'), 
-                 include.lowest = T)) -> df_res3
+                 include.lowest = T)) -> df_fa22
 
-ggmap(a) +
-  coord_map() +
-  geom_point(data = df_res3, aes(x = Longitude, y = Latitude, col = G),
+plot_2022fa <- ggmap(a) +
+  geom_point(data = df_fa22, aes(x = Longitude, y = Latitude, color = G),
              alpha = 0.5, size = 0.5) +
-  scale_x_continuous(limits = range(ds$Longitude)) +
-  scale_y_continuous(limits = range(ds$Latitude))  +
-  labs(x = 'Longitude', y = 'Latitude', col = '', title = 'FELONY ASSAULT') +
+  labs(x = 'Longitude', y = 'Latitude', color = '', title = 'FELONY ASSAULT 2022') +
   scale_color_manual(values = c('seagreen', 'blue', 'orange', 'tomato')) +
-  theme(legend.position = 'top') 
+  theme(legend.position = 'top')
 ```
 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+#2023 FA
+ds |> dplyr::filter(OFNS_DESC == 'FELONY ASSAULT',
+                    ARREST_DATE >= as.Date("2023-01-01") & ARREST_DATE <= as.Date("2023-12-31")) |>
+  group_by(Longitude, Latitude) |>
+  count(name = 'n') |> 
+  mutate(G = cut(n, breaks = c(0, 1, 2, 3, 511),
+                 labels = c('1', '2', '3', '>3'), 
+                 include.lowest = T)) -> df_fa23
+
+plot_2023fa <- ggmap(a) +
+  geom_point(data = df_fa23, aes(x = Longitude, y = Latitude, color = G),
+             alpha = 0.5, size = 0.5) +
+  labs(x = 'Longitude', y = 'Latitude', color = '', title = 'FELONY ASSAULT 2023') +
+  scale_color_manual(values = c('seagreen', 'blue', 'orange', 'tomato')) +
+  theme(legend.position = 'top')
+```
+
+```{recho=FALSE, message=FALSE, warning=FALSE}
+combined_plot_3 <- plot_2022fa + plot_2023fa
+combined_plot_3
+```
 
 
 What is your tentative thesis? Note that a thesis is not a hypothesis or a question. It should in some ways answer a question. (Eg. rather than, "What are the patterns of housing prices in Boston?", something like, "Housing prices in Boston are rising rapidly, especially near T stations and along the water.") The rest of the project should work to support that thesis. That doesn’t mean there won’t be any caveats or uncertainty, but you should try to accurately  provide details that provide evidence for your thesis.
 
-Thesis:
+Thesis: the Crime rate of 
