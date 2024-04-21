@@ -102,39 +102,6 @@ ggplot(crime_counts_by_month, aes(x = Month, y = Monthly_Crime_Count)) +
 
 It shows the number of crime incidents for each month of the year. The vertical axis indicates the number of crime incidents, ranging from 0 to above 20,000. The bar chart shows a trend of increase in crime from 2022 to 2023.
 
-```{r}
-
-# Convert ARREST_DATE to Date format if not already
-ds <- ds |> mutate(ARREST_DATE = mdy(ARREST_DATE))
-
-# Filter for 'ASSAULT 3 & RELATED OFFENSES' in 2022
-ds_2022_assault <- ds |>
-  filter(OFNS_DESC == 'ASSAULT 3 & RELATED OFFENSES', year(ARREST_DATE) == 2022)
-
-# Count the number of 'ASSAULT 3 & RELATED OFFENSES' cases in 2022
-count_2022 <- nrow(ds_2022_assault)
-
-# Filter for 'ASSAULT 3 & RELATED OFFENSES' in 2023
-ds_2023_assault <- ds |>
-  filter(OFNS_DESC == 'ASSAULT 3 & RELATED OFFENSES', year(ARREST_DATE) == 2023)
-
-# Count the number of 'ASSAULT 3 & RELATED OFFENSES' cases in 2023
-count_2023 <- nrow(ds_2023_assault)
-
-# Combine the counts into a new data frame for plotting
-counts_df <- data.frame(
-  Year = c("2022", "2023"),
-  Count = c(count_2022, count_2023)
-)
-
-# Plot the double bar chart
-ggplot(counts_df, aes(x = Year, y = Count, fill = Year)) +
-  geom_bar(stat = "identity", position = position_dodge()) +
-  labs(title = "Count of ASSAULT 3 & RELATED OFFENSES in 2022 and 2023",
-       x = "Year",
-       y = "Count of Assaults") +
-  theme_minimal()
-```
 
 ```{r echo=FALSE}
 # Group by OFNS_DESC and summarize the count
