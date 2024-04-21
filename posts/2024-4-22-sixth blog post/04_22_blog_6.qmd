@@ -119,8 +119,6 @@ combined_plot_season <- plot_2023ass + plot_2023asf
 combined_plot_season
 ```
 
-
-
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 # PETIT LARCENY 2022
 ds |> dplyr::filter(OFNS_DESC == 'PETIT LARCENY',
