@@ -126,7 +126,7 @@ assault_3_counts <- assault_3_data %>%
        fill = "Year")
 
 ```
-```{r}
+```{r echo=FALSE}
 combine_plot_crime<-plot_count+plota3+plotfa+plotpl+
    plot_layout(nrow = 2, ncol = 2)
 combine_plot_crime
@@ -192,7 +192,7 @@ plotgender_23<- ggplot(season_gender_counts23, aes(x = Season, y = Count, fill =
 ```
 
 
-```{r}
+```{r echo=FALSE}
 combined_plot_gender <-plotgender_22+plotgender_23
 combined_plot_gender& theme_minimal() & scale_color_brewer(palette = "Set1")
 
