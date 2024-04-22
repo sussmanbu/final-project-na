@@ -1,5 +1,5 @@
 ---
-title: "6th Blog Post"
+title: "Sixth Blog Post"
 subtitle: ""
 author: "TEAM 14"
 date: "2024-04-22"

@@ -1,5 +1,5 @@
 ---
-title: "7th Blog Post"
+title: "Seventh Blog Post"
 subtitle: ""
 author: "TEAM 14"
 date: "2024-04-29"
@@ -48,8 +48,7 @@ plot_count<-ggplot(season_counts, aes(x = Season, y = Count, fill = Year)) +
   geom_bar(stat = "identity", position = position_dodge(width = 0.7)) +
   scale_fill_manual(values = c("2022" = "steelblue", "2023" = "lightgreen")) +
   theme_minimal() +
-  labs(title = "Crime Counts per Season", 
-       subtitle = "Comparison between 2022 and 2023", 
+  labs(title = "Total Crime Counts per Season", 
        x = "Season", 
        y = "Number of Incidents",
        fill = "Year") 
@@ -72,8 +71,7 @@ plotfa<- ggplot(season_felony_count, aes(x = Season, y = Count, fill = Year)) +
   geom_bar(stat = "identity", position = position_dodge(width = 0.7)) +
   scale_fill_manual(values = c("2022" = "steelblue", "2023" = "lightgreen")) +
   theme_minimal() +
-  labs(title = "Felony Assault Incidents per Season", 
-       subtitle = "Comparison between 2022 and 2023", 
+  labs(title = "Felony Assault", 
        x = "Season", 
        y = "Number of Incidents",
        fill = "Year")
@@ -96,8 +94,7 @@ plotpl<- ggplot(petit_larceny_counts, aes(x = Season, y = Count, fill = Year)) +
   geom_bar(stat = "identity", position = position_dodge(width = 0.7)) +
   scale_fill_manual(values = c("2022" = "steelblue", "2023" = "lightgreen")) +
   theme_minimal() +
-  labs(title = "Petit Larceny Incidents per Season", 
-       subtitle = "Comparison between 2022 and 2023", 
+  labs(title = "Petit Larceny", 
        x = "Season", 
        y = "Number of Incidents",
        fill = "Year")
@@ -119,8 +116,7 @@ assault_3_counts <- assault_3_data %>%
   geom_bar(stat = "identity", position = position_dodge(width = 0.7)) +
   scale_fill_manual(values = c("2022" = "steelblue", "2023" = "lightgreen")) +
   theme_minimal() +
-  labs(title = "Assault 3 Incidents per Season", 
-       subtitle = "Comparison between 2022 and 2023", 
+  labs(title = "Assault 3 ", 
        x = "Season", 
        y = "Number of Incidents",
        fill = "Year")
@@ -134,7 +130,7 @@ combine_plot_crime
 
 
 
-```{r}
+```{r echo=FALSE}
 #2022 female vs male 
 get_season <- function(date) {
   month <- month(date)
@@ -163,7 +159,7 @@ plotgender_22<- ggplot(season_gender_counts22, aes(x = Season, y = Count, fill =
   geom_bar(stat = "identity", position = position_dodge(width = 0.7)) +
   scale_fill_manual(values = c("F" = "#f28e9b", "M" = "#8eaaf2")) +
   theme_minimal() +
-  labs(title = "Gender Incident Counts per Season for 2022", 
+  labs(title = "2022", 
        x = "Season", 
        y = "Number of Incidents",
        fill = "Gender")
@@ -185,7 +181,7 @@ plotgender_23<- ggplot(season_gender_counts23, aes(x = Season, y = Count, fill =
   geom_bar(stat = "identity", position = position_dodge(width = 0.7)) +
   scale_fill_manual(values = c("F" = "#ff9999", "M" = "#9999ff", "U" = "#ffff66")) +
   theme_light() +
-  labs(title = "2023 Incident Counts by Gender and Season",
+  labs(title = "2023",
        x = "Season",
        y = "Count",
        fill = "Gender")
@@ -194,7 +190,8 @@ plotgender_23<- ggplot(season_gender_counts23, aes(x = Season, y = Count, fill =
 
 ```{r echo=FALSE}
 combined_plot_gender <-plotgender_22+plotgender_23
-combined_plot_gender& theme_minimal() & scale_color_brewer(palette = "Set1")
+combined_plot_gender& theme_minimal() & scale_color_brewer(palette = "Set1")& plot_annotation(title = 'Gender Incident Counts per Season for 2022 and 2023',
+                  theme = theme(plot.title = element_text(hjust = 0.5)))
 
 ```
 
