@@ -7,7 +7,7 @@ draft: false
 ---
 
 
-```{r echo=F}
+```{r include=F}
 library(tidyverse)
 library(lubridate)
 library(patchwork)
@@ -128,6 +128,7 @@ combine_plot_crime<-plot_count+plota3+plotfa+plotpl+
 combine_plot_crime
 ```
 
+These 4 graphs shows the total crime counts per season and top 3 crime categories per seasons. It all shows a trend that the crime rate will be higher in Summer and Spring, then it will gradually go lower in Autumn and Winter in 2023. Notably, the total crime count for Summer 2022 diverges from this pattern, being lower than both Spring and Autumn, yet still higher than Winter. This data suggests a correlation between warmer weather and increased crime rates in New York City, indicating that incidents tend to escalate during warmer periods.
 
 
 ```{r echo=FALSE}

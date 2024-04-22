@@ -7,7 +7,7 @@ draft: false
 ---
 
 We imported the Google Maps api to create heat maps to analyze where the highest amount of crime is in NYC, and also broke down the distribution of the top three crime categories in NYC.
-```{r}
+```{r include=FALSE}
 library(dplyr)
 library(tidyverse) 
 library(ggplot2)

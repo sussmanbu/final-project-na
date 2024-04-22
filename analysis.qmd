@@ -100,7 +100,7 @@ ggplot(crime_counts_by_month, aes(x = Month, y = Monthly_Crime_Count)) +
   theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) 
 ```
 
-It shows the number of crime incidents for each month of the year. The vertical axis indicates the number of crime incidents, ranging from 0 to above 20,000. The bar chart shows a trend of increase in crime from 2022 to 2023.
+The chart illustrates monthly crime incident counts throughout the year, with the vertical axis quantifying the incidents from zero to over 20,000. A year-over-year upward trend is observed, with the data indicating an increase in crime from 2022 to 2023. Specifically, in 2022, the incidents progressively climb from January, peaking in June, before commencing a downward trajectory from September through December. Conversely, in 2023, the pattern shows a steady surge in incidents starting January, reaching its peak in May, followed by a gradual decline towards December.
 
 
 ```{r echo=FALSE}
