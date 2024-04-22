@@ -1,0 +1,200 @@
+---
+title: "7th Blog Post"
+subtitle: ""
+author: "TEAM 14"
+date: "2024-04-29"
+draft: false
+---
+
+
+```{r echo=F}
+library(tidyverse)
+library(lubridate)
+library(patchwork)
+data <- read_rds("dataset/load_and_clean_data.rds")
+data$ARREST_DATE <- as.Date(data$ARREST_DATE, "%m/%d/%Y")
+```
+
+```{r echo=FALSE}
+get_season <- function(date) {
+  month <- month(date)
+  year <- year(date)
+  if (month %in% c(12, 1, 2)) {
+    season <- "Winter"
+  } else if (month %in% c(3, 4, 5)) {
+    season <- "Spring"
+  } else if (month %in% c(6, 7, 8)) {
+    season <- "Summer"
+  } else {
+    season <- "Autumn"
+  }
+  paste(season, year)
+}
+```
+
+```{r echo=F}
+#cumulative counts 
+data$Season <- sapply(data$ARREST_DATE, get_season)
+data_filtered <- filter(data, year(ARREST_DATE) %in% c(2022, 2023))
+
+season_counts <- data_filtered %>%
+  group_by(Season) %>%
+  summarise(Count = n()) %>%
+  mutate(Year = substr(Season, 8, 11)) %>%
+  mutate(Season = factor(substr(Season, 1, 6), levels = c("Spring", "Summer", "Autumn","Winter"))) %>%
+  arrange(Season)
+
+plot_count<-ggplot(season_counts, aes(x = Season, y = Count, fill = Year)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.7)) +
+  scale_fill_manual(values = c("2022" = "steelblue", "2023" = "lightgreen")) +
+  theme_minimal() +
+  labs(title = "Crime Counts per Season", 
+       subtitle = "Comparison between 2022 and 2023", 
+       x = "Season", 
+       y = "Number of Incidents",
+       fill = "Year") 
+
+```
+
+```{r echo=FALSE}
+#felcony
+data$Season <- sapply(data$ARREST_DATE, get_season)
+felony_assault_data <- filter(data, OFNS_DESC == "FELONY ASSAULT", year(ARREST_DATE) %in% c(2022, 2023))
+
+season_felony_count <- felony_assault_data %>%
+  group_by(Season) %>%
+  summarise(Count = n())%>%
+  mutate(Year = substr(Season, 8, 11)) %>%
+  mutate(Season = factor(substr(Season, 1, 6), levels = c("Spring", "Summer", "Autumn","Winter"))) %>%
+  arrange(Season)
+  
+plotfa<- ggplot(season_felony_count, aes(x = Season, y = Count, fill = Year)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.7)) +
+  scale_fill_manual(values = c("2022" = "steelblue", "2023" = "lightgreen")) +
+  theme_minimal() +
+  labs(title = "Felony Assault Incidents per Season", 
+       subtitle = "Comparison between 2022 and 2023", 
+       x = "Season", 
+       y = "Number of Incidents",
+       fill = "Year")
+
+```
+
+```{r echo=F}
+#petit larceny
+data$Season <- sapply(data$ARREST_DATE, get_season)
+petit_larceny_data <- filter(data, OFNS_DESC == "PETIT LARCENY", year(ARREST_DATE) %in% c(2022, 2023))
+
+petit_larceny_counts <- petit_larceny_data %>%
+  group_by(Season) %>%
+  summarise(Count = n()) %>%
+  mutate(Year = substr(Season, 8, 11)) %>%
+  mutate(Season = factor(substr(Season, 1, 6), levels = c("Spring", "Summer", "Autumn", "Winter"))) %>%
+  arrange(Season)
+
+plotpl<- ggplot(petit_larceny_counts, aes(x = Season, y = Count, fill = Year)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.7)) +
+  scale_fill_manual(values = c("2022" = "steelblue", "2023" = "lightgreen")) +
+  theme_minimal() +
+  labs(title = "Petit Larceny Incidents per Season", 
+       subtitle = "Comparison between 2022 and 2023", 
+       x = "Season", 
+       y = "Number of Incidents",
+       fill = "Year")
+```
+
+```{r echo=F}
+# assault 3
+data$Season <- sapply(data$ARREST_DATE, get_season)
+assault_3_data <- filter(data, OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES", year(ARREST_DATE) %in% c(2022, 2023))
+
+assault_3_counts <- assault_3_data %>%
+  group_by(Season) %>%
+  summarise(Count = n()) %>%
+  mutate(Year = substr(Season, 8, 11)) %>%
+  mutate(Season = factor(substr(Season, 1, 6), levels = c("Spring", "Summer", "Autumn", "Winter"))) %>%
+  arrange(Season)
+
+ plota3<- ggplot(assault_3_counts, aes(x = Season, y = Count, fill = Year)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.7)) +
+  scale_fill_manual(values = c("2022" = "steelblue", "2023" = "lightgreen")) +
+  theme_minimal() +
+  labs(title = "Assault 3 Incidents per Season", 
+       subtitle = "Comparison between 2022 and 2023", 
+       x = "Season", 
+       y = "Number of Incidents",
+       fill = "Year")
+
+```
+```{r}
+combine_plot_crime<-plot_count+plota3+plotfa+plotpl+
+   plot_layout(nrow = 2, ncol = 2)
+combine_plot_crime
+```
+
+
+
+```{r}
+#2022 female vs male 
+get_season <- function(date) {
+  month <- month(date)
+  if (month %in% c(12, 1, 2)) {
+    season <- "Winter"
+  } else if (month %in% c(3, 4, 5)) {
+    season <- "Spring"
+  } else if (month %in% c(6, 7, 8)) {
+    season <- "Summer"
+  } else {
+    season <- "Autumn"
+  }
+  return(season)
+}
+
+
+data$Season <- sapply(data$ARREST_DATE, get_season)
+data_2022 <- filter(data, year(ARREST_DATE) == 2022)
+
+season_gender_counts22 <- data_2022 %>%
+  group_by(Season, PERP_SEX) %>%
+  summarise(Count = n(), .groups = 'drop') %>%
+  mutate(Season = factor(Season, levels = c("Spring", "Summer", "Autumn", "Winter")))
+
+plotgender_22<- ggplot(season_gender_counts22, aes(x = Season, y = Count, fill = PERP_SEX)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.7)) +
+  scale_fill_manual(values = c("F" = "#f28e9b", "M" = "#8eaaf2")) +
+  theme_minimal() +
+  labs(title = "Gender Incident Counts per Season for 2022", 
+       x = "Season", 
+       y = "Number of Incidents",
+       fill = "Gender")
+```
+
+```{r echo=F}
+#2023 female vs male 
+data$Season <- sapply(data$ARREST_DATE, get_season)
+data_2023 <- filter(data, year(ARREST_DATE) == 2023)
+
+season_gender_counts23 <- data_2023 %>%
+  group_by(Season, PERP_SEX) %>%
+  summarise(Count = n(), .groups = 'drop') %>%
+  mutate(Season = factor(Season, levels = c("Spring", "Summer", "Autumn", "Winter")))
+
+other_genders <- unique(season_gender_counts23$PERP_SEX)
+
+plotgender_23<- ggplot(season_gender_counts23, aes(x = Season, y = Count, fill = PERP_SEX)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.7)) +
+  scale_fill_manual(values = c("F" = "#ff9999", "M" = "#9999ff", "U" = "#ffff66")) +
+  theme_light() +
+  labs(title = "2023 Incident Counts by Gender and Season",
+       x = "Season",
+       y = "Count",
+       fill = "Gender")
+```
+
+
+```{r}
+combined_plot_gender <-plotgender_22+plotgender_23
+combined_plot_gender& theme_minimal() & scale_color_brewer(palette = "Set1")
+
+```
+
