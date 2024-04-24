@@ -17,6 +17,8 @@ library(ggcorrplot)
 library(ggmap)
 library(leaflet)
 library(patchwork)
+library(tigris)
+
 ds <- read_rds("dataset/load_and_clean_data.rds")
 ```
 
@@ -33,6 +35,9 @@ ds <- ds |> mutate(ARREST_DATE =mdy(ARREST_DATE))
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 #2022 ASSAULT 3
+
+
+
 
 ds |> dplyr::filter(OFNS_DESC == 'ASSAULT 3 & RELATED OFFENSES',
                     ARREST_DATE >= as.Date("2022-01-01") & ARREST_DATE <= as.Date("2022-12-31"))|>
@@ -77,7 +82,7 @@ combined_plot <- plot_2022as + plot_2023as
 combined_plot
 ```
 ```{r}
-# 2023 ASSAULT 3 S
+# 2023 ASSAULT 3 Sp
 
 ds |> dplyr::filter(OFNS_DESC == 'ASSAULT 3 & RELATED OFFENSES',
                     ARREST_DATE >= as.Date("2023-03-01") & ARREST_DATE <=  as.Date("2023-5-31"))|>
@@ -98,7 +103,7 @@ plot_2023ass <- ggmap(a) +
 #ASS 3 2023 F
 
 ds |> dplyr::filter(OFNS_DESC == 'ASSAULT 3 & RELATED OFFENSES',
-                    ARREST_DATE >= as.Date("2022-9-01") & ARREST_DATE <=  as.Date("2022-10-30"))|>
+                    ARREST_DATE >= as.Date("2023-9-01") & ARREST_DATE <=  as.Date("2023-11-30"))|>
   group_by(Longitude, Latitude) |>
   count(name = 'n') |> 
   mutate(G = cut(n, breaks = c(0, 1, 2, 3, 1523),
@@ -107,7 +112,7 @@ ds |> dplyr::filter(OFNS_DESC == 'ASSAULT 3 & RELATED OFFENSES',
 plot_2023asf<- ggmap(a) +
   geom_point(data = df_23asf, aes(x = Longitude, y = Latitude, color = G),
              alpha = 0.5, size = 0.5) +
-  labs(x = 'Longitude', y = 'Latitude', color = '', title = 'ASSAULT 3 2022f') +
+  labs(x = 'Longitude', y = 'Latitude', color = '', title = 'ASSAULT 3 2023f') +
   scale_color_manual(values = c('seagreen', 'blue', 'orange', 'tomato')) +
   theme(legend.position = 'top')
 
@@ -179,6 +184,8 @@ plot_2022fa <- ggmap(a) +
   theme(legend.position = 'top')
 ```
 
+
+
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 #2023 FA
 ds |> dplyr::filter(OFNS_DESC == 'FELONY ASSAULT',
@@ -189,7 +196,7 @@ ds |> dplyr::filter(OFNS_DESC == 'FELONY ASSAULT',
                  labels = c('1', '2', '3', '>3'), 
                  include.lowest = T)) -> df_fa23
 
-plot_2023fa <- ggmap(a) +
+plot_2023fa <- ggmap(a) + 
   geom_point(data = df_fa23, aes(x = Longitude, y = Latitude, color = G),
              alpha = 0.5, size = 0.5) +
   labs(x = 'Longitude', y = 'Latitude', color = '', title = 'FELONY ASSAULT 2023') +
@@ -202,7 +209,6 @@ combined_plot_3 <- plot_2022fa + plot_2023fa
 combined_plot_3
 ```
 
-It has some increase 
+We found that when season changes from summer to fall, the crime density gradually decreases.
 
-
-Thesis: the Crime rate of Assault 3 will increase as temperature rises in the New York City.
+Temporary Thesis: the Crime rate of Assault 3 will increase as temperature rises in the New York City.
