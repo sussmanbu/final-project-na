@@ -116,15 +116,15 @@ ds <- read_rds("dataset/load_and_clean_data.rds")
 
 ## Introduction
 
-Since we know that Level 3 Assault is the most common cases in the New
-York city, so we decide to locate our target on the Demographic factor
-and Environmental factor that would effect the incidents of Level 3
-Assault. Through this analysis, We could uncover correlations that
-inform targeted interventions, enhance policy-making, and improve
-resource allocation. By identifying specific risk factors related to
-demographics and environmental conditions, the analysis aims to guide
-more effective prevention strategies, optimize urban planning, and
-strengthen community engagement and support.
+From our data page, we know that the Level 3 Assault is the most common
+cases in the New York city, so we decide to locate our target on the
+Demographic factor and Environmental factor that would effect the
+incidents of Level 3 Assault. Through this analysis, We could uncover
+correlations that inform targeted interventions, enhance policy-making,
+and improve resource allocation. By identifying specific risk factors
+related to demographics and environmental conditions, the analysis aims
+to guide more effective prevention strategies, optimize urban planning,
+and strengthen community engagement and support.
 
 Our team will focus on the analysis of following variables in the
 dataset:
@@ -193,29 +193,6 @@ City's population.
 
 #Borough
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
-assault_3_over_time_monthly <- ds %>%
-  filter(grepl("ASSAULT 3 & RELATED OFFENSES", OFNS_DESC)) %>%
-  mutate(ARREST_DATE = ymd(ARREST_DATE), Month = floor_date(ARREST_DATE, "month")) %>%
-  group_by(Month, ARREST_BORO) %>%
-  summarize(Incident_Count = n(), .groups = 'drop') %>%
-  arrange(Month) %>%
-  # Rename boroughs by changing the factor levels
-  mutate(ARREST_BORO = factor(ARREST_BORO, 
-                              levels = c("B", "K", "M", "Q", "S"),
-                              labels = c("Bronx", "Brooklyn", "Manhattan", "Queens", "Staten Island")))
-
-# Plot the number of Assault 3 incidents over time by borough on a monthly basis
-ggplot(assault_3_over_time_monthly, aes(x = Month, y = Incident_Count, color = ARREST_BORO)) +
-  geom_line() +
-  theme_minimal() +
-  labs(x = 'Month', y = 'Number of Assault 3 Incidents', 
-       title = 'Monthly Assault 3 Incidents by Borough',
-       color = 'Borough') +  # This changes the legend title
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  scale_color_brewer(palette = "Set2")
-```
-
-```{r}
 library(ggplot2)
 library(dplyr)
 
@@ -237,7 +214,12 @@ ggplot(assault_3_by_borough, aes(x = ARREST_BORO, y = Incident_Count, fill = ARR
   scale_fill_brewer(palette = "Set1") +
   theme(legend.position = "none") 
 ```
+The graph presents a horizontal bar chart of Assault 3 incidents by borough in New York City, showing Bronx with the highest number of incidents followed by the Brooklyn, Queens, Manhattan, and Staten Island with the fewest. 
 
+In conclusion, by analyzing factors like region, age, and gender, we can establish a general distribution pattern for Level 3 Assault crimes. Subsequently, we will employ regression models to discern whether these factors are correlated with or causative of variations in crime rates. Now, we are moving to the EDA of environmental factors.
+
+
+#### 底下还没修改
 
 ```{r echo =F}
 crime_counts_by_day <- ds %>%
