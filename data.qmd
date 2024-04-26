@@ -9,28 +9,32 @@ draft: false
 
 ### Data source and reasons to collect it
 
-This two datasets comes from the NYPD website and is collected by the Office of Management Analysis and Planning of the New York City Police Department. These datasets provides a general overview of the nature of police enforcement activity in NYC by the NYPD to the public in 2022 and 2023.
+This datasets comes from the [NYC Opendata](https://data.cityofnewyork.us/Public-Safety/NYPD-Arrests-Data-Historic-/8h9b-rp9u/about_data) and is collected by the Office of Management Analysis and Planning of the New York City Police Department. This dataset provides a general overview of individuals arrested by the NYPD in 2023. 
 
 The NYPD's initiative to collect and disseminate data on crime rates and police enforcement activities is a multifaceted strategy aimed at enhancing public safety, ensuring transparency, and fostering community trust. This effort not only serves to keep the public informed about the safety of their neighborhoods but also aids the police department in strategic planning and efficient resource allocation. By analyzing crime trends, the NYPD can deploy resources more effectively, targeting areas with higher crime rates or specific types of criminal activities. Furthermore, making such data accessible supports policy making and evaluation, enabling lawmakers to craft and assess laws and policies with an eye toward crime reduction. Additionally, this transparency encourages community engagement and collaboration, as residents become more aware of the challenges their communities face and are thus more likely to work alongside the police to develop strategies for crime prevention. In sum, the NYPD's collection and sharing of this dataset are integral to its broader objectives of improving public safety, enhancing operational efficiency, and building a collaborative relationship with the communities it serves.
 
-[Sources1](https://data.cityofnewyork.us/w/uip8-fykc/25te-f2tw?cur=r4FZeyikcAn)
-[Sources2](https://catalog.data.gov/dataset/nypd-arrest-data-year-to-date)
 
 ### Issues on how the data was collected  
 
 The collection of NYPD Arrest Data raises several concerns regarding its collection and subsequent analysis. Reporting biases might result from inconsistencies in how incidents are documented across different precincts or by individual officers, affecting data uniformity and reliability. Human error in data entry could introduce inaccuracies, including misclassifications or incorrect demographic information, which could mislead analyses, particularly in trend or demographic studies.
 
-### Sample's population
-This sample population consists of individuals arrested by the NYPD, as recorded in this dataset for the year to date. It represents only the subset of the population that has been arrested and does not reflect the broader New York City population.
-
 ### Sample's biases
 There might be some biases in the sample. In the dataset, certain age groups are disproportionately represented.Over representation of the 25-44 age group and certain racial demographics suggests possible targeted enforcement or societal issues, which could bias data-driven analyses. Additionally, the dataset disproportionately represents certain demographics in terms of race.
 
-### The purpose and previous research about data
+### The purpose about the data
 
-This data can be used to inform policy decisions related to law enforcement practices, resource allocation, and community support programs. By analyzing patterns and trends in the data, policymakers can identify areas in need of intervention or reform. Moreover, researchers may examine the data to study crime trends, the effectiveness of policing strategies, and the impact of socio-economic factors on crime rates. Comparisons with previous years can reveal changes in crime patterns or the effectiveness of law enforcement policies. However, I didn’t find other research on the same data. Researchers, journalists, and policymakers have explored various questions using NYPD Arrest Data, such as: Are certain demographic groups disproportionately represented in arrest statistics? If so, what might be contributing to these disparities? Are there significant differences in arrest rates across different boroughs or neighborhoods, and what factors contribute to these differences?
+The NYPD's data collection and dissemination initiative aims to improve public safety, enhance transparency, and build community trust. By providing crime rate and police activity data, the NYPD can better allocate resources, target high-crime areas, and support informed policymaking. This transparency also promotes community engagement, empowering residents to collaborate with the police in developing crime prevention strategies. Overall, this initiative supports the NYPD's goals of enhancing safety, operational efficiency, and community collaboration.
 
-## Data Loading and Cleaning
+## Data Loading, Merging,and Cleaning
+
+### Merging Datasets
+
+In our research, in addition to the explantory analysis of arrest data, we wanted to take it a step further and look at the non-human factors that affect crime, so we added the daily weather conditions of New York City over the course of a year to our master data. This data comes from [Visual crossing](https://www.visualcrossing.com/weather/weather-data-services#)'s weather database.
+
+We selected basic weather conditions for New York City for the year 2023 so that we could explore whether extremes in temperature, wind speed, etc, affect crime rates, as well as crime trends under different weather conditions. This way it can be more efficient to optimize the efficiency of NYPD's police response. 
+
+The merging process codes will shows in following load and cleaning script.
+
 
 ```{r include=F}
 library(tidyverse) 
@@ -39,11 +43,16 @@ library(dplyr)
 library(kableExtra)
 library(data.table)
 library(magrittr)
+library(knitr)
 ```
 
 [Data Loading and Cleaning Script](scripts/load_and_clean_data.R)
 
-We merge the data from 2022 and 2023 together, for the future trend and comparison analysis between these two years. In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. We remove rows with any NA and null values from the dataset. We also delete undefined data in Level of offense: felony, misdemeanor, violation, infraction. All in all, it have 411745 rows and 13 columns. Below part shows the modified variables table. 
+In the cleaning of the crime dataset, we delete the arrest ID, two police classification ID, jurisdiction code, and four coordinate variables . These variables are redundant and not relevant with our research. Then, We remove rows with any NA and null values from the dataset. We also delete undefined data in Level of offense: felony, misdemeanor, violation, infraction. 
+
+In the cleaning of the weather dataset, we just keep the date, daily temperature, windspeed, and keywords of daily weather conditions. following the same steps, we clean all the missing value and merge it with the arrest dataset. We merging two datasets based on their date columns, ensuring that all entries from the weather dataset are included and correspond with the crime dataset
+
+All in all, it have 226244 rows and 13 columns. Below part shows the modified variables table. 
 
 ## Variables Description
 
@@ -53,32 +62,40 @@ ds <- read_rds("dataset/load_and_clean_data.rds")
 
 
 ```{r echo =F}
-library(knitr)
+
 variables_df <- data.frame(
-  Variable = c("ARREST_DATE",  "PD_DESC",  "OFNS_DESC", "LAW_CAT_CD", 
+  Variable = c("ARREST_DATE",  "PD_DESC",  "OFNS_DESC", "LAW_CAT_CD",
+               "ARREST_BORO",
               "ARREST_PRECINCT","AGE_GROUP", "PERP_SEX", "PERP_RACE", 
-               "X_COORD_CD", "Y_COORD_CD", "Latitude", "Longitude", "Lon_Lat"),
+              "temp","windspeed","conditons"),
   Data_Types = c("calendar date", "text", "text", 
-                 "text", "number","text", "text", "text", 
-                 "text", "text", "number", "number", "point"),
+                 "text","text",
+                 "number","text", "text", "text", 
+                 "number","number","text"),
   Description = c( 
                   "Exact date of arrest for the reported event", 
                   "Description of internal classification corresponding with PD code (more granular than Offense Description)", 
-                  
                   "Description of internal classification corresponding with KY code (more general category than PD description)", 
                   "Level of offense: felony, misdemeanor, violation, infraction", 
+                  "	Borough of arrest. B(Bronx), S(Staten Island), K(Brooklyn), M(Manhattan), Q(Queens)",
+                  
                   "Precinct where the arrest occurred", 
                   "Perpetrator’s age within a category", 
                   "Perpetrator’s sex description", 
                   "Perpetrator’s race description", 
-                  "Midblock X-coordinate for New York State Plane Coordinate System", 
-                  "Midblock Y-coordinate for New York State Plane Coordinate System", 
-                  "Latitude coordinate for Global Coordinate System", 
-                  "Longitude coordinate for Global Coordinate System", 
-                  "Georeferenced Point Column based on Longitude and Latitude fields")
+                  "Average Daily temperature",
+                  "Daily Windspeed",
+                  "Short description about the weather")
 )
-kable(variables_df, format = "html")
+kable(variables_df, format = "html")|>
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                full_width = F, 
+                font_size = 12) |>
+  column_spec(1, bold = T, color = "black") |>
+  row_spec(0, background = "#D3D3D3") 
 ```
+
+## Top 10 crime categories description
 
 There are 62 crimes, the below table shows the specific description and level of the top 10 crimes in oder of the incident number.
 
@@ -107,69 +124,12 @@ category_details |>
   row_spec(0, background = "#D3D3D3") 
 ```
 
-## Basic Explantory Analysis
-
-### RACE
-```{r echo=F}
-ds|>
-ggplot(aes(PERP_RACE)) +
-geom_bar(aes(fill = PERP_RACE)) +
-theme_minimal() +
-labs(x = 'Race', y = 'Number of Cases', title = 'Number of Cases by Race') +
-theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
-On this graph we are showing the number of cases per race among all races. On this graph we can see that the lowest number of cases per race are represented by the Indian/Alaskan native people. The highest is for colred people having over 11k cases during this period.
-
-```{r include=FALSE}
-ds
-```
-
-### Crime Categories
-```{r echo =F}
-ds |>
-  ggplot(aes(x = LAW_CAT_CD, fill = LAW_CAT_CD)) +
-  geom_bar() + 
-  theme_minimal() +
-  labs(
-    x = 'Type of Crime', 
-    y = 'Number of Cases', 
-    title = 'Number of Cases by Crime Category',
-    fill = 'Crime Category'  # Change legend title
-  ) +
-  scale_x_discrete(labels = c("F" = "Felony", "M" = "Misdemeanor", "V" = "Violation", "I"= "Infraction")) + theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-The bar chart displays the frequency of various crime types, categorized as Felony, Infraction, Misdemeanor, and Violation. The vertical axis indicates the number of cases, while the horizontal axis lists the crime categories. Misdemeanor appears to be the most common, followed by felonies. The crime incidents of infraction and violation are the least with small numbers of cases. 
-
-### AGE
-
-```{r echo =F}
-crime_summary <- ds %>%
-  group_by(LAW_CAT_CD) %>%
-  summarize(Incident_Count = n()) %>%
-  arrange(desc(Incident_Count)) %>%
-  top_n(10)
-
-# Group by LAW_CAT_CD and AGE_GROUP, and summarize the count
-crime_gender_summary <- ds %>%
-  filter(LAW_CAT_CD %in% crime_summary$LAW_CAT_CD) %>%
-  group_by(LAW_CAT_CD, AGE_GROUP) %>%
-  summarize(Incident_Count = n())
-# Create a bar plot
-
-ggplot(crime_gender_summary, aes(x = reorder(LAW_CAT_CD,Incident_Count), y=    
-                                 Incident_Count, fill = AGE_GROUP)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Total Incidents in General crime Categories by Age",
-       x = "General crime Categories",
-       y = "Incident Count",
-       fill = "Age") +
-  theme_minimal() +
-  scale_x_discrete(labels = c("F" = "Felony", "M" = "Misdemeanor", "V" = "Violation", "I"= "Infraction"))+
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
-The bar chart shows the distribution of crime incidents across different categories—Infraction, Violation, Felony, and Misdemeanor—segregated by age groups. The graph illustrates that the 25-44 age group has the highest incidence of felonies, a significant number of misdemeanors, and relatively lower counts for infractions and violations, suggesting this age range is the most involved in crime. The other age groups contribute fewer incidents across all categories, with the least involvement by those under 18 and over 65.
+### R packages
+These are the following new packages were used in making this project.
+kableExtra
+data.table
+magrittr
+knitr
 
 
 
