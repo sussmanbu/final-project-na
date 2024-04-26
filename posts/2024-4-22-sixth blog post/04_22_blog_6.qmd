@@ -7,6 +7,9 @@ draft: false
 ---
 
 We imported the Google Maps api to create heat maps to analyze where the highest amount of crime is in NYC, and also broke down the distribution of the top three crime categories in NYC.
+
+
+Temporary Thesis: the Crime rate of Assault 3 will increase as temperature rises in the New York City.
 ```{r include=FALSE}
 library(dplyr)
 library(tidyverse) 
@@ -18,197 +21,231 @@ library(ggmap)
 library(leaflet)
 library(patchwork)
 library(tigris)
+library(sp)
+library(sf)
+library(data.table)
+library(lubridate)
 
 ds <- read_rds("dataset/load_and_clean_data.rds")
 ```
 
-```{r include =F}
-ds |> dplyr::filter(Latitude > 30, Longitude < -40) -> ds
-bbox <- make_bbox(lon = Longitude, lat = Latitude, data = ds, f = 0.1)
-a <- get_map(bbox)
-ggmap(a)
 
-ds <- ds |> mutate(ARREST_DATE =mdy(ARREST_DATE))
+
+We found that when season changes from summer to winter, the crime density gradually decreases.
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+ds <- readRDS("dataset/load_and_clean_data.rds")
+ds <- as.data.table(ds)
+ds$ARREST_DATE <- ymd(ds$ARREST_DATE)
+ds$ARREST_month <- month(ds$ARREST_DATE)
+
+ds_sub <- ds[OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES",]
+ds_sub_winter <- ds[OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES"&ARREST_month %in%c(1,2,12) ,]
+ds_sub_summer <- ds[OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES"&ARREST_month %in%c(6,7,8) ,]
+ds_sub_low <-ds[OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES"& temp<14.8 ,]
+ds_sub_high <-ds[OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES"& temp>14.8 ,]
+
+ds_plot <- ds_sub[,.(count = .N),ARREST_PRECINCT ]
+ds_plot_winter <- ds_sub_winter[,.(count = .N),ARREST_PRECINCT ]
+ds_plot_summer <-ds_sub_summer[,.(count = .N),ARREST_PRECINCT ]
+ds_plot_low <- ds_sub_low[,.(count = .N),ARREST_PRECINCT ]
+ds_plot_high <- ds_sub_high[,.(count = .N),ARREST_PRECINCT ]
+
+
+map_data <- st_read("dataset/geo_export_87553334-fdcd-4d0c-8ab2-43a5e2975733.shp")
+map_data <-as(map_data, "Spatial")
+map_data_all <- sp::merge(map_data,ds_plot,by.x = "precinct",by.y ="ARREST_PRECINCT",all.x = T)
+map_data_winter <- sp::merge(map_data,ds_plot_winter,by.x = "precinct",by.y ="ARREST_PRECINCT",all.x = T)
+map_data_summer <- sp::merge(map_data,ds_plot_summer,by.x = "precinct",by.y ="ARREST_PRECINCT",all.x = T)
+map_data_low <- sp::merge(map_data,ds_plot_low,by.x = "precinct",by.y ="ARREST_PRECINCT",all.x = T)
+map_data_high <- sp::merge(map_data,ds_plot_high,by.x = "precinct",by.y ="ARREST_PRECINCT",all.x = T)
+
+
+map_data_all <- as(map_data_all, "sf")
+map_data_winter <- as(map_data_winter, "sf")
+map_data_summer <-as(map_data_summer, "sf")
+map_data_low <-as(map_data_low, "sf")
+map_data_high  <-as(map_data_high , "sf")
 ```
 
 
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-#2022 ASSAULT 3
-
-
-
-
-ds |> dplyr::filter(OFNS_DESC == 'ASSAULT 3 & RELATED OFFENSES',
-                    ARREST_DATE >= as.Date("2022-01-01") & ARREST_DATE <= as.Date("2022-12-31"))|>
-  group_by(Longitude, Latitude) |>
-  count(name = 'n') |> 
-  mutate(G = cut(n, breaks = c(0, 1, 2, 3, 1523),
-                 labels = c('1', '2', '3', '>3'), 
-                 include.lowest = T)) -> df_22as
-
-plot_2022as<- ggmap(a) +
-  geom_point(data = df_22as, aes(x = Longitude, y = Latitude, color = G),
-             alpha = 0.5, size = 0.5) +
-  labs(x = 'Longitude', y = 'Latitude', color = '', title = 'ASSAULT 3 2022') +
-  scale_color_manual(values = c('seagreen', 'blue', 'orange', 'tomato')) +
-  theme(legend.position = 'top')
-```
-
-
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-# 2023 ASSAULT 3
-
-ds |> dplyr::filter(OFNS_DESC == 'ASSAULT 3 & RELATED OFFENSES',
-                    ARREST_DATE >= as.Date("2023-01-01") & ARREST_DATE <=  as.Date("2023-12-31"))|>
-  group_by(Longitude, Latitude) |>
-  count(name = 'n') |> 
-  mutate(G = cut(n, breaks = c(0, 1, 2, 3, 1523),
-                 labels = c('1', '2', '3', '>3'), 
-                 include.lowest = T)) -> df_23as
-
-plot_2023as <- ggmap(a) +
-  geom_point(data = df_23as, aes(x = Longitude, y = Latitude, color = G),
-             alpha = 0.5, size = 0.5) +
-  labs(x = 'Longitude', y = 'Latitude', color = '', title = 'ASSAULT 3 2023') +
-  scale_color_manual(values = c('seagreen', 'blue', 'orange', 'tomato')) +
-  theme(legend.position = 'top')
-
-```
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-combined_plot <- plot_2022as + plot_2023as
-combined_plot
-```
-```{r}
-# 2023 ASSAULT 3 Sp
-
-ds |> dplyr::filter(OFNS_DESC == 'ASSAULT 3 & RELATED OFFENSES',
-                    ARREST_DATE >= as.Date("2023-03-01") & ARREST_DATE <=  as.Date("2023-5-31"))|>
-  group_by(Longitude, Latitude) |>
-  count(name = 'n') |> 
-  mutate(G = cut(n, breaks = c(0, 1, 2, 3, 1523),
-                 labels = c('1', '2', '3', '>3'), 
-                 include.lowest = T)) -> df_23ass
-
-plot_2023ass <- ggmap(a) +
-  geom_point(data = df_23ass, aes(x = Longitude, y = Latitude, color = G),
-             alpha = 0.5, size = 0.5) +
-  labs(x = 'Longitude', y = 'Latitude', color = '', title = 'ASSAULT 3 2023 S') +
-  scale_color_manual(values = c('seagreen', 'blue', 'orange', 'tomato')) +
-  theme(legend.position = 'top')
-
-
-#ASS 3 2023 F
-
-ds |> dplyr::filter(OFNS_DESC == 'ASSAULT 3 & RELATED OFFENSES',
-                    ARREST_DATE >= as.Date("2023-9-01") & ARREST_DATE <=  as.Date("2023-11-30"))|>
-  group_by(Longitude, Latitude) |>
-  count(name = 'n') |> 
-  mutate(G = cut(n, breaks = c(0, 1, 2, 3, 1523),
-                 labels = c('1', '2', '3', '>3'), 
-                 include.lowest = T)) -> df_23asf
-plot_2023asf<- ggmap(a) +
-  geom_point(data = df_23asf, aes(x = Longitude, y = Latitude, color = G),
-             alpha = 0.5, size = 0.5) +
-  labs(x = 'Longitude', y = 'Latitude', color = '', title = 'ASSAULT 3 2023f') +
-  scale_color_manual(values = c('seagreen', 'blue', 'orange', 'tomato')) +
-  theme(legend.position = 'top')
-
-
-```
-
-```{r}
-combined_plot_season <- plot_2023ass + plot_2023asf
-combined_plot_season
-```
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-# PETIT LARCENY 2022
-ds |> dplyr::filter(OFNS_DESC == 'PETIT LARCENY',
-                    ARREST_DATE >= as.Date("2022-01-01") & 
-                    ARREST_DATE <=    as.Date("2022-12-31"))|>
-  group_by(Longitude, Latitude) |>
-  count(name = 'n') |> 
-  mutate(G = cut(n, breaks = c(0, 1, 2, 3, 1523),
-                 labels = c('1', '2', '3', '>3'), 
-                 include.lowest = T)) -> df_res_pt22
-
-plot_2022pt <- ggmap(a) +
-  geom_point(data = df_res_pt22, aes(x = Longitude, y = Latitude, color = G),
-             alpha = 0.5, size = 0.5) +
-  labs(x = 'Longitude', y = 'Latitude', color = '', title = 'PETIT LARCENY 2022') +
-  scale_color_manual(values = c('seagreen', 'blue', 'orange', 'tomato')) +
-  theme(legend.position = 'top')
-```
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-# PETIT LARCENY 2023
-ds |> dplyr::filter(OFNS_DESC == 'PETIT LARCENY',
-                    ARREST_DATE >= as.Date("2023-01-01") & ARREST_DATE <= as.Date("2023-12-31"))|>
-  group_by(Longitude, Latitude) |>
-  count(name = 'n') |> 
-  mutate(G = cut(n, breaks = c(0, 1, 2, 3, 1523),
-                 labels = c('1', '2', '3', '>3'), 
-                 include.lowest = T)) -> df_res_pt23
-
-plot_2023pt <- ggmap(a) +
-  geom_point(data = df_res_pt23, aes(x = Longitude, y = Latitude, color = G),
-             alpha = 0.5, size = 0.5) +
-  labs(x = 'Longitude', y = 'Latitude', color = '', title = 'PETIT LARCENY 2023') +
-  scale_color_manual(values = c('seagreen', 'blue', 'orange', 'tomato')) +
-  theme(legend.position = 'top')
-```
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-combined_plot_2 <- plot_2022pt + plot_2023pt
-combined_plot_2
-```
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-#2022 FA
-ds |> dplyr::filter(OFNS_DESC == 'FELONY ASSAULT',
-                    ARREST_DATE >= as.Date("2022-01-01") & ARREST_DATE <= as.Date("2022-12-31")) |>
-  group_by(Longitude, Latitude) |>
-  count(name = 'n') |> 
-  mutate(G = cut(n, breaks = c(0, 1, 2, 3, 511),
-                 labels = c('1', '2', '3', '>3'), 
-                 include.lowest = T)) -> df_fa22
-
-plot_2022fa <- ggmap(a) +
-  geom_point(data = df_fa22, aes(x = Longitude, y = Latitude, color = G),
-             alpha = 0.5, size = 0.5) +
-  labs(x = 'Longitude', y = 'Latitude', color = '', title = 'FELONY ASSAULT 2022') +
-  scale_color_manual(values = c('seagreen', 'blue', 'orange', 'tomato')) +
-  theme(legend.position = 'top')
-```
-
-
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-#2023 FA
-ds |> dplyr::filter(OFNS_DESC == 'FELONY ASSAULT',
-                    ARREST_DATE >= as.Date("2023-01-01") & ARREST_DATE <= as.Date("2023-12-31")) |>
-  group_by(Longitude, Latitude) |>
-  count(name = 'n') |> 
-  mutate(G = cut(n, breaks = c(0, 1, 2, 3, 511),
-                 labels = c('1', '2', '3', '>3'), 
-                 include.lowest = T)) -> df_fa23
-
-plot_2023fa <- ggmap(a) + 
-  geom_point(data = df_fa23, aes(x = Longitude, y = Latitude, color = G),
-             alpha = 0.5, size = 0.5) +
-  labs(x = 'Longitude', y = 'Latitude', color = '', title = 'FELONY ASSAULT 2023') +
-  scale_color_manual(values = c('seagreen', 'blue', 'orange', 'tomato')) +
-  theme(legend.position = 'top')
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+ggplot()+
+  geom_sf(data = map_data_all,colour = "gray60",size = 0.1,aes(fill = count) )+
+  # scale_fill_continuous(low = "#FF9797", high = "#600000",na.value="white")+
+  scale_fill_distiller(palette = "YlOrRd",direction= 1) +
+  #scale_fill_manual(palette = "YlOrRd")+
+  theme( axis.ticks=element_blank(), 
+         axis.title=element_blank(), 
+         panel.border = element_blank(), 
+         axis.text=element_blank() , 
+         panel.background = element_blank()
+         
+  )+ggtitle("ALl YEAR")+
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
-combined_plot_3 <- plot_2022fa + plot_2023fa
-combined_plot_3
+ggplot()+
+  geom_sf(data = map_data_winter,colour = "gray60",size = 0.1,aes(fill = count) )+
+  # scale_fill_continuous(low = "#FF9797", high = "#600000",na.value="white")+
+  scale_fill_distiller(palette = "YlOrRd",direction= 1) +
+  #scale_fill_manual(palette = "YlOrRd")+
+  theme( axis.ticks=element_blank(), 
+         axis.title=element_blank(), 
+         panel.border = element_blank(), 
+         axis.text=element_blank() , 
+         panel.background = element_blank()
+         
+  )+ggtitle("winter")+
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 
-We found that when season changes from summer to fall, the crime density gradually decreases.
 
-Temporary Thesis: the Crime rate of Assault 3 will increase as temperature rises in the New York City.
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+ggplot()+
+  geom_sf(data = map_data_summer,colour = "gray60",size = 0.1,aes(fill = count) )+
+  # scale_fill_continuous(low = "#FF9797", high = "#600000",na.value="white")+
+  scale_fill_distiller(palette = "YlOrRd",direction= 1) +
+  #scale_fill_manual(palette = "YlOrRd")+
+  theme( axis.ticks=element_blank(), 
+         axis.title=element_blank(), 
+         panel.border = element_blank(), 
+         axis.text=element_blank() , 
+         panel.background = element_blank()
+         
+  )+ggtitle("summer")+
+  theme(plot.title = element_text(hjust = 0.5))
+```
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+ggplot()+
+  geom_sf(data = map_data_low,colour = "gray60",size = 0.1,aes(fill = count) )+
+  # scale_fill_continuous(low = "#FF9797", high = "#600000",na.value="white")+
+  scale_fill_distiller(palette = "YlOrRd",direction= 1) +
+  #scale_fill_manual(palette = "YlOrRd")+
+  theme( axis.ticks=element_blank(), 
+         axis.title=element_blank(), 
+         panel.border = element_blank(), 
+         axis.text=element_blank() , 
+         panel.background = element_blank()
+         
+  )+ggtitle("low")+
+  theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+ggplot()+
+  geom_sf(data = map_data_high,colour = "gray60",size = 0.1,aes(fill = count) )+
+  # scale_fill_continuous(low = "#FF9797", high = "#600000",na.value="white")+
+  scale_fill_distiller(palette = "YlOrRd",direction= 1) +
+  #scale_fill_manual(palette = "YlOrRd")+
+  theme( axis.ticks=element_blank(), 
+         axis.title=element_blank(), 
+         panel.border = element_blank(), 
+         axis.text=element_blank() , 
+         panel.background = element_blank()
+         
+  )+ggtitle("high")+
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+map_data_all$count_new<-cut(map_data_all$count
+                            ,breaks=c(-Inf,200,400,600,800,1000,Inf)
+                            ,labels = c(
+                              "[0,200 )"
+                              ,"[200,400)"
+                              ,"[400,600)"
+                              ,"[600,800)"
+                              ,"[800,1000)"
+                              ,"[1000+)"
+                              
+                            ))
+ggplot()+
+  geom_sf(data = map_data_all,colour = "gray60",size = 0.1,aes(fill = count_new) )+
+  # scale_fill_continuous(low = "#FF9797", high = "#600000",na.value="white")+
+  scale_fill_brewer(palette = "YlOrRd")+
+  #scale_fill_manual(palette = "YlOrRd")+
+  theme( axis.ticks=element_blank(), 
+         axis.title=element_blank(), 
+         panel.border = element_blank(), 
+         axis.text=element_blank() , 
+         panel.background = element_blank()
+         
+  )+ggtitle("All year")+
+  theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+map_data_winter$count_new<-cut(map_data_winter$count
+                            ,breaks=c(-Inf,50,100,150,200,250,300,Inf)
+                            ,labels = c(
+                              "[0,50 )"
+                              ,"[50,100)"
+                              ,"[100,150)"
+                              ,"[150,200)"
+                              ,"[200,250)"
+                              ,"[250,300)"
+                              ,"[300+)"
+                              
+                              
+                            ))
+
+plotwin<-ggplot()+
+  geom_sf(data = map_data_winter,colour = "gray60",size = 0.1,aes(fill = count_new) )+
+  # scale_fill_continuous(low = "#FF9797", high = "#600000",na.value="white")+
+  scale_fill_brewer(palette = "YlOrRd")+
+  #scale_fill_manual(palette = "YlOrRd")+
+  theme( axis.ticks=element_blank(), 
+         axis.title=element_blank(), 
+         panel.border = element_blank(), 
+         axis.text=element_blank() , 
+         panel.background = element_blank()
+         
+  )+ggtitle("Winter")+
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+plotsum<- map_data_summer$count_new<-cut(map_data_summer$count
+                            ,breaks=c(-Inf,50,100,150,200,250,300,Inf)
+                            ,labels = c(
+                              "[0,50 )"
+                              ,"[50,100)"
+                              ,"[100,150)"
+                              ,"[150,200)"
+                              ,"[200,250)"
+                              ,"[250,300)"
+                              ,"[300+)"
+                              
+                              
+                              
+                            ))
+
+plotsum<-ggplot()+
+  geom_sf(data = map_data_summer,colour = "gray60",size = 0.1,aes(fill = count_new) )+
+  # scale_fill_continuous(low = "#FF9797", high = "#600000",na.value="white")+
+  scale_fill_brewer(palette = "YlOrRd")+
+  #scale_fill_manual(palette = "YlOrRd")+
+  theme( axis.ticks=element_blank(), 
+         axis.title=element_blank(), 
+         panel.border = element_blank(), 
+         axis.text=element_blank() , 
+         panel.background = element_blank()
+         
+  )+ggtitle("Summer")+
+  theme(plot.title = element_text(hjust = 0.5))
+```
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+min(ds$temp)
+median(ds$temp)
+max(ds$temp)
+
+```
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+combined_plot_1 <-  plotsum + plotwin
+combined_plot_1
+```
+
