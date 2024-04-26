@@ -63,3 +63,25 @@ All lab required posts are present.
 Each page (including the home page) has a nice featured image associated with it.
 Your about page is up to date and clean.
 You have removed the generic posts from the initial site template.
+
+
+```{r}
+library(dplyr)
+library(tidyverse) 
+library(ggplot2)
+library(dplyr)
+library(kableExtra)
+library(ggcorrplot)
+library(ggmap)
+library(leaflet)
+library(magrittr)
+library(sf)
+ds <- read_rds("dataset/load_and_clean_data.rds") 
+```
+
+
+
+
+
+
+

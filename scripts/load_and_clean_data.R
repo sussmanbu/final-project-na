@@ -16,7 +16,8 @@ ds_2023 <- na.omit(ds_2023)
 ds_2023 <- ds_2023 |>
   na.omit() |>
   filter(PD_DESC != "(null)") |>
-  filter(LAW_CAT_CD != "9")
+  filter(LAW_CAT_CD != "9")|>
+  filter(PERP_RACE != "UNKNOWN")
 
 ds_2023 %<>% mutate(ARREST_DATE = lubridate::mdy(ARREST_DATE))
 

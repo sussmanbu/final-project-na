@@ -1,12 +1,12 @@
 ---
 title: Data
-description: We describe the sources of our data and the cleaning process, and some explantory analysis.
 toc: true
 draft: false
 ---
+![](images/general-view-nypd-arm-patch-26440914.webp)
 
-## Data background
 
+## Data Background
 ### Data source and reasons to collect it
 
 This datasets comes from the [NYC Opendata](https://data.cityofnewyork.us/Public-Safety/NYPD-Arrests-Data-Historic-/8h9b-rp9u/about_data) and is collected by the Office of Management Analysis and Planning of the New York City Police Department. This dataset provides a general overview of individuals arrested by the NYPD in 2023. 
@@ -48,7 +48,7 @@ library(knitr)
 
 [Data Loading and Cleaning Script](scripts/load_and_clean_data.R)
 
-In the cleaning of the crime dataset, we delete the arrest ID, two police classification ID, jurisdiction code, and four coordinate variables . These variables are redundant and not relevant with our research. Then, We remove rows with any NA and null values from the dataset. We also delete undefined data in Level of offense: felony, misdemeanor, violation, infraction. 
+In the cleaning of the crime dataset, we delete the arrest ID, two police classification ID, jurisdiction code, and four coordinate variables . These variables are redundant and not relevant with our research. Then, We remove rows with any NA and null values from the dataset. We also delete undefined data in Level of offense: felony, misdemeanor, violation, infraction, besides that, we deleted the race recorded as unknown.
 
 In the cleaning of the weather dataset, we just keep the date, daily temperature, windspeed, and keywords of daily weather conditions. following the same steps, we clean all the missing value and merge it with the arrest dataset. We merging two datasets based on their date columns, ensuring that all entries from the weather dataset are included and correspond with the crime dataset
 
@@ -97,7 +97,7 @@ kable(variables_df, format = "html")|>
 
 ## Top 10 crime categories description
 
-There are 62 crimes, the below table shows the specific description and level of the top 10 crimes in oder of the incident number.
+There are 62 crimes, the below table shows the specific description and level of the top 10 crimes in order of the incident number.
 
 ```{r echo=FALSE}
 top_categories <- ds %>%

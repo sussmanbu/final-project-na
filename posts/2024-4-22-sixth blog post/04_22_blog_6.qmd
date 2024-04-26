@@ -10,6 +10,8 @@ We imported the Google Maps api to create heat maps to analyze where the highest
 
 
 Temporary Thesis: the Crime rate of Assault 3 will increase as temperature rises in the New York City.
+
+
 ```{r include=FALSE}
 library(dplyr)
 library(tidyverse) 
@@ -81,7 +83,7 @@ ggplot()+
          axis.text=element_blank() , 
          panel.background = element_blank()
          
-  )+ggtitle("ALl YEAR")+
+  )+ggtitle("ALL YEAR")+
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
@@ -220,8 +222,6 @@ plotsum<- map_data_summer$count_new<-cut(map_data_summer$count
                               ,"[250,300)"
                               ,"[300+)"
                               
-                              
-                              
                             ))
 
 plotsum<-ggplot()+
@@ -238,6 +238,7 @@ plotsum<-ggplot()+
   )+ggtitle("Summer")+
   theme(plot.title = element_text(hjust = 0.5))
 ```
+
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
 min(ds$temp)
 median(ds$temp)
