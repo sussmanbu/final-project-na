@@ -131,7 +131,7 @@ dataset:
 
 -   Demographic factor : Age, Race, Borough
 
--   Environmental factor: Temperature, wind speed, weather, condition
+-   Environmental factor: Temperature,weather condition,wind speed
 
 ## Demographic factor
 
@@ -178,7 +178,7 @@ assault_3_by_race_gender |>
   theme_minimal() +
   labs(x = 'Race', y = 'Incidents Count', title = 'Fig2: Assault 3 Incidents count by Race and Gender', fill = 'Gender') +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  scale_fill_brewer(palette = "Blues") 
+  scale_fill_brewer(palette = "Set1") 
 ```
 
 From this graph we could directly find out that males always have higher
@@ -191,7 +191,8 @@ by reporting biases and systemic disparities in arrest records, as well
 as not accounting for the actual demographic distribution of New York
 City's population.
 
-#Borough
+### Borough
+
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
 library(ggplot2)
 library(dplyr)
@@ -214,12 +215,99 @@ ggplot(assault_3_by_borough, aes(x = ARREST_BORO, y = Incident_Count, fill = ARR
   scale_fill_brewer(palette = "Set1") +
   theme(legend.position = "none") 
 ```
-The graph presents a horizontal bar chart of Assault 3 incidents by borough in New York City, showing Bronx with the highest number of incidents followed by the Brooklyn, Queens, Manhattan, and Staten Island with the fewest. 
 
-In conclusion, by analyzing factors like region, age, and gender, we can establish a general distribution pattern for Level 3 Assault crimes. Subsequently, we will employ regression models to discern whether these factors are correlated with or causative of variations in crime rates. Now, we are moving to the EDA of environmental factors.
+The graph presents a horizontal bar chart of Assault 3 incidents by
+borough in New York City, showing Bronx with the highest number of
+incidents followed by the Brooklyn, Queens, Manhattan, and Staten Island
+with the fewest.
+
+In conclusion, by analyzing factors like region, age, and gender, we can
+establish a general distribution pattern for Level 3 Assault crimes.
+Subsequently, we will employ regression models to discern whether these
+factors are correlated with or causative of variations in crime rates.
+Now, we are moving to the EDA of environmental factors.
+
+## Environmental Factors
+
+### 
 
 
-#### 底下还没修改
+### Weather Condition
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+# Filter for ASSAULT 3 and count occurrences per category in the 'conditions' column
+assault_conditions_counts <- ds %>%
+  filter(PD_DESC == "ASSAULT 3") %>%
+  group_by(conditions) %>%
+  summarise(Count = n()) %>%
+  arrange(desc(Count))
+# Print the counts
+#print(assault_conditions_counts)
+
+ggplot(assault_conditions_counts, aes(x = reorder(conditions, Count), y = Count, fill = conditions)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(title = "Assault 3 Incident count by Weather Condition",
+       x = " ",
+       y = "Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x labels for better readability
+```
+
+The bar chart illustrates the frequency of Assault 3 incidents occurring under various weather conditions. Clear weather is associated with the highest number of incidents, followed closely by overcast and partially cloudy conditions. Incidents are less frequent during more adverse weather conditions, such as combinations of snow, rain, and overcast skies, suggesting possible correlations between weather and the occurrence of Assault 3 crimes.
+
+
+### Windspeed
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+assault_wind_counts <- ds %>%
+  filter(PD_DESC == "ASSAULT 3") %>%
+  mutate(WindSpeedCategory = cut(windspeed, 
+                                 breaks = c(0, 9, 10, 15, 20, 25, 30, 35, 40, 45, 50),  
+                                 labels = c("(0,9]", "(9,10]", "(10,15]", "(15,20]", "(20,25]", 
+                                            "(25,30]", "(30,35]", "(35,40]", "(40,45]", "(45,50]"),
+                                 include.lowest = TRUE)) %>%
+  group_by(WindSpeedCategory) %>%
+  summarise(Count = n()) %>%
+  ungroup()
+
+ggplot(assault_wind_counts, aes(x = WindSpeedCategory, y = Count, fill = WindSpeedCategory)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(title = " Assault 3 incidents count by Wind Speed ", 
+       x = "Wind Speed Category", 
+       y = "Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+This bar chart shows that incidents are most frequent in wind speeds ranging from 10 to 20 km/h and significantly less frequent as wind speeds increase beyond 20 km/h, suggesting fewer Assault 3 incidents occur in higher wind conditions.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ```{r echo =F}
 crime_counts_by_day <- ds %>%

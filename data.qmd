@@ -83,8 +83,8 @@ variables_df <- data.frame(
                   "Perpetrator’s age within a category", 
                   "Perpetrator’s sex description", 
                   "Perpetrator’s race description", 
-                  "Average Daily temperature",
-                  "Daily Windspeed",
+                  "Average Daily temperature in Celsius",
+                  "Daily Windspeed in Kilometer",
                   "Short description about the weather")
 )
 kable(variables_df, format = "html")|>
