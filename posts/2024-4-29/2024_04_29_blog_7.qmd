@@ -128,10 +128,10 @@ combine_plot_crime<-plot_count+plota3+plotfa+plotpl+
 combine_plot_crime
 ```
 
-These 4 graphs shows the total crime counts per season and top 3 crime categories per seasons. It all shows a trend that the crime rate will be higher in Summer and Spring, then it will gradually go lower in Autumn and Winter in 2023. Notably, the total crime count for Summer 2022 diverges from this pattern, being lower than both Spring and Autumn, yet still higher than Winter. This data suggests a correlation between warmer weather and increased crime rates in New York City, indicating that incidents tend to escalate during warmer periods.
+These 4 graphs shows the total crime counts per season and top 3 crime categories per seasons. It all shows a trend that the crime rate will be higher in Summer and Spring, then it will gradually go lower in Autumn and Winter in 2023.This data suggests a correlation between warmer weather and increased crime rates in New York City, indicating that incidents tend to escalate during warmer periods.
 
 
-```{r echo=FALSE}
+```{r echo=FALSE, include=F}
 #2022 female vs male 
 get_season <- function(date) {
   month <- month(date)
@@ -178,7 +178,7 @@ season_gender_counts23 <- data_2023 %>%
 
 other_genders <- unique(season_gender_counts23$PERP_SEX)
 
-plotgender_23<- ggplot(season_gender_counts23, aes(x = Season, y = Count, fill = PERP_SEX)) +
+ggplot(season_gender_counts23, aes(x = Season, y = Count, fill = PERP_SEX)) +
   geom_bar(stat = "identity", position = position_dodge(width = 0.7)) +
   scale_fill_manual(values = c("F" = "#ff9999", "M" = "#9999ff", "U" = "#ffff66")) +
   theme_light() +
@@ -188,11 +188,20 @@ plotgender_23<- ggplot(season_gender_counts23, aes(x = Season, y = Count, fill =
        fill = "Gender")
 ```
 
+### Polish our graphs and charts
 
-```{r echo=FALSE}
-combined_plot_gender <-plotgender_22+plotgender_23
-combined_plot_gender& theme_minimal() & scale_color_brewer(palette = "Set1")& plot_annotation(title = 'Gender Incident Counts per Season for 2022 and 2023',
-                  theme = theme(plot.title = element_text(hjust = 0.5)))
+Titles and Labels: We are going to craft clear, descriptive titles and axis labels that succinctly convey the meaning of the data, and use numbers to label each in sequence.
 
-```
+Legends: We need to ensure legends are clear and correctly positioned. Modify legend titles to be informative and concise. Use a color scale that is intuitive and provides good contrast for the data represented.
+
+Captions: we need to include captions that explain the visualization in a bit more detail, highlighting key findings or noting any caveats about the data.
+
+Scales and Breaks: We decide to adjust scales and breaks on axes to make sure they are appropriate for the data’s range and distribution. 
+
+Color Choices: We will ensure consistency across multiple visualizations, with the same color schemes, label formats, and styles used throughout.
+
+
+We are planning to add a interactive graph that could brief will the crime variables in our dataset.
+
+
 

@@ -15,6 +15,7 @@ library(kableExtra)
 library(ggcorrplot)
 library(ggmap)
 library(leaflet)
+library(pheatmap)
 ds <- read_rds("dataset/load_and_clean_data.rds") 
 ```
 
@@ -101,4 +102,185 @@ ggplot(crime_gender_summary, aes(x = reorder(OFNS_DESC, Incident_Count), y = Inc
   theme_minimal() +
   
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+
+
+
+## Model 
+
+```{r}
+daily_crime_count <- ds %>%
+  group_by(ARREST_DATE) %>%
+  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES")%>%
+  summarize(Daily_Count= n(), .groups = 'drop') %>%
+  arrange(ARREST_DATE)
+
+ds$ARREST_BORO = as.factor(ds$ARREST_BORO)
+ds$ARREST_PRECINCT=as.factor(ds$ARREST_PRECINCT)
+ds$AGE_GROUP= as.factor(ds$AGE_GROUP)
+ds$PERP_SEX= as.factor(ds$PERP_SEX)
+ds$PERP_RACE =as.factor(ds$PERP_RACE)
+ds$conditions =as.factor(ds$conditions)
+
+```
+
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(patchwork)
+library(lubridate)
+
+# Assuming 'ds' is your dataset and has 'ARREST_DATE', 'PD_DESC', and 'temp' columns
+
+# Prepare the assault data summary
+assault_data <- ds %>%
+  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
+  mutate(Month = floor_date(as.Date(ARREST_DATE), "month")) %>%
+  group_by(Month) %>%
+  summarise(Count = n()) %>%
+  ungroup() 
+
+# Prepare the temperature data summary
+mean_temp_by_month <- ds %>%
+  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
+  mutate(Month = floor_date(as.Date(ARREST_DATE), "month")) %>%
+  group_by(Month) %>%
+  summarise(Mean_Temp = mean(temp, na.rm = TRUE)) %>%
+  ungroup()
+
+mean_wind_by_month <- ds %>%
+  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
+  mutate(Month = floor_date(as.Date(ARREST_DATE), "month")) %>%
+  group_by(Month) %>%
+  summarise(Mean_wind = mean(windspeed, na.rm = TRUE)) %>%
+  ungroup()
+
+
+# Join the datasets
+correlation_data <- left_join(assault_data, mean_temp_by_month,mean_wind_by_month, by = "Month")%>%
+   left_join(mean_wind_by_month, by = "Month")
+
+# Calculate the correlation coefficient between Count and Mean_Temp
+correlation_coefficient <- cor(correlation_data$Count, correlation_data$Mean_Temp,use = "complete.obs")
+
+# Output the correlation coefficient
+print(correlation_coefficient)
+
+# If you want to plot this correlation, you can use a scatter plot with a smooth line
+correlation_plot <- ggplot(correlation_data, aes(x = Mean_Temp, y = Count)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Average Monthly Temperature (°C)", y = "Count of Assault 3 Crimes", 
+       title = "Correlation between Temperature and 'Assault 3' Crime Count")
+
+# Print the correlation plot
+print(correlation_plot)
+
+cor_matrix1 <- cor(correlation_data[, c("Count", "Mean_Temp","Mean_wind")], use = "complete.obs")
+pheatmap(cor_matrix1, 
+         color = colorRampPalette(c("skyblue", "white", "lightgreen"))(200),
+         display_numbers = T,
+         clustering_distance_rows = "euclidean",
+         clustering_distance_cols = "euclidean",
+         clustering_method = "complete")
+
+```
+
+
+```{r}
+assault_data_weekly <- ds %>%
+  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
+  mutate(Week = floor_date(as.Date(ARREST_DATE), "week")) %>%
+  group_by(Week) %>%
+  summarise(Count = n()) %>%
+  ungroup() 
+
+mean_temp_by_week <- ds %>%
+  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
+  mutate(Week = floor_date(as.Date(ARREST_DATE), "week")) %>%
+  group_by(Week) %>%
+  summarise(Mean_Temp = mean(temp, na.rm = TRUE)) %>%
+  ungroup()
+
+mean_wind_by_week <- ds %>%
+  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
+  mutate(Week = floor_date(as.Date(ARREST_DATE), "week")) %>%
+  group_by(Week) %>%
+  summarise(Mean_Wind = mean(windspeed, na.rm = TRUE)) %>%
+  ungroup()
+
+correlation_data_weekly <- left_join(assault_data_weekly, mean_temp_by_week, by = "Week") %>%
+  left_join(mean_wind_by_week, by = "Week")
+
+correlation_plot2 <- ggplot(correlation_data_weekly, aes(x = Mean_Temp, y = Count)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Average Monthly Temperature (°C)", y = "Count of Assault 3 Crimes", 
+       title = "Correlation between Temperature and 'Assault 3' Crime Count")
+
+print(correlation_plot2)
+
+cor_matrix2 <- cor(correlation_data_weekly[, c("Count", "Mean_Temp","Mean_Wind")], use = "complete.obs")
+pheatmap(cor_matrix2, 
+         color = colorRampPalette(c("skyblue", "white", "lightgreen"))(200),
+         display_numbers = T,
+         clustering_distance_rows = "euclidean",
+         clustering_distance_cols = "euclidean",
+         clustering_method = "complete")
+```
+
+
+
+```{r}
+daily_crime_count <- ds %>%
+  group_by(ARREST_DATE) %>%
+  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES")%>%
+  summarize(Daily_Count= n(), .groups = 'drop') %>%
+  arrange(ARREST_DATE)
+
+daily_temperature <- ds %>%
+  group_by(ARREST_DATE) %>%
+  summarise(Temp = mean(temp, na.rm = TRUE)) %>%
+  ungroup()
+
+wind <-ds %>%
+  group_by(ARREST_DATE) %>%
+  summarise(Wind = mean(windspeed, na.rm = TRUE)) %>%
+  ungroup()
+
+daily_data <- daily_crime_count %>%
+  left_join(daily_temperature, by = "ARREST_DATE") %>%
+  left_join(wind, by = "ARREST_DATE")
+
+cor_matrix3 <- cor(daily_data[, c("Daily_Count", "Temp","Wind")], use = "complete.obs")
+pheatmap(cor_matrix3, 
+         color = colorRampPalette(c("skyblue", "white", "lightgreen"))(200),
+         display_numbers = T,
+         clustering_distance_rows = "euclidean",
+         clustering_distance_cols = "euclidean",
+         clustering_method = "complete")
+```
+
+
+
+```{r}
+modweek <- glm(correlation_data_weekly$Count~correlation_data_weekly$Mean_Temp+correlation_data_weekly$Mean_Wind)
+summary(modweek)
+modmonth <-glm(correlation_data$Count~ correlation_data$Mean_Temp + correlation_data$Mean_wind)
+summary(modmonth)
+modday <- lm(daily_data$Daily_Count ~ daily_data$Temp +daily_data$Wind)
+summary(modday)
+```
+
+```{r}
+ds %>% 
+  group_by(OFNS_DESC, LAW_CAT_CD, AGE_GROUP, PERP_SEX, PERP_RACE,ARREST_BORO,ARREST_PRECINCT,conditions) %>%
+  filter((OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES"))%>%
+  count(name = 'y') -> df_y
+
+mod <- glm(y ~  conditions+ AGE_GROUP + PERP_SEX + PERP_RACE+ ARREST_BORO+ ARREST_PRECINCT,
+           data = df_y, family = poisson)
+summary(mod)
 ```

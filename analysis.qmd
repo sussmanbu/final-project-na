@@ -113,6 +113,7 @@ library(leaflet)
 library(corrplot)
 library(reshape2) # for melting the correlation matrix
 library(pheatmap)
+library(gridExtra)
 
 ds <- read_rds("dataset/load_and_clean_data.rds") 
 ```
@@ -233,6 +234,13 @@ Now, we are moving to the EDA of environmental factors.
 ## Environmental Factors
 
 ### Temperature
+
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+grid.arrange(spring, fall, summer, winter, ncol = 2, nrow = 2)
+```
+
+```
 
 
 
@@ -396,12 +404,16 @@ mean_wind_by_week <- ds %>%
 correlation_data_weekly <- left_join(assault_data_weekly, mean_temp_by_week, by = "Week") %>%
   left_join(mean_wind_by_week, by = "Week")
 
-correlation_plot2 <- ggplot(correlation_data_weekly, aes(x = Mean_Temp, y = Count)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
-  labs(x = "Average Monthly Temperature (°C)", y = "Count of Assault 3 Crimes", 
-       title = "Correlation between Temperature and 'Assault 3' Crime Count")
+correlation_plot2 <- ggplot(correlation_data_weekly, aes(x = Mean_Temp, y = Count, color = Count)) +
+  geom_point(shape = 15, size = 3) +  # Square points
+  scale_color_gradient(low = "lightblue", high = "steelblue") +  # Color gradient
+  geom_smooth(method = "lm", se = FALSE, color = "red") +  # Linear regression line
+  labs(x = "Average Weekly Temperature (°C)", y = "Count of Assault 3 Crimes", 
+       title = "Correlation between Temperature and 'Assault 3' Crime Count") +
+  theme_minimal() +
+  guides(color = guide_colorbar(title = "Frequency", title.position = "top"))
 
+# Print the plot
 print(correlation_plot2)
 
 cor_matrix2 <- cor(correlation_data_weekly[, c("Count", "Mean_Temp","Mean_Wind")], use = "complete.obs")
@@ -436,6 +448,17 @@ daily_data <- daily_crime_count %>%
   left_join(daily_temperature, by = "ARREST_DATE") %>%
   left_join(wind, by = "ARREST_DATE")
 
+scatter_plot3 <- ggplot(daily_data, aes(x = Temp, y = Daily_Count, color = Daily_Count)) +
+  geom_point(shape = 15, size = 2) +  # Square points
+  scale_color_gradient(low = "lightblue", high = "steelblue") +  # Color gradient
+  geom_smooth(method = "lm", se = FALSE, color = "red") +  # Linear regression line
+  labs(x = "Average daily Temperature (°C)", y = "Count of Assault 3 Crimes", 
+       title = "Correlation between Temperature and 'Assault 3' Crime Count") +
+  theme_minimal() +
+  guides(color = guide_colorbar(title = "Frequency", title.position = "top"))
+
+print(scatter_plot3)
+
 cor_matrix3 <- cor(daily_data[, c("Daily_Count", "Temp","Wind")], use = "complete.obs")
 pheatmap(cor_matrix3, 
          color = colorRampPalette(c("skyblue", "white", "lightgreen"))(200),
@@ -467,10 +490,6 @@ mod <- glm(y ~  conditions+ AGE_GROUP + PERP_SEX + PERP_RACE+ ARREST_BORO+ ARRES
 summary(mod)
 ```
 
-
-```{r}
-lapply(ds_y[c("LAW_CAT_CD", "AGE_GROUP", "PERP_SEX", "PERP_RACE", "ARREST_BORO", "ARREST_PRECINCT", "conditions")], function(x) length(unique(x)))
-```
 
 
 
