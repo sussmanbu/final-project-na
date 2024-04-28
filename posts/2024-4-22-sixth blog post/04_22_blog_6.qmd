@@ -27,6 +27,7 @@ library(sp)
 library(sf)
 library(data.table)
 library(lubridate)
+library(gridExtra)
 
 ds <- read_rds("dataset/load_and_clean_data.rds")
 ```
@@ -46,13 +47,17 @@ ds_sub_winter <- ds[OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES"&ARREST_month %in
 ds_sub_summer <- ds[OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES"&ARREST_month %in%c(6,7,8) ,]
 ds_sub_low <-ds[OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES"& temp<14.8 ,]
 ds_sub_high <-ds[OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES"& temp>14.8 ,]
+ds_sub_spring <-ds[OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES"& ARREST_month %in%c(3,4,5) ,]
+ds_sub_fall <- ds[OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES"&ARREST_month %in%c(9,10,11) ,]
+
 
 ds_plot <- ds_sub[,.(count = .N),ARREST_PRECINCT ]
 ds_plot_winter <- ds_sub_winter[,.(count = .N),ARREST_PRECINCT ]
 ds_plot_summer <-ds_sub_summer[,.(count = .N),ARREST_PRECINCT ]
 ds_plot_low <- ds_sub_low[,.(count = .N),ARREST_PRECINCT ]
 ds_plot_high <- ds_sub_high[,.(count = .N),ARREST_PRECINCT ]
-
+ds_plot_spring <-ds_sub_spring[,.(count = .N),ARREST_PRECINCT ]
+ds_plot_fall <-ds_sub_fall[,.(count = .N),ARREST_PRECINCT ]
 
 map_data <- st_read("dataset/geo_export_87553334-fdcd-4d0c-8ab2-43a5e2975733.shp")
 map_data <-as(map_data, "Spatial")
@@ -61,13 +66,17 @@ map_data_winter <- sp::merge(map_data,ds_plot_winter,by.x = "precinct",by.y ="AR
 map_data_summer <- sp::merge(map_data,ds_plot_summer,by.x = "precinct",by.y ="ARREST_PRECINCT",all.x = T)
 map_data_low <- sp::merge(map_data,ds_plot_low,by.x = "precinct",by.y ="ARREST_PRECINCT",all.x = T)
 map_data_high <- sp::merge(map_data,ds_plot_high,by.x = "precinct",by.y ="ARREST_PRECINCT",all.x = T)
-
+map_data_spring <- sp::merge(map_data,ds_plot_spring,by.x = "precinct",by.y ="ARREST_PRECINCT",all.x = T)
+map_data_fall <- sp::merge(map_data,ds_plot_fall,by.x = "precinct",by.y ="ARREST_PRECINCT",all.x = T)
 
 map_data_all <- as(map_data_all, "sf")
 map_data_winter <- as(map_data_winter, "sf")
 map_data_summer <-as(map_data_summer, "sf")
 map_data_low <-as(map_data_low, "sf")
 map_data_high  <-as(map_data_high , "sf")
+map_data_spring <-as(map_data_spring , "sf")
+map_data_fall <- as(map_data_fall , "sf")
+
 ```
 
 
@@ -88,7 +97,7 @@ ggplot()+
 ```
 
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
-ggplot()+
+winter<- ggplot()+
   geom_sf(data = map_data_winter,colour = "gray60",size = 0.1,aes(fill = count) )+
   # scale_fill_continuous(low = "#FF9797", high = "#600000",na.value="white")+
   scale_fill_distiller(palette = "YlOrRd",direction= 1) +
@@ -105,7 +114,7 @@ ggplot()+
 
 
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
-ggplot()+
+summer<- ggplot()+
   geom_sf(data = map_data_summer,colour = "gray60",size = 0.1,aes(fill = count) )+
   # scale_fill_continuous(low = "#FF9797", high = "#600000",na.value="white")+
   scale_fill_distiller(palette = "YlOrRd",direction= 1) +
@@ -119,6 +128,7 @@ ggplot()+
   )+ggtitle("summer")+
   theme(plot.title = element_text(hjust = 0.5))
 ```
+
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
 ggplot()+
   geom_sf(data = map_data_low,colour = "gray60",size = 0.1,aes(fill = count) )+
@@ -195,7 +205,7 @@ map_data_winter$count_new<-cut(map_data_winter$count
                               
                             ))
 
-plotwin<-ggplot()+
+winter <-ggplot()+
   geom_sf(data = map_data_winter,colour = "gray60",size = 0.1,aes(fill = count_new) )+
   # scale_fill_continuous(low = "#FF9797", high = "#600000",na.value="white")+
   scale_fill_brewer(palette = "YlOrRd")+
@@ -211,7 +221,7 @@ plotwin<-ggplot()+
 ```
 
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
-plotsum<- map_data_summer$count_new<-cut(map_data_summer$count
+map_data_summer$count_new<-cut(map_data_summer$count
                             ,breaks=c(-Inf,50,100,150,200,250,300,Inf)
                             ,labels = c(
                               "[0,50 )"
@@ -224,7 +234,7 @@ plotsum<- map_data_summer$count_new<-cut(map_data_summer$count
                               
                             ))
 
-plotsum<-ggplot()+
+summer<-ggplot()+
   geom_sf(data = map_data_summer,colour = "gray60",size = 0.1,aes(fill = count_new) )+
   # scale_fill_continuous(low = "#FF9797", high = "#600000",na.value="white")+
   scale_fill_brewer(palette = "YlOrRd")+
@@ -240,13 +250,67 @@ plotsum<-ggplot()+
 ```
 
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
-min(ds$temp)
-median(ds$temp)
-max(ds$temp)
+map_data_spring$count_new<-cut(map_data_spring$count
+                            ,breaks=c(-Inf,50,100,150,200,250,300,Inf)
+                            ,labels = c(
+                              "[0,50 )"
+                              ,"[50,100)"
+                              ,"[100,150)"
+                              ,"[150,200)"
+                              ,"[200,250)"
+                              ,"[250,300)"
+                              ,"[300+)"
+                              
+                            ))
 
+spring<-ggplot()+
+  geom_sf(data = map_data_spring,colour = "gray60",size = 0.1,aes(fill = count_new) )+
+  # scale_fill_continuous(low = "#FF9797", high = "#600000",na.value="white")+
+  scale_fill_brewer(palette = "YlOrRd")+
+  #scale_fill_manual(palette = "YlOrRd")+
+  theme( axis.ticks=element_blank(), 
+         axis.title=element_blank(), 
+         panel.border = element_blank(), 
+         axis.text=element_blank() , 
+         panel.background = element_blank()
+         
+  )+ggtitle("Spring")+
+  theme(plot.title = element_text(hjust = 0.5))
 ```
+
+
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
-combined_plot_1 <-  plotsum + plotwin
-combined_plot_1
+map_data_fall$count_new<-cut(map_data_fall$count
+                            ,breaks=c(-Inf,50,100,150,200,250,300,Inf)
+                            ,labels = c(
+                              "[0,50 )"
+                              ,"[50,100)"
+                              ,"[100,150)"
+                              ,"[150,200)"
+                              ,"[200,250)"
+                              ,"[250,300)"
+                              ,"[300+)"
+                              
+                            ))
+
+fall<-ggplot()+
+  geom_sf(data = map_data_fall,colour = "gray60",size = 0.1,aes(fill = count_new) )+
+  # scale_fill_continuous(low = "#FF9797", high = "#600000",na.value="white")+
+  scale_fill_brewer(palette = "YlOrRd")+
+  #scale_fill_manual(palette = "YlOrRd")+
+  theme( axis.ticks=element_blank(), 
+         axis.title=element_blank(), 
+         panel.border = element_blank(), 
+         axis.text=element_blank() , 
+         panel.background = element_blank()
+         
+  )+ggtitle("Fall")+
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+
+```{r}
+grid.arrange(spring, fall, summer, winter, ncol = 2, nrow = 2)
 ```
 
