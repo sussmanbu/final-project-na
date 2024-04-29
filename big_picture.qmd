@@ -16,7 +16,7 @@ Read articles from those sites and similar sites to get a feeling for what they 
 Try to write in the style of a news or popular article.
 Importantly, this pge should be geared towards the general public.
 You shouldn't assume the reader understands how to interpret a linear regression.
-Focus on interpretation and visualizations.
+Focus on interpretation and visualizations. 
 
 ------------------------------------------------------------------------
 
@@ -123,11 +123,7 @@ It’s the most common thread that requires our focused attention to understand 
 
 ## Thesis Statement:
 
-NYPD Arrest dataset, is more than a ledger of offenses; it is a map of human interaction.
-By breaking down every arrest made, examining where and when, and looking at the personal profiles involved, we can begin to see patterns emerge.
-With these details, we aim to uncover trends that can inform effective and targeted policy decisions.
-This isn’t just a study; it’s a step toward making tangible improvements in community safety.
-By focusing on Assault 3, we intend to find out the factors that lead to such offenses and suggest practical ways to make people safer when living in New York city.
+The daily crime rates in New York City are significantly influenced by a combination of demographic factors — specifically age, gender, and race of individuals — and environmental conditions, including daily temperature fluctuations and weather patterns.
 
 ### **1.  Crime on the Map: Uncovering the Regions of “Assault 3” Across New York**
 
@@ -156,6 +152,7 @@ map_data_all <- as(map_data_all, "sf")
 
 ```
 
+
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
 ggplot()+
   geom_sf(data = map_data_all,colour = "gray60",size = 0.1,aes(fill = count) )+
@@ -171,6 +168,7 @@ ggplot()+
   )+ggtitle("ALL YEAR")+
   theme(plot.title = element_text(hjust = 0.5))
 ```
+
 
 The map on the left is an indicator to show the exact names correlated to different regions.
 The map on the right shows the number of incidents occurring in different regions of New York city in 2023.
