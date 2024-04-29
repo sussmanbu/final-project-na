@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -145,15 +145,33 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<p>We combined NYPD Arrest Data from 2022 to our dataset. The new dataset of NYPD Arrest Data 2022 is similar to the previous dataset and they both include information about the type of crime, the location and time of enforcement. Initially, we ensured that both datasets have the same structure by matching the variables. We delete the arrest ID, two classification ID, and jurisdiction code. We remove rows with any NA and null values from the dataset. These variables are redundant and not relevant with our research. We also delete undefined data in Level of offense: felony, misdemeanor, violation, infraction. Except that,After matching the variables and cleaning, the datasets were merged into a single dataset.</p>
-<p>Bellow is code of cleaning and merging process.</p>
+<p>In our research, in addition to the explantory analysis of arrest data, we wanted to take it a step further and look at the non-human factors that affect crime, so we added the daily weather conditions of New York City over the course of a year to our master data. This data comes from <a href="https://www.visualcrossing.com/weather/weather-data-services#">Visual crossing</a>’s weather database.</p>
+<p>we selected basic weather conditions for New York City for the year 2023 so that we could explore whether extremes in temperature, wind speed, and so on, affect crime rates, as well as crime trends under different weather conditions. This way it can be more efficient to optimize the efficiency of NYPD’s police response.</p>
 <p><a href="scripts/load_and_clean_data.R">Data Loading and Cleaning Script</a></p>
 <div class="cell">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: There was 1 warning in `mutate()`.
+ℹ In argument: `ARREST_DATE = mdy(ARREST_DATE)`.
+Caused by warning:
+! All formats failed to parse. No formats found.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in min(x): no non-missing arguments to min; returning Inf</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in max(x): no non-missing arguments to max; returning -Inf</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in min(diff(sort(x))): no non-missing arguments to min; returning Inf</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 1 rows containing missing values (`position_stack()`).</code></pre>
+</div>
 <div class="cell-output-display">
 <p><img src="2024-04-15-Fifth-blog-post_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>By examining the combined dataset through graphical analysis, we observed that there has been a steady increase in crime rates from 2022 to 2023. The proportion of different types of crimes remained relatively stable over the two years.</p>
+<p>By examining the combined dataset through graphical analysis, we observed that there has been a steady increase in crime rates from winter to spring and decreases from Autumn to winter The proportion of different types of crimes remained relatively stable over the two years.</p>
 <p>And our next step is to do the regression and logistic analysis to understanding the trends and patterns within the data. Moreover, we will create a more localized heat map of New York neighborhoods which will provide clear visual insights into areas with higher crime rates, potentially informing policy decisions, law enforcement resource allocation, or community support initiatives.</p>
 
 

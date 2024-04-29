@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -117,7 +151,20 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#example-of-loading-data" id="toc-example-of-loading-data" class="nav-link active" data-scroll-target="#example-of-loading-data">Example of loading data</a></li>
   <li><a href="#note-on-attribution" id="toc-note-on-attribution" class="nav-link" data-scroll-target="#note-on-attribution">Note on Attribution</a></li>
   <li><a href="#rubric-on-this-page" id="toc-rubric-on-this-page" class="nav-link" data-scroll-target="#rubric-on-this-page">Rubric: On this page</a></li>
-  <li><a href="#explantory-analysis" id="toc-explantory-analysis" class="nav-link" data-scroll-target="#explantory-analysis">Explantory Analysis</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#demographic-factor" id="toc-demographic-factor" class="nav-link" data-scroll-target="#demographic-factor">Demographic factor</a>
+  <ul class="collapse">
+  <li><a href="#age" id="toc-age" class="nav-link" data-scroll-target="#age">Age</a></li>
+  <li><a href="#gender-and-race" id="toc-gender-and-race" class="nav-link" data-scroll-target="#gender-and-race">Gender and Race</a></li>
+  <li><a href="#borough" id="toc-borough" class="nav-link" data-scroll-target="#borough">Borough</a></li>
+  </ul></li>
+  <li><a href="#environmental-factors" id="toc-environmental-factors" class="nav-link" data-scroll-target="#environmental-factors">Environmental Factors</a>
+  <ul class="collapse">
+  <li><a href="#temperature" id="toc-temperature" class="nav-link" data-scroll-target="#temperature">Temperature</a></li>
+  <li><a href="#weather-condition" id="toc-weather-condition" class="nav-link" data-scroll-target="#weather-condition">Weather Condition</a></li>
+  <li><a href="#windspeed" id="toc-windspeed" class="nav-link" data-scroll-target="#windspeed">Windspeed</a></li>
+  </ul></li>
+  <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model">Model</a></li>
   </ul>
 </nav>
     </div>
@@ -146,7 +193,7 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/7/77/Pebbleswithquarzite.jpg" class="img-fluid"></p>
+<p><img src="images/nypd3.jpeg" class="img-fluid"></p>
 <p>This comes from the file <code>analysis.qmd</code>.</p>
 <p>We describe here our detailed data analysis. This page will provide an overview of what questions you addressed, illustrations of relevant aspects of the data with tables and figures, and a statistical model that attempts to answer part of the question. You’ll also reflect on next steps and further analysis.</p>
 <p>The audience for this page is someone like your class mates, so you can expect that they have some level of statistical and quantitative sophistication and understand ideas like linear and logistic regression, coefficients, confidence intervals, overfitting, etc.</p>
@@ -204,85 +251,477 @@ ul.task-list li input[type="checkbox"] {
 </ul></li>
 </ul>
 </section>
-<section id="explantory-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="explantory-analysis">Explantory Analysis</h2>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>From our data page, we know that the Level 3 Assault is the most common cases in the New York city, so we decide to locate our target on the Demographic factor and Environmental factor that would effect the incidents of Level 3 Assault. Through this analysis, We could uncover correlations that inform targeted interventions, enhance policy-making, and improve resource allocation. By identifying specific risk factors related to demographics and environmental conditions, the analysis aims to guide more effective prevention strategies, optimize urban planning, and strengthen community engagement and support.</p>
+<p>Our team will focus on the analysis of following variables in the dataset:</p>
+<ul>
+<li><p>Demographic factor : Age, Race, Borough</p></li>
+<li><p>Environmental factor: Temperature,weather condition,wind speed</p></li>
+</ul>
+</section>
+<section id="demographic-factor" class="level2">
+<h2 class="anchored" data-anchor-id="demographic-factor">Demographic factor</h2>
+<section id="age" class="level3">
+<h3 class="anchored" data-anchor-id="age">Age</h3>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="analysis_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>It shows the number of crime incidents for each month of the year. The vertical axis indicates the number of crime incidents, ranging from 0 to above 20,000. The bar chart shows a trend of increase in crime from 2022 to 2023.</p>
+<p>From this bar chart, we could know that the distribution of Assault 3 incidents across different age groups in New York City. It highlights that the age group 25-44 has the highest incidence count, significantly surpassing other age groups, with the lowest counts observed in the under-18 and 65+ age brackets. Next we are going to move to gender and race’s relationship with Assault 3 crime rate.</p>
+</section>
+<section id="gender-and-race" class="level3">
+<h3 class="anchored" data-anchor-id="gender-and-race">Gender and Race</h3>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Selecting by Incident_Count</code></pre>
-</div>
 <div class="cell-output-display">
 <p><img src="analysis_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>The bar chart presents a comparison of incident counts across the top 10 crime categories. The most frequently reported category is “Assault &amp; Related Offenses,” which leads the chart. “Petit Larceny” appears as the second most prevalent, followed closely by “Dangerous Drugs.” The categories at the lower end of the spectrum, “Dangerous Weapons” and “Grand Larceny,” have the fewest reported incidents among the top 10.</p>
+<p>From this graph we could directly find out that males always have higher number of incidents than female. Also, the highest number of incidents is associated with Black males, followed by White Hispanic males.</p>
+<p>However, it have some <strong>limitations</strong> of this graph. The graph’s representation of Assault 3 incidents by race and gender may be skewed by reporting biases and systemic disparities in arrest records, as well as not accounting for the actual demographic distribution of New York City’s population.</p>
+</section>
+<section id="borough" class="level3">
+<h3 class="anchored" data-anchor-id="borough">Borough</h3>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="analysis_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>On this graph we are showing the number of cases per race among all races. On this graph we can see that the lowest number of cases per race are represented by the Indian/Alaskan native people. The highest is for colred people having over 11k cases during this period.</p>
+<p>The graph presents a horizontal bar chart of Assault 3 incidents by borough in New York City, showing Bronx with the highest number of incidents followed by the Brooklyn, Queens, Manhattan, and Staten Island with the fewest.</p>
+<p>In conclusion, by analyzing factors like region, age, and gender, we can establish a general distribution pattern for Level 3 Assault crimes. Subsequently, we will employ regression models to discern whether these factors are correlated with or causative of variations in crime rates. Now, we are moving to the EDA of environmental factors.</p>
+</section>
+</section>
+<section id="environmental-factors" class="level2">
+<h2 class="anchored" data-anchor-id="environmental-factors">Environmental Factors</h2>
+<section id="temperature" class="level3">
+<h3 class="anchored" data-anchor-id="temperature">Temperature</h3>
 <div class="cell">
-<div class="cell-output-display">
-<p><img src="analysis_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `geo_export_87553334-fdcd-4d0c-8ab2-43a5e2975733' from data source `/Users/dingjiatong/R code/finalproject-jt/dataset/geo_export_87553334-fdcd-4d0c-8ab2-43a5e2975733.shp' 
+  using driver `ESRI Shapefile'
+Simple feature collection with 77 features and 3 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: -74.25559 ymin: 40.49612 xmax: -73.70001 ymax: 40.91553
+Geodetic CRS:  WGS84(DD)</code></pre>
 </div>
 </div>
-<p>This bar chart illustrates the racial composition of crime across ten categories, with the green segment indicating a dominant proportion of Black individuals in every category, followed by White Hispanics, represented by the pink segment. The smallest proportions are contributed by Asian/Pacific Islanders and American Indian/Alaskan Natives, shown in orange and red. This visualization provides a proportional breakdown by race, with each color-coded segment corresponding to the percentage of total incidents attributed to that racial group, reflecting the diversity and potential disparities within crime statistics.</p>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Selecting by Incident_Count
-`summarise()` has grouped output by 'OFNS_DESC'. You can override using the
-`.groups` argument.</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="analysis_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>The stacked bar chart visualizes the proportions of the top 10 crime categories distributed by gender, distinguishing between female (F), male (M), and unspecified (U). It’s apparent that male-associated incidents dominate each crime category, with a markedly higher proportion compared to females and unspecified genders across the board. Notably, crimes associated with “Dangerous Drugs,” “Felony Assault,” and “Robbery” show a substantial majority of male involvement. This chart effectively conveys the gender distribution within these crime categories but does not provide the actual number of incidents or contextual background that might explain the observed gender differences.</p>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Selecting by Incident_Count
-`summarise()` has grouped output by 'OFNS_DESC'. You can override using the
-`.groups` argument.</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="analysis_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>This graph displays a breakdown of crime incidents by gender across different categories, with green bars representing males, red bars for females, and blue bars for unknown gender. A striking feature of the chart is the predominance of green bars (male incidents), which are consistently the highest in every crime category, indicating a higher number of male-associated incidents in these categories. The most significant numbers of incidents for both males and females are recorded in “PETIT LARCENY” and “ASSAULT 3 &amp; RELATED OFFENSES.” Incidents with an unknown gender, represented by blue bars, are the lowest across all categories, suggesting that gender data is more often available than not. The overall trend suggests that while crime affects all genders, males are associated with a higher number of incidents in the data represented.</p>
-<div class="cell">
-<div class="cell-output-display">
-<p><img src="analysis_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<p>The bar chart displays the frequency of various crime types, categorized as Felony, Infraction, Misdemeanor, and Violation. The vertical axis indicates the number of cases, while the horizontal axis lists the crime categories. Misdemeanor appears to be the most common, followed by felonies. The crime incidents of infraction and violation are the least with small numbers of cases.</p>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Selecting by Incident_Count
-`summarise()` has grouped output by 'LAW_CAT_CD'. You can override using the
-`.groups` argument.</code></pre>
-</div>
 <div class="cell-output-display">
 <p><img src="analysis_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>The bar chart shows the distribution of crime incidents across different categories—Infraction, Violation, Felony, and Misdemeanor—segregated by age groups. The graph illustrates that the 25-44 age group has the highest incidence of felonies, a significant number of misdemeanors, and relatively lower counts for infractions and violations, suggesting this age range is the most involved in crime. The other age groups contribute fewer incidents across all categories, with the least involvement by those under 18 and over 65.</p>
+<p>These maps reveal a clear pattern in “Assault 3” incidents: they peak during the summer months, likely due to the increase in outdoor activities and social interactions that warmer weather encourages. Spring and Fall act as transitional periods with moderate crime rates, suggesting a correlation with the gradual changes in weather and daylight hours, which influence how much time people spend outside. The winter months show a marked decrease in crime rates, possibly due to the cold weather discouraging outdoor activity. These trends indicate that environmental factors, such as temperature and seasonality, may play a significant role in the fluctuation of crime rates, necessitating seasonally adjusted strategies for law enforcement and community safety programs.</p>
+</section>
+<section id="weather-condition" class="level3">
+<h3 class="anchored" data-anchor-id="weather-condition">Weather Condition</h3>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Selecting by Incident_Count
-`summarise()` has grouped output by 'OFNS_DESC'. You can override using the
-`.groups` argument.</code></pre>
-</div>
 <div class="cell-output-display">
 <p><img src="analysis_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>This bar chart illustrates the frequency of different crimes for various age groups. Notably, the 25-44 age group shows the highest incident counts in every category, while the groups under 18 and over 65 have significantly fewer incidents across all crime categories.</p>
+<p>The bar chart illustrates the frequency of Assault 3 incidents occurring under various weather conditions. Clear weather and Rain with partially is associated with the highest number of incidents, followed closely by overcast and partially cloudy conditions. Incidents are less frequent during more adverse weather conditions, such as combinations of snow, rain, and overcast skies, suggesting possible correlations between weather and the occurrence of Assault 3 crimes.</p>
+</section>
+<section id="windspeed" class="level3">
+<h3 class="anchored" data-anchor-id="windspeed">Windspeed</h3>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="analysis_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This bar chart shows that incidents are most frequent in wind speeds ranging from 10 to 20 km/h and significantly less frequent as wind speeds increase beyond 20 km/h, suggesting fewer Assault 3 incidents occur in higher wind conditions.</p>
+</section>
+</section>
+<section id="model" class="level2">
+<h2 class="anchored" data-anchor-id="model">Model</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>daily_crime_count <span class="ot">&lt;-</span> ds <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ARREST_DATE) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(OFNS_DESC <span class="sc">==</span> <span class="st">"ASSAULT 3 &amp; RELATED OFFENSES"</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Daily_Count=</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">'drop'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(ARREST_DATE)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>ds<span class="sc">$</span>ARREST_BORO <span class="ot">=</span> <span class="fu">as.factor</span>(ds<span class="sc">$</span>ARREST_BORO)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>ds<span class="sc">$</span>ARREST_PRECINCT<span class="ot">=</span><span class="fu">as.factor</span>(ds<span class="sc">$</span>ARREST_PRECINCT)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>ds<span class="sc">$</span>AGE_GROUP<span class="ot">=</span> <span class="fu">as.factor</span>(ds<span class="sc">$</span>AGE_GROUP)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>ds<span class="sc">$</span>PERP_SEX<span class="ot">=</span> <span class="fu">as.factor</span>(ds<span class="sc">$</span>PERP_SEX)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>ds<span class="sc">$</span>PERP_RACE <span class="ot">=</span><span class="fu">as.factor</span>(ds<span class="sc">$</span>PERP_RACE)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>ds<span class="sc">$</span>conditions <span class="ot">=</span><span class="fu">as.factor</span>(ds<span class="sc">$</span>conditions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming 'ds' is your dataset and has 'ARREST_DATE', 'PD_DESC', and 'temp' columns</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the assault data summary</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>assault_data <span class="ot">&lt;-</span> ds <span class="sc">%&gt;%</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(OFNS_DESC <span class="sc">==</span> <span class="st">"ASSAULT 3 &amp; RELATED OFFENSES"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Month =</span> <span class="fu">floor_date</span>(<span class="fu">as.Date</span>(ARREST_DATE), <span class="st">"month"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Month) <span class="sc">%&gt;%</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Count =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() </span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the temperature data summary</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>mean_temp_by_month <span class="ot">&lt;-</span> ds <span class="sc">%&gt;%</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(OFNS_DESC <span class="sc">==</span> <span class="st">"ASSAULT 3 &amp; RELATED OFFENSES"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Month =</span> <span class="fu">floor_date</span>(<span class="fu">as.Date</span>(ARREST_DATE), <span class="st">"month"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Month) <span class="sc">%&gt;%</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Mean_Temp =</span> <span class="fu">mean</span>(temp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>mean_wind_by_month <span class="ot">&lt;-</span> ds <span class="sc">%&gt;%</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(OFNS_DESC <span class="sc">==</span> <span class="st">"ASSAULT 3 &amp; RELATED OFFENSES"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Month =</span> <span class="fu">floor_date</span>(<span class="fu">as.Date</span>(ARREST_DATE), <span class="st">"month"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Month) <span class="sc">%&gt;%</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Mean_wind =</span> <span class="fu">mean</span>(windspeed, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Join the datasets</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>correlation_data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(assault_data, mean_temp_by_month,mean_wind_by_month, <span class="at">by =</span> <span class="st">"Month"</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>   <span class="fu">left_join</span>(mean_wind_by_month, <span class="at">by =</span> <span class="st">"Month"</span>)</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the correlation coefficient between Count and Mean_Temp</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>correlation_coefficient <span class="ot">&lt;-</span> <span class="fu">cor</span>(correlation_data<span class="sc">$</span>Count, correlation_data<span class="sc">$</span>Mean_Temp,<span class="at">use =</span> <span class="st">"complete.obs"</span>)</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Output the correlation coefficient</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(correlation_coefficient)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.616935</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you want to plot this correlation, you can use a scatter plot with a smooth line</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>correlation_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(correlation_data, <span class="fu">aes</span>(<span class="at">x =</span> Mean_Temp, <span class="at">y =</span> Count)) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Average Monthly Temperature (°C)"</span>, <span class="at">y =</span> <span class="st">"Count of Assault 3 Crimes"</span>, </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Correlation between Temperature and 'Assault 3' Crime Count"</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the correlation plot</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(correlation_plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="analysis_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cor_matrix1 <span class="ot">&lt;-</span> <span class="fu">cor</span>(correlation_data[, <span class="fu">c</span>(<span class="st">"Count"</span>, <span class="st">"Mean_Temp"</span>,<span class="st">"Mean_wind"</span>)], <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(cor_matrix1, </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">color =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"skyblue"</span>, <span class="st">"white"</span>, <span class="st">"lightgreen"</span>))(<span class="dv">200</span>),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">display_numbers =</span> T,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">clustering_distance_rows =</span> <span class="st">"euclidean"</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">clustering_distance_cols =</span> <span class="st">"euclidean"</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">clustering_method =</span> <span class="st">"complete"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="analysis_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>assault_data_weekly <span class="ot">&lt;-</span> ds <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(OFNS_DESC <span class="sc">==</span> <span class="st">"ASSAULT 3 &amp; RELATED OFFENSES"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Week =</span> <span class="fu">floor_date</span>(<span class="fu">as.Date</span>(ARREST_DATE), <span class="st">"week"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Week) <span class="sc">%&gt;%</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Count =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>mean_temp_by_week <span class="ot">&lt;-</span> ds <span class="sc">%&gt;%</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(OFNS_DESC <span class="sc">==</span> <span class="st">"ASSAULT 3 &amp; RELATED OFFENSES"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Week =</span> <span class="fu">floor_date</span>(<span class="fu">as.Date</span>(ARREST_DATE), <span class="st">"week"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Week) <span class="sc">%&gt;%</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Mean_Temp =</span> <span class="fu">mean</span>(temp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>mean_wind_by_week <span class="ot">&lt;-</span> ds <span class="sc">%&gt;%</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(OFNS_DESC <span class="sc">==</span> <span class="st">"ASSAULT 3 &amp; RELATED OFFENSES"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Week =</span> <span class="fu">floor_date</span>(<span class="fu">as.Date</span>(ARREST_DATE), <span class="st">"week"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Week) <span class="sc">%&gt;%</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Mean_Wind =</span> <span class="fu">mean</span>(windspeed, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>correlation_data_weekly <span class="ot">&lt;-</span> <span class="fu">left_join</span>(assault_data_weekly, mean_temp_by_week, <span class="at">by =</span> <span class="st">"Week"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(mean_wind_by_week, <span class="at">by =</span> <span class="st">"Week"</span>)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>correlation_plot2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(correlation_data_weekly, <span class="fu">aes</span>(<span class="at">x =</span> Mean_Temp, <span class="at">y =</span> Count, <span class="at">color =</span> Count)) <span class="sc">+</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">15</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span>  <span class="co"># Square points</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_gradient</span>(<span class="at">low =</span> <span class="st">"lightblue"</span>, <span class="at">high =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span>  <span class="co"># Color gradient</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span>  <span class="co"># Linear regression line</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Average Weekly Temperature (°C)"</span>, <span class="at">y =</span> <span class="st">"Count of Assault 3 Crimes"</span>, </span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Correlation between Temperature and 'Assault 3' Crime Count"</span>) <span class="sc">+</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_colorbar</span>(<span class="at">title =</span> <span class="st">"Frequency"</span>, <span class="at">title.position =</span> <span class="st">"top"</span>))</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the plot</span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(correlation_plot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="analysis_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>cor_matrix2 <span class="ot">&lt;-</span> <span class="fu">cor</span>(correlation_data_weekly[, <span class="fu">c</span>(<span class="st">"Count"</span>, <span class="st">"Mean_Temp"</span>,<span class="st">"Mean_Wind"</span>)], <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(cor_matrix2, </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">color =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"skyblue"</span>, <span class="st">"white"</span>, <span class="st">"lightgreen"</span>))(<span class="dv">200</span>),</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">display_numbers =</span> T,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">clustering_distance_rows =</span> <span class="st">"euclidean"</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">clustering_distance_cols =</span> <span class="st">"euclidean"</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">clustering_method =</span> <span class="st">"complete"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="analysis_files/figure-html/unnamed-chunk-15-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>daily_crime_count <span class="ot">&lt;-</span> ds <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ARREST_DATE) <span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(OFNS_DESC <span class="sc">==</span> <span class="st">"ASSAULT 3 &amp; RELATED OFFENSES"</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Daily_Count=</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">'drop'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(ARREST_DATE)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>daily_temperature <span class="ot">&lt;-</span> ds <span class="sc">%&gt;%</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ARREST_DATE) <span class="sc">%&gt;%</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Temp =</span> <span class="fu">mean</span>(temp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>wind <span class="ot">&lt;-</span>ds <span class="sc">%&gt;%</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ARREST_DATE) <span class="sc">%&gt;%</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Wind =</span> <span class="fu">mean</span>(windspeed, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>daily_data <span class="ot">&lt;-</span> daily_crime_count <span class="sc">%&gt;%</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(daily_temperature, <span class="at">by =</span> <span class="st">"ARREST_DATE"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(wind, <span class="at">by =</span> <span class="st">"ARREST_DATE"</span>)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>scatter_plot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(daily_data, <span class="fu">aes</span>(<span class="at">x =</span> Temp, <span class="at">y =</span> Daily_Count, <span class="at">color =</span> Daily_Count)) <span class="sc">+</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">15</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span>  <span class="co"># Square points</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_gradient</span>(<span class="at">low =</span> <span class="st">"lightblue"</span>, <span class="at">high =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span>  <span class="co"># Color gradient</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span>  <span class="co"># Linear regression line</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Average daily Temperature (°C)"</span>, <span class="at">y =</span> <span class="st">"Count of Assault 3 Crimes"</span>, </span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Correlation between Temperature and 'Assault 3' Crime Count"</span>) <span class="sc">+</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_colorbar</span>(<span class="at">title =</span> <span class="st">"Frequency"</span>, <span class="at">title.position =</span> <span class="st">"top"</span>))</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(scatter_plot3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="analysis_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cor_matrix3 <span class="ot">&lt;-</span> <span class="fu">cor</span>(daily_data[, <span class="fu">c</span>(<span class="st">"Daily_Count"</span>, <span class="st">"Temp"</span>,<span class="st">"Wind"</span>)], <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(cor_matrix3, </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">color =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"skyblue"</span>, <span class="st">"white"</span>, <span class="st">"lightgreen"</span>))(<span class="dv">200</span>),</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">display_numbers =</span> T,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">clustering_distance_rows =</span> <span class="st">"euclidean"</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">clustering_distance_cols =</span> <span class="st">"euclidean"</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">clustering_method =</span> <span class="st">"complete"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="analysis_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>modweek <span class="ot">&lt;-</span> <span class="fu">glm</span>(correlation_data_weekly<span class="sc">$</span>Count<span class="sc">~</span>correlation_data_weekly<span class="sc">$</span>Mean_Temp<span class="sc">+</span>correlation_data_weekly<span class="sc">$</span>Mean_Wind)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modweek)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = correlation_data_weekly$Count ~ correlation_data_weekly$Mean_Temp + 
+    correlation_data_weekly$Mean_Wind)
+
+Coefficients:
+                                  Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)                        542.168     96.452   5.621 8.44e-07 ***
+correlation_data_weekly$Mean_Temp    3.611      1.720   2.100   0.0408 *  
+correlation_data_weekly$Mean_Wind    1.825      4.114   0.443   0.6593    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for gaussian family taken to be 7081.872)
+
+    Null deviance: 387713  on 52  degrees of freedom
+Residual deviance: 354094  on 50  degrees of freedom
+AIC: 625.18
+
+Number of Fisher Scoring iterations: 2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>modmonth <span class="ot">&lt;-</span><span class="fu">glm</span>(correlation_data<span class="sc">$</span>Count<span class="sc">~</span> correlation_data<span class="sc">$</span>Mean_Temp <span class="sc">+</span> correlation_data<span class="sc">$</span>Mean_wind)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modmonth)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = correlation_data$Count ~ correlation_data$Mean_Temp + 
+    correlation_data$Mean_wind)
+
+Coefficients:
+                           Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)                4138.621    590.896   7.004  6.3e-05 ***
+correlation_data$Mean_Temp    2.432      5.399   0.451   0.6630    
+correlation_data$Mean_wind  -69.753     26.789  -2.604   0.0286 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for gaussian family taken to be 9568.613)
+
+    Null deviance: 243773  on 11  degrees of freedom
+Residual deviance:  86118  on  9  degrees of freedom
+AIC: 148.6
+
+Number of Fisher Scoring iterations: 2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>modday <span class="ot">&lt;-</span> <span class="fu">lm</span>(daily_data<span class="sc">$</span>Daily_Count <span class="sc">~</span> daily_data<span class="sc">$</span>Temp <span class="sc">+</span>daily_data<span class="sc">$</span>Wind)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modday)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = daily_data$Daily_Count ~ daily_data$Temp + daily_data$Wind)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-28.370  -9.303  -1.497   8.869  44.098 
+
+Coefficients:
+                Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)     89.09075    3.03922  29.314  &lt; 2e-16 ***
+daily_data$Temp  0.23861    0.08909   2.678  0.00774 ** 
+daily_data$Wind -0.04993    0.11675  -0.428  0.66915    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 12.87 on 362 degrees of freedom
+Multiple R-squared:  0.02341,   Adjusted R-squared:  0.01802 
+F-statistic:  4.34 on 2 and 362 DF,  p-value: 0.01373</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>ds <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(OFNS_DESC, LAW_CAT_CD, AGE_GROUP, PERP_SEX, PERP_RACE,ARREST_BORO,ARREST_PRECINCT,conditions) <span class="sc">%&gt;%</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>((OFNS_DESC <span class="sc">==</span> <span class="st">"ASSAULT 3 &amp; RELATED OFFENSES"</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">name =</span> <span class="st">'y'</span>) <span class="ot">-&gt;</span> df_y</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span>  conditions<span class="sc">+</span> AGE_GROUP <span class="sc">+</span> PERP_SEX <span class="sc">+</span> PERP_RACE<span class="sc">+</span> ARREST_BORO<span class="sc">+</span> ARREST_PRECINCT,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">data =</span> df_y, <span class="at">family =</span> poisson)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = y ~ conditions + AGE_GROUP + PERP_SEX + PERP_RACE + 
+    ARREST_BORO + ARREST_PRECINCT, family = poisson, data = df_y)
+
+Coefficients: (3 not defined because of singularities)
+                                       Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)                            -1.65493    0.09951 -16.631  &lt; 2e-16 ***
+conditionsOvercast                     -1.78485    0.04457 -40.049  &lt; 2e-16 ***
+conditionsPartially cloudy             -0.10627    0.01516  -7.008 2.42e-12 ***
+conditionsRain                         -1.10053    0.02463 -44.681  &lt; 2e-16 ***
+conditionsRain, Overcast               -0.76048    0.02022 -37.614  &lt; 2e-16 ***
+conditionsRain, Partially cloudy        0.03254    0.01459   2.230 0.025738 *  
+conditionsSnow, Partially cloudy       -2.29470    0.10609 -21.629  &lt; 2e-16 ***
+conditionsSnow, Rain, Overcast         -2.21498    0.10860 -20.396  &lt; 2e-16 ***
+conditionsSnow, Rain, Partially cloudy -1.93889    0.05382 -36.025  &lt; 2e-16 ***
+AGE_GROUP18-24                          0.83808    0.03302  25.384  &lt; 2e-16 ***
+AGE_GROUP25-44                          1.81259    0.03111  58.269  &lt; 2e-16 ***
+AGE_GROUP45-64                          0.96066    0.03260  29.465  &lt; 2e-16 ***
+AGE_GROUP65+                           -0.16521    0.04688  -3.524 0.000425 ***
+PERP_SEXM                               0.73722    0.01257  58.660  &lt; 2e-16 ***
+PERP_SEXU                              -1.43457    0.04609 -31.123  &lt; 2e-16 ***
+PERP_RACEASIAN / PACIFIC ISLANDER       1.22719    0.08754  14.019  &lt; 2e-16 ***
+PERP_RACEBLACK                          2.41670    0.08548  28.273  &lt; 2e-16 ***
+PERP_RACEBLACK HISPANIC                 1.24769    0.08686  14.364  &lt; 2e-16 ***
+PERP_RACEWHITE                          1.28721    0.08705  14.787  &lt; 2e-16 ***
+PERP_RACEWHITE HISPANIC                 1.99411    0.08570  23.270  &lt; 2e-16 ***
+ARREST_BOROK                           -1.14847    0.08945 -12.839  &lt; 2e-16 ***
+ARREST_BOROM                           -0.87635    0.07688 -11.398  &lt; 2e-16 ***
+ARREST_BOROQ                            1.38875    0.41743   3.327 0.000878 ***
+ARREST_BOROS                           -0.79379    0.08730  -9.093  &lt; 2e-16 ***
+ARREST_PRECINCT5                        0.02022    0.09205   0.220 0.826094    
+ARREST_PRECINCT6                        0.04568    0.09241   0.494 0.621049    
+ARREST_PRECINCT7                        0.17566    0.08858   1.983 0.047359 *  
+ARREST_PRECINCT9                        0.15933    0.08940   1.782 0.074722 .  
+ARREST_PRECINCT10                      -0.02530    0.09348  -0.271 0.786621    
+ARREST_PRECINCT13                       0.31788    0.08553   3.717 0.000202 ***
+ARREST_PRECINCT14                       0.87492    0.07627  11.471  &lt; 2e-16 ***
+ARREST_PRECINCT17                      -0.28175    0.10546  -2.672 0.007548 ** 
+ARREST_PRECINCT18                       0.44011    0.08250   5.335 9.56e-08 ***
+ARREST_PRECINCT19                       0.07032    0.09308   0.755 0.449980    
+ARREST_PRECINCT20                      -0.38285    0.10821  -3.538 0.000403 ***
+ARREST_PRECINCT22                      -1.09142    0.20707  -5.271 1.36e-07 ***
+ARREST_PRECINCT23                       0.47131    0.08198   5.749 8.95e-09 ***
+ARREST_PRECINCT24                      -0.08732    0.09663  -0.904 0.366196    
+ARREST_PRECINCT25                       0.39193    0.08364   4.686 2.78e-06 ***
+ARREST_PRECINCT26                       0.03176    0.09591   0.331 0.740554    
+ARREST_PRECINCT28                       0.20064    0.08844   2.269 0.023293 *  
+ARREST_PRECINCT30                       0.17438    0.08820   1.977 0.048024 *  
+ARREST_PRECINCT32                       0.73514    0.07990   9.201  &lt; 2e-16 ***
+ARREST_PRECINCT33                       0.31908    0.08631   3.697 0.000218 ***
+ARREST_PRECINCT34                       0.39698    0.08440   4.703 2.56e-06 ***
+ARREST_PRECINCT40                       0.39545    0.04988   7.928 2.23e-15 ***
+ARREST_PRECINCT41                      -0.14451    0.05774  -2.503 0.012319 *  
+ARREST_PRECINCT42                       0.20755    0.05177   4.009 6.09e-05 ***
+ARREST_PRECINCT43                       0.22539    0.05082   4.435 9.22e-06 ***
+ARREST_PRECINCT44                       0.35116    0.05003   7.019 2.23e-12 ***
+ARREST_PRECINCT45                      -0.36216    0.06084  -5.953 2.63e-09 ***
+ARREST_PRECINCT46                       0.38984    0.04944   7.885 3.14e-15 ***
+ARREST_PRECINCT47                       0.29678    0.05050   5.877 4.17e-09 ***
+ARREST_PRECINCT48                       0.19595    0.05275   3.715 0.000203 ***
+ARREST_PRECINCT49                      -0.29020    0.05939  -4.886 1.03e-06 ***
+ARREST_PRECINCT50                      -0.80065    0.07304 -10.962  &lt; 2e-16 ***
+ARREST_PRECINCT52                            NA         NA      NA       NA    
+ARREST_PRECINCT60                       0.73734    0.09366   7.873 3.47e-15 ***
+ARREST_PRECINCT61                       0.36033    0.10216   3.527 0.000420 ***
+ARREST_PRECINCT62                       0.91595    0.09257   9.895  &lt; 2e-16 ***
+ARREST_PRECINCT63                       0.37582    0.10109   3.718 0.000201 ***
+ARREST_PRECINCT66                       0.53899    0.10117   5.328 9.95e-08 ***
+ARREST_PRECINCT67                       1.31269    0.08890  14.766  &lt; 2e-16 ***
+ARREST_PRECINCT68                       0.67343    0.09964   6.758 1.40e-11 ***
+ARREST_PRECINCT69                       0.70433    0.09880   7.129 1.01e-12 ***
+ARREST_PRECINCT70                       0.81328    0.09320   8.726  &lt; 2e-16 ***
+ARREST_PRECINCT71                       0.80808    0.09516   8.491  &lt; 2e-16 ***
+ARREST_PRECINCT72                       0.82505    0.09384   8.792  &lt; 2e-16 ***
+ARREST_PRECINCT73                       1.24677    0.08935  13.953  &lt; 2e-16 ***
+ARREST_PRECINCT75                       1.48802    0.08704  17.096  &lt; 2e-16 ***
+ARREST_PRECINCT76                      -0.19118    0.12485  -1.531 0.125706    
+ARREST_PRECINCT77                       0.87359    0.09363   9.331  &lt; 2e-16 ***
+ARREST_PRECINCT78                       0.21993    0.10857   2.026 0.042798 *  
+ARREST_PRECINCT79                       0.90390    0.09260   9.762  &lt; 2e-16 ***
+ARREST_PRECINCT81                       0.55679    0.09895   5.627 1.83e-08 ***
+ARREST_PRECINCT83                       0.89312    0.09281   9.624  &lt; 2e-16 ***
+ARREST_PRECINCT84                       0.46124    0.10199   4.522 6.12e-06 ***
+ARREST_PRECINCT88                       0.21501    0.10689   2.012 0.044269 *  
+ARREST_PRECINCT90                       0.54995    0.09809   5.606 2.07e-08 ***
+ARREST_PRECINCT94                            NA         NA      NA       NA    
+ARREST_PRECINCT100                     -2.39426    0.42201  -5.673 1.40e-08 ***
+ARREST_PRECINCT101                     -2.00746    0.42004  -4.779 1.76e-06 ***
+ARREST_PRECINCT102                     -1.65931    0.41817  -3.968 7.25e-05 ***
+ARREST_PRECINCT103                     -1.31176    0.41720  -3.144 0.001665 ** 
+ARREST_PRECINCT104                     -1.73404    0.41869  -4.142 3.45e-05 ***
+ARREST_PRECINCT105                     -1.47858    0.41762  -3.540 0.000399 ***
+ARREST_PRECINCT106                     -1.64218    0.41813  -3.927 8.59e-05 ***
+ARREST_PRECINCT107                     -1.98661    0.41909  -4.740 2.13e-06 ***
+ARREST_PRECINCT108                     -1.89938    0.41884  -4.535 5.76e-06 ***
+ARREST_PRECINCT109                     -1.48049    0.41763  -3.545 0.000393 ***
+ARREST_PRECINCT110                     -1.17777    0.41712  -2.824 0.004749 ** 
+ARREST_PRECINCT111                     -2.45244    0.42360  -5.790 7.06e-09 ***
+ARREST_PRECINCT112                     -2.38702    0.42187  -5.658 1.53e-08 ***
+ARREST_PRECINCT113                     -1.26789    0.41723  -3.039 0.002375 ** 
+ARREST_PRECINCT114                     -1.52999    0.41368  -3.698 0.000217 ***
+ARREST_PRECINCT115                     -1.37068    0.41750  -3.283 0.001027 ** 
+ARREST_PRECINCT120                      0.56024    0.08896   6.297 3.03e-10 ***
+ARREST_PRECINCT121                      0.24570    0.09403   2.613 0.008979 ** 
+ARREST_PRECINCT122                      0.02011    0.10052   0.200 0.841456    
+ARREST_PRECINCT123                           NA         NA      NA       NA    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for poisson family taken to be 1)
+
+    Null deviance: 45008  on 8615  degrees of freedom
+Residual deviance: 15195  on 8519  degrees of freedom
+AIC: 38899
+
+Number of Fisher Scoring iterations: 5</code></pre>
+</div>
+</div>
 
 
 </section>
