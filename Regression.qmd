@@ -27,11 +27,12 @@ str(crime)
 
 df_y <- ds %>%
   filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
-  group_by(AGE_GROUP, PERP_SEX, PERP_RACE, ARREST_BORO, temp, windspeed, conditions) %>%
+  group_by(temp,conditions,windspeed,AGE_GROUP, PERP_SEX, PERP_RACE, ARREST_BORO) %>%
   summarise(y = n(), .groups = 'drop')
 
 
-mod <- glm(y ~ AGE_GROUP + PERP_SEX + PERP_RACE + ARREST_BORO + temp + windspeed + conditions, 
+
+mod <- glm(y ~ temp+conditions+AGE_GROUP+PERP_SEX+PERP_RACE+ARREST_BORO, 
            data = df_y, 
            family = poisson())
 
@@ -40,17 +41,38 @@ summary(mod)
 
 ```
 ```{r}
-# Calculate the minimum temperature
-min_temp <- min(ds$temp, na.rm = TRUE)
+par(mfrow=c(2,2))
+plot(mod)
+```
+```{r}
+mod_temp <- glm(y ~ temp, 
+           data = df_y, 
+           family = poisson())
+par(mfrow=c(2,2))
+plot(mod_temp)
+```
+```{r}
+mod_temp <- glm(y ~ temp, 
+           data = df_y, 
+           family=poisson())
+summary(mod_temp)
+qqnorm(df_y$temp)
+qqline(df_y$temp, col = "red")
 
-# Calculate the maximum temperature
-max_temp <- max(ds$temp, na.rm = TRUE)
+```
 
-# Output the results
-cat("Minimum temperature:", min_temp, "\n")
-cat("Maximum temperature:", max_temp, "\n")
+```{r}
+qqnorm(df_y$windspeed)
+qqline(df_y$windspeed,col="red")
+```
 
-
+```{r}
+mod_windspeed <- glm(y ~ windspeed, 
+           data = df_y, 
+           family="poisson")
+summary(mod_windspeed)
+par(mfrow=c(2,2))
+plot(mod_windspeed)
 ```
 
 ```{r}
@@ -60,8 +82,8 @@ with(mod,cbind(res.deviance = deviance, df = df.residual, p=pchisq(deviance, df.
 ```{r}
 mod_step = step(mod,direction="both")
 ```
+
 ```{r}
-mod_step=glm(y ~ AGE_GROUP + PERP_SEX + PERP_RACE + ARREST_BORO, data = df_y, family = poisson)
 summary(mod_step)
 ```
 
@@ -73,6 +95,7 @@ ggplot(df_y,aes(x = y, color = conditions,fill=conditions))+geom_density(alpha=0
 condition_glm= glm(y~conditions,data=df_y,family=poisson)
 summary(condition_glm)
 ```
+
 ```{r}
 temp_glm= glm(y~temp+windspeed,data=df_y,family=poisson)
 summary(temp_glm)
@@ -99,25 +122,11 @@ ggplot(df_y, aes(x = y, fill = windspeed_range)) +
        fill = "Wind Speed Range")
 
 ```
+
 ```{r}
-temp_glm= glm(y~temp_range+windspeed_range,data=df_y,family=poisson)
+temp_glm= glm(y~windspeed_range,data=df_y,family=poisson)
 summary(temp_glm)
 ```
 
-```{r}
-install.packages("glmnet")
-library(glmnet)
-# Convert factors to dummy variables
-df_y_matrix <- model.matrix(y ~ . - 1, data = df_y)
 
-# Create a vector for the response variable
-y_vector <- df_y$y
-
-# Set up the ridge regression with glmnet (lambda could be a sequence of values for regularization strength)
-ridge_mod <- glmnet(df_y_matrix, y_vector, family = "poisson", alpha = 0)
-
-# Plot the ridge model
-plot(ridge_mod)
-
-```
 

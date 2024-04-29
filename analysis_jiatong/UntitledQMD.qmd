@@ -148,41 +148,7 @@ ggcorrplot(cor_matrix, method ="circle", type= "lower",
        lab= TRUE,lab_size=4, tl.cex =10, tl.col= "steelblue", title="correlation Matrix of Numeric Variables")
 ```
 
-```{r echo =F}
-crime_counts_by_day <- ds %>%
-  mutate(ARREST_DATE = mdy(ARREST_DATE)) %>%  
-  count(ARREST_DATE)  
-  
-crime_counts_by_month <- crime_counts_by_day %>%
-  mutate(Month = floor_date(ARREST_DATE, "month")) %>%
-  group_by(Month) %>%
-  summarize(Monthly_Crime_Count = sum(n), .groups = "drop")
 
-ggplot(crime_counts_by_month, aes(x = Month, y = Monthly_Crime_Count)) +
-  geom_col(fill = "steelblue") +  # Use geom_col for bar charts
-  labs(title = "Monthly Crime Counts in 2023",
-       x = "Month",
-       y = "Crime Incidents") +
-  scale_x_date(date_labels = "%b", date_breaks = "1 month") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) 
-```
-
-```{r echo =F}
-crime_counts_by_day <- ds |>
-  group_by(ARREST_DATE) |>
-  summarize(Daily_Crime_Count = n(), .groups = "drop")
-crime_counts_by_day$ARREST_DATE <- as.Date(crime_counts_by_day$ARREST_DATE)
-
-ggplot(crime_counts_by_day, aes(x = ARREST_DATE, y = Daily_Crime_Count)) +
-  geom_line() +  # Use geom_line for time series
-  geom_point(size = 0.5, color = "blue") +  # Optional: add points on each date
-  labs(title = "Daily Crime Counts",
-       x = "Date",
-       y = "Number of Crimes") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels if necessary
-```
 ```{r include=FALSE}
 library(dplyr)
 library(tidyverse) 
