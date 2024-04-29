@@ -234,15 +234,163 @@ Now, we are moving to the EDA of environmental factors.
 ## Environmental Factors
 
 ### Temperature
+```{r}
+ds <- readRDS("dataset/load_and_clean_data.rds")
+ds <- as.data.table(ds)
+ds$ARREST_DATE <- ymd(ds$ARREST_DATE)
+ds$ARREST_month <- month(ds$ARREST_DATE)
+
+ds_sub_winter <- ds[OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES"&ARREST_month %in%c(1,2,12) ,]
+ds_sub_summer <- ds[OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES"&ARREST_month %in%c(6,7,8) ,]
+ds_sub_spring <-ds[OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES"& ARREST_month %in%c(3,4,5) ,]
+ds_sub_fall <- ds[OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES"&ARREST_month %in%c(9,10,11) ,]
+
+ds_plot_winter <- ds_sub_winter[,.(count = .N),ARREST_PRECINCT ]
+ds_plot_summer <-ds_sub_summer[,.(count = .N),ARREST_PRECINCT ]
+ds_plot_spring <-ds_sub_spring[,.(count = .N),ARREST_PRECINCT ]
+ds_plot_fall <-ds_sub_fall[,.(count = .N),ARREST_PRECINCT ]
+
+map_data <- st_read("dataset/geo_export_87553334-fdcd-4d0c-8ab2-43a5e2975733.shp")
+map_data <-as(map_data, "Spatial")
+map_data_winter <- sp::merge(map_data,ds_plot_winter,by.x = "precinct",by.y ="ARREST_PRECINCT",all.x = T)
+map_data_summer <- sp::merge(map_data,ds_plot_summer,by.x = "precinct",by.y ="ARREST_PRECINCT",all.x = T)
+
+map_data_spring <- sp::merge(map_data,ds_plot_spring,by.x = "precinct",by.y ="ARREST_PRECINCT",all.x = T)
+map_data_fall <- sp::merge(map_data,ds_plot_fall,by.x = "precinct",by.y ="ARREST_PRECINCT",all.x = T)
+
+map_data_winter <- as(map_data_winter, "sf")
+map_data_summer <-as(map_data_summer, "sf")
+map_data_spring <-as(map_data_spring , "sf")
+map_data_fall <- as(map_data_fall , "sf")
+
+```
+
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+map_data_winter$count_new<-cut(map_data_winter$count
+                            ,breaks=c(-Inf,50,100,150,200,250,300,Inf)
+                            ,labels = c(
+                              "[0,50 )"
+                              ,"[50,100)"
+                              ,"[100,150)"
+                              ,"[150,200)"
+                              ,"[200,250)"
+                              ,"[250,300)"
+                              ,"[300+)"
+                              
+                              
+                            ))
+
+winter <-ggplot()+
+  geom_sf(data = map_data_winter,colour = "gray60",size = 0.1,aes(fill = count_new) )+
+  # scale_fill_continuous(low = "#FF9797", high = "#600000",na.value="white")+
+  scale_fill_brewer(palette = "YlOrRd")+
+  #scale_fill_manual(palette = "YlOrRd")+
+  theme( axis.ticks=element_blank(), 
+         axis.title=element_blank(), 
+         panel.border = element_blank(), 
+         axis.text=element_blank() , 
+         panel.background = element_blank()
+         
+  )+ggtitle("Winter")+
+  theme(plot.title = element_text(hjust = 0.5))+
+  labs(fill = "Count") 
+```
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+map_data_summer$count_new<-cut(map_data_summer$count
+                            ,breaks=c(-Inf,50,100,150,200,250,300,Inf)
+                            ,labels = c(
+                              "[0,50 )"
+                              ,"[50,100)"
+                              ,"[100,150)"
+                              ,"[150,200)"
+                              ,"[200,250)"
+                              ,"[250,300)"
+                              ,"[300+)"
+                              
+                            ))
+
+summer<-ggplot()+
+  geom_sf(data = map_data_summer,colour = "gray60",size = 0.1,aes(fill = count_new) )+
+  # scale_fill_continuous(low = "#FF9797", high = "#600000",na.value="white")+
+  scale_fill_brewer(palette = "YlOrRd")+
+  #scale_fill_manual(palette = "YlOrRd")+
+  theme( axis.ticks=element_blank(), 
+         axis.title=element_blank(), 
+         panel.border = element_blank(), 
+         axis.text=element_blank() , 
+         panel.background = element_blank()
+         
+  )+ggtitle("Summer")+
+  theme(plot.title = element_text(hjust = 0.5))+
+  labs(fill = "Count") 
+```
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+map_data_spring$count_new<-cut(map_data_spring$count
+                            ,breaks=c(-Inf,50,100,150,200,250,300,Inf)
+                            ,labels = c(
+                              "[0,50 )"
+                              ,"[50,100)"
+                              ,"[100,150)"
+                              ,"[150,200)"
+                              ,"[200,250)"
+                              ,"[250,300)"
+                              ,"[300+)"
+                              
+                            ))
+
+spring<-ggplot()+
+  geom_sf(data = map_data_spring,colour = "gray60",size = 0.1,aes(fill = count_new) )+
+  # scale_fill_continuous(low = "#FF9797", high = "#600000",na.value="white")+
+  scale_fill_brewer(palette = "YlOrRd")+
+  #scale_fill_manual(palette = "YlOrRd")+
+  theme( axis.ticks=element_blank(), 
+         axis.title=element_blank(), 
+         panel.border = element_blank(), 
+         axis.text=element_blank() , 
+         panel.background = element_blank()
+         
+  )+ggtitle("Spring")+
+  theme(plot.title = element_text(hjust = 0.5))+
+  labs(fill = "Count") 
+```
+
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+map_data_fall$count_new<-cut(map_data_fall$count
+                            ,breaks=c(-Inf,50,100,150,200,250,300,Inf)
+                            ,labels = c(
+                              "[0,50 )"
+                              ,"[50,100)"
+                              ,"[100,150)"
+                              ,"[150,200)"
+                              ,"[200,250)"
+                              ,"[250,300)"
+                              ,"[300+)"
+                              
+                            ))
+
+fall<-ggplot()+
+  geom_sf(data = map_data_fall,colour = "gray60",size = 0.1,aes(fill = count_new) )+
+  # scale_fill_continuous(low = "#FF9797", high = "#600000",na.value="white")+
+  scale_fill_brewer(palette = "YlOrRd")+
+  #scale_fill_manual(palette = "YlOrRd")+
+  theme( axis.ticks=element_blank(), 
+         axis.title=element_blank(), 
+         panel.border = element_blank(), 
+         axis.text=element_blank() , 
+         panel.background = element_blank()
+         
+  )+ggtitle("Fall")+
+  theme(plot.title = element_text(hjust = 0.5))+ labs(fill = "Count") 
+```
 
 
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
 grid.arrange(spring, fall, summer, winter, ncol = 2, nrow = 2)
 ```
-
-```
-
-
 
 
 
@@ -377,6 +525,7 @@ pheatmap(cor_matrix1,
          clustering_method = "complete")
 
 ```
+
 
 
 ```{r}
