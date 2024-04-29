@@ -1,6 +1,7 @@
 title: "Explantory ANALYSIS Jiatong"
 author: "Jiatong Ding"
 format: gfm
+
 ---
 
 
@@ -482,6 +483,7 @@ fall<-ggplot()+
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
 grid.arrange(spring, fall, summer, winter, ncol = 2, nrow = 2)
 ```
+
 
 
 
