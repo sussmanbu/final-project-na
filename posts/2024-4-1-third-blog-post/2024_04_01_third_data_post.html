@@ -22,40 +22,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -207,11 +173,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
 <p>Using these principles with the NYPD Arrest Data means we need to carefully consider how this data is collected and used. It’s important to keep talking to the communities involved, be clear about what data could be shown, watch out for any biases, and make sure to protect people’s privacy and treat them with respect in the data.</p>
 </section>
-<section id="data-analysis-part-2" class="level2">
-<h2 class="anchored" data-anchor-id="data-analysis-part-2">Data Analysis part 2</h2>
+<section id="expanlantory-analysis-part-2" class="level2">
+<h2 class="anchored" data-anchor-id="expanlantory-analysis-part-2">Expanlantory Analysis part 2</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>ds<span class="sc">|&gt;</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span>AGE_GROUP))<span class="sc">+</span> <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="2024_04_01_third_data_post_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -229,15 +193,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">F</td>
-<td style="text-align: right;">39186</td>
+<td style="text-align: right;">38963</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">M</td>
-<td style="text-align: right;">181971</td>
+<td style="text-align: right;">181602</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">U</td>
-<td style="text-align: right;">3488</td>
+<td style="text-align: right;">2978</td>
 </tr>
 </tbody>
 </table>
@@ -246,7 +210,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>There are three big categories of sexes:male,female,undefined.</p>
-<p>There are 62 crimes, the below table shows the specific description and level in 62 crimes.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div class="table-responsive">
@@ -260,7 +223,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">ADMINISTRATIVE CODE</td>
-<td style="text-align: left;">ADM.CODE,UNCLASSIFIED VIOLATIO, ALCOHOLIC BEVERAGES,PUBLIC CON, ADM.CODE,UNCLASSIFIED MISDEMEA, UNLAWFUL DISCLOSURE OF AN INTIMATE IMAGE, PEDDLING,UNLAWFUL, PARKR&amp;R,UNCLASSIFIED VIOLATION</td>
+<td style="text-align: left;">ADM.CODE,UNCLASSIFIED MISDEMEA, ALCOHOLIC BEVERAGES,PUBLIC CON, ADM.CODE,UNCLASSIFIED VIOLATIO, UNLAWFUL DISCLOSURE OF AN INTIMATE IMAGE, PEDDLING,UNLAWFUL, PARKR&amp;R,UNCLASSIFIED VIOLATION</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">ADMINISTRATIVE CODES</td>
@@ -296,7 +259,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">CANNABIS RELATED OFFENSES</td>
-<td style="text-align: left;">CANNABIS POSSESSION, 2&amp;1, CANNABIS POSSESSION, 3, CANNABIS SALE, 3, CANNABIS SALE, 2&amp;1, CANNABIS SALE, AGGRAVATED, CANNABIS SALE, CANNABIS POSSESSION</td>
+<td style="text-align: left;">CANNABIS SALE, 3, CANNABIS POSSESSION, 3, CANNABIS SALE, 2&amp;1, CANNABIS POSSESSION, 2&amp;1, CANNABIS SALE, CANNABIS SALE, AGGRAVATED, CANNABIS POSSESSION</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">CHILD ABANDONMENT/NON SUPPORT</td>
@@ -304,7 +267,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">CRIMINAL MISCHIEF &amp; RELATED OF</td>
-<td style="text-align: left;">CRIMINAL MIS 2 &amp; 3, MISCHIEF,CRIMINAL, UNCL 2ND, CRIMINAL MISCHIEF,UNCLASSIFIED 4, CRIMINAL MISCHIEF 4TH, GRAFFIT, FALSE ALARM FIRE, TAMPERING 1,CRIMINAL, TAMPERING 3,2, CRIMINAL, MISCHIEF, CRIMINAL 4, BY FIRE, MISCHIEF 1,CRIMINAL,EXPLOSIVE, RECKLESS ENDANGERMENT OF PROPE, MISCHIEF, CRIMINAL 4, OF MOTOR, MISCHIEF, CRIMINAL 3 &amp; 2, OF M</td>
+<td style="text-align: left;">CRIMINAL MISCHIEF,UNCLASSIFIED 4, CRIMINAL MIS 2 &amp; 3, CRIMINAL MISCHIEF 4TH, GRAFFIT, MISCHIEF,CRIMINAL, UNCL 2ND, MISCHIEF 1,CRIMINAL,EXPLOSIVE, TAMPERING 3,2, CRIMINAL, TAMPERING 1,CRIMINAL, MISCHIEF, CRIMINAL 4, BY FIRE, RECKLESS ENDANGERMENT OF PROPE, FALSE ALARM FIRE, MISCHIEF, CRIMINAL 4, OF MOTOR, MISCHIEF, CRIMINAL 3 &amp; 2, OF M</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">CRIMINAL TRESPASS</td>
@@ -312,11 +275,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">DANGEROUS DRUGS</td>
-<td style="text-align: left;">CONTROLLED SUBSTANCE, POSSESSI, CONTROLLED SUBSTANCE,INTENT TO, SALE SCHOOL GROUNDS, CONTROLLED SUBSTANCE,POSSESS., DRUG PARAPHERNALIA, POSSESSE, CONTROLLED SUBSTANCE, INTENT T, CONTROLLED SUBSTANCE,SALE 3, CONTROLLED SUBSTANCE,SALE 2, CONTROLLED SUBSTANCE,SALE 1, CONTROLLED SUBSTANCE, SALE 5, CONTROLLED SUBSTANCE, SALE 4, SALE SCHOOL GROUNDS 4, POSS METH MANUFACT MATERIAL, SALES OF PRESCRIPTION</td>
+<td style="text-align: left;">CONTROLLED SUBSTANCE,POSSESS., CONTROLLED SUBSTANCE, POSSESSI, CONTROLLED SUBSTANCE,INTENT TO, CONTROLLED SUBSTANCE, SALE 4, CONTROLLED SUBSTANCE,SALE 3, CONTROLLED SUBSTANCE, INTENT T, CONTROLLED SUBSTANCE,SALE 1, DRUG PARAPHERNALIA, POSSESSE, SALE SCHOOL GROUNDS, CONTROLLED SUBSTANCE,SALE 2, POSS METH MANUFACT MATERIAL, CONTROLLED SUBSTANCE, SALE 5, SALES OF PRESCRIPTION, SALE SCHOOL GROUNDS 4</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">DANGEROUS WEAPONS</td>
-<td style="text-align: left;">CRIMINAL POSSESSION WEAPON, WEAPONS, POSSESSION, ETC, WEAPONS POSSESSION 3, WEAPONS,MFR,TRANSPORT,ETC., CRIMINAL DISPOSAL FIREARM 1, CRIM POS WEAP 4, WEAPONS DISPOSITION OF, UNFINSH FRAME 2, MANUFATURE, TRANSPORT, DEFACE, ETC..., FIREARMS LICENSING LAWS</td>
+<td style="text-align: left;">CRIMINAL POSSESSION WEAPON, WEAPONS, POSSESSION, ETC, WEAPONS POSSESSION 3, CRIMINAL DISPOSAL FIREARM 1, MANUFATURE, TRANSPORT, DEFACE, ETC..., CRIM POS WEAP 4, WEAPONS,MFR,TRANSPORT,ETC., WEAPONS DISPOSITION OF, UNFINSH FRAME 2, FIREARMS LICENSING LAWS</td>
 </tr>
 <tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">DISORDERLY CONDUCT</td>
@@ -343,166 +306,170 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">STALKING COMMIT SEX OFFENSE</td>
 </tr>
 <tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">FOR OTHER AUTHORITIES</td>
+<td style="text-align: left;">U.S. CODE UNCLASSIFIED, FUGITIVE/OTHER JURISDICTION NYS, FUGITIVE/OTHER STATES, NYS UNCLASSIFIED, NYS PAROLE VIOLATION, NYC UNCLASSIFIED WARRANT, NYS PROBATION, F.C.A. ORDER OF PROTECTION, F.C.A. NON SUPPORT</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">FORGERY</td>
 <td style="text-align: left;">FORGERY,ETC.,UNCLASSIFIED-FELO, FORGERY,M.V. REGISTRATION, FORGERY,PRESCRIPTION</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">FRAUDS</td>
 <td style="text-align: left;">IMPERSONATION 2, PUBLIC SERVAN, FRAUD,UNCLASSIFIED-MISDEMEANOR, CHECK,BAD, COMPUTER UNAUTH. USE/TAMPER</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">FRAUDULENT ACCOSTING</td>
 <td style="text-align: left;">ACCOSTING,FRAUDULENT</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">GAMBLING</td>
 <td style="text-align: left;">GAMBLING, DEVICE, POSSESSION, GAMBLING 2,PROMOTING,UNCLASSIF, GAMBLING 1,PROMOTING,POLICY, GAMBLING 1,PROMOTING,BOOKMAKIN, GAMBLING 2, PROMOTING, POLICY-</td>
 </tr>
-<tr class="even">
-<td style="text-align: left; font-weight: bold; color: black !important;">GRAND LARCENY</td>
-<td style="text-align: left;">LARCENY,GRAND FROM OPEN AREAS, UNATTENDED, LARCENY,GRAND FROM PERSON,UNCL, LARCENY,GRAND BY EXTORTION, AGGRAVATED GRAND LARCENY OF ATM, LARCENY,GRAND BY THEFT OF CREDIT CARD, LARCENY,GRAND FROM BUILDING (NON-RESIDENCE) UNATTENDED</td>
-</tr>
 <tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">GRAND LARCENY</td>
+<td style="text-align: left;">LARCENY,GRAND FROM PERSON,UNCL, LARCENY,GRAND FROM OPEN AREAS, UNATTENDED, AGGRAVATED GRAND LARCENY OF ATM, LARCENY,GRAND BY EXTORTION, LARCENY,GRAND BY THEFT OF CREDIT CARD, LARCENY,GRAND FROM BUILDING (NON-RESIDENCE) UNATTENDED</td>
+</tr>
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">GRAND LARCENY OF MOTOR VEHICLE</td>
 <td style="text-align: left;">LARCENY,GRAND OF AUTO</td>
 </tr>
-<tr class="even">
-<td style="text-align: left; font-weight: bold; color: black !important;">HARRASSMENT 2</td>
-<td style="text-align: left;">HARASSMENT,SUBD 3,4,5, HARASSMENT,SUBD 1,CIVILIAN</td>
-</tr>
 <tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">HARRASSMENT 2</td>
+<td style="text-align: left;">HARASSMENT,SUBD 1,CIVILIAN, HARASSMENT,SUBD 3,4,5</td>
+</tr>
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">HOMICIDE-NEGLIGENT,UNCLASSIFIE</td>
 <td style="text-align: left;">HOMICIDE,NEGLIGENT,UNCLASSIFIE</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">HOMICIDE-NEGLIGENT-VEHICLE</td>
 <td style="text-align: left;">HOMICIDE, NEGLIGENT, VEHICLE,</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">INTOXICATED &amp; IMPAIRED DRIVING</td>
 <td style="text-align: left;">INTOXICATED DRIVING,ALCOHOL, IMPAIRED DRIVING,DRUG</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">INTOXICATED/IMPAIRED DRIVING</td>
 <td style="text-align: left;">INTOXICATED DRIVING,ALCOHOL, IMPAIRED DRIVING, DRUGS</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">JOSTLING</td>
 <td style="text-align: left;">JOSTLING</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">KIDNAPPING</td>
 <td style="text-align: left;">LURING A CHILD</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">KIDNAPPING &amp; RELATED OFFENSES</td>
-<td style="text-align: left;">IMPRISONMENT 1,UNLAWFUL, KIDNAPPING 2, KIDNAPPING 1, CUSTODIAL INTERFERENCE 1</td>
+<td style="text-align: left;">KIDNAPPING 2, IMPRISONMENT 1,UNLAWFUL, KIDNAPPING 1, CUSTODIAL INTERFERENCE 1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">MISCELLANEOUS PENAL LAW</td>
+<td style="text-align: left;">PUBLIC ADMINISTRATION,UNCLASSI, CRIMINAL CONTEMPT 1, MENACING 1ST DEGREE (VICT NOT, RECKLESS ENDANGERMENT 1, IMPERSONATION 1, POLICE OFFICE, AGGRAVATED CRIMINAL CONTEMPT, BRIBERY,PUBLIC ADMINISTRATION, FORGERY-ILLEGAL POSSESSION,VEH, VEHICULAR ASSAULT (INTOX DRIVE, BAIL JUMPING 1 &amp; 2, MAKING TERRORISTIC THREAT, AGGRAVATED HARASSMENT 1, TRESPASS 4,CRIMINAL SUB 2, UNAUTHORIZED USE VEHICLE 2, CONSPIRACY 4, 3, THEFT OF SERVICES- CABLE TV SE, SOLICITATION 3,2,1, CRIMINAL, TRESPASS 1,CRIMINAL, PROMOTING A SEXUAL PERFORMANCE, ESCAPE 2,1, FALSE REPORT 1,FIRE, BRIBERY,FRAUD, CONSPIRACY 2, 1, COERCION 1, TAMPERING WITH A WITNESS, FACILITATION 3,2,1, CRIMINAL, POSTING ADVERTISEMENTS, EXPOSURE OF A PERSON, USURY,CRIMINAL, ENTERPRISE CORRUPTION, USE OF A CHILD IN A SEXUAL PER, SUPP. ACT TERR 2ND, PERJURY 2,1,ETC, END WELFARE VULNERABLE ELDERLY PERSON, RIOT 1, FIREWORKS, POSSESS/USE, NUISANCE, CRIMINAL</td>
 </tr>
 <tr class="even">
-<td style="text-align: left; font-weight: bold; color: black !important;">MISCELLANEOUS PENAL LAW</td>
-<td style="text-align: left;">PUBLIC ADMINISTRATION,UNCLASSI, AGGRAVATED HARASSMENT 1, MENACING 1ST DEGREE (VICT NOT, BRIBERY,PUBLIC ADMINISTRATION, RECKLESS ENDANGERMENT 1, UNAUTHORIZED USE VEHICLE 2, AGGRAVATED CRIMINAL CONTEMPT, TRESPASS 4,CRIMINAL SUB 2, CRIMINAL CONTEMPT 1, THEFT OF SERVICES- CABLE TV SE, FORGERY-ILLEGAL POSSESSION,VEH, FALSE REPORT 1,FIRE, BAIL JUMPING 1 &amp; 2, CONSPIRACY 2, 1, PROMOTING A SEXUAL PERFORMANCE, TRESPASS 1,CRIMINAL, MAKING TERRORISTIC THREAT, BRIBERY,FRAUD, IMPERSONATION 1, POLICE OFFICE, CONSPIRACY 4, 3, ESCAPE 2,1, SOLICITATION 3,2,1, CRIMINAL, VEHICULAR ASSAULT (INTOX DRIVE, COERCION 1, TAMPERING WITH A WITNESS, FACILITATION 3,2,1, CRIMINAL, POSTING ADVERTISEMENTS, PERJURY 2,1,ETC, USURY,CRIMINAL, SUPP. ACT TERR 2ND, RIOT 1, EXPOSURE OF A PERSON, END WELFARE VULNERABLE ELDERLY PERSON, USE OF A CHILD IN A SEXUAL PER, FIREWORKS, POSSESS/USE, ENTERPRISE CORRUPTION, NUISANCE, CRIMINAL</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">MOVING INFRACTIONS</td>
 <td style="text-align: left;">UNLICENSED OPERATOR, SEAT BELTS, IMPAIRED DRIVING / ALCOHOL, FAIL TO STOP ON SIGNAL, USE CELL PHONE WHILE DRIVING</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">MURDER &amp; NON-NEGL. MANSLAUGHTE</td>
 <td style="text-align: left;">MURDER,UNCLASSIFIED, MANSLAUGHTER,UNCLASSIFIED - NO</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">NYS LAWS-UNCLASSIFIED FELONY</td>
 <td style="text-align: left;">NY STATE LAWS,UNCLASSIFIED FEL, CAUSE SPI/KILL ANIMAL</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">OFF. AGNST PUB ORD SENSBLTY &amp;</td>
-<td style="text-align: left;">AGGRAVATED HARASSMENT 2, LEWDNESS,PUBLIC, MATERIAL OFFENSIV, NUISANCE,CRIMINAL,UNCLASSIFIED, FALSE REPORT UNCLASSIFIED, RADIO DEVICES,UNLAWFUL POSSESS, FALSE REPORT BOMB, SALE OF UNAUTHORIZED RECORDING, RIOT 2/INCITING, ASSEMBLY,UNLAWFUL</td>
+<td style="text-align: left;">AGGRAVATED HARASSMENT 2, LEWDNESS,PUBLIC, FALSE REPORT UNCLASSIFIED, MATERIAL OFFENSIV, FALSE REPORT BOMB, RADIO DEVICES,UNLAWFUL POSSESS, SALE OF UNAUTHORIZED RECORDING, RIOT 2/INCITING, NUISANCE,CRIMINAL,UNCLASSIFIED, ASSEMBLY,UNLAWFUL</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">OFFENSES AGAINST PUBLIC ADMINI</td>
+<td style="text-align: left;">CONTEMPT,CRIMINAL, RESISTING ARREST, PUBLIC ADMINISTATION,UNCLASS M, PERJURY 3,ETC., BAIL JUMPING 3</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; font-weight: bold; color: black !important;">OFFENSES AGAINST PUBLIC ADMINI</td>
-<td style="text-align: left;">PUBLIC ADMINISTATION,UNCLASS M, BAIL JUMPING 3, RESISTING ARREST, CONTEMPT,CRIMINAL, PERJURY 3,ETC.</td>
-</tr>
-<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">OFFENSES AGAINST PUBLIC SAFETY</td>
 <td style="text-align: left;">PUBLIC SAFETY,UNCLASSIFIED MIS, FIREWORKS, SALE</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">OFFENSES AGAINST THE PERSON</td>
 <td style="text-align: left;">RECKLESS ENDANGERMENT 2, IMPRISONMENT 2,UNLAWFUL, CUSTODIAL INTERFERENCE 2, COERCION 2</td>
 </tr>
-<tr class="even">
-<td style="text-align: left; font-weight: bold; color: black !important;">OFFENSES INVOLVING FRAUD</td>
-<td style="text-align: left;">FORGERY,ETC.-MISD., BRIBERY,COMMERCIAL, RECORDS,FALSIFY-TAMPER</td>
-</tr>
 <tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">OFFENSES INVOLVING FRAUD</td>
+<td style="text-align: left;">FORGERY,ETC.-MISD., RECORDS,FALSIFY-TAMPER, BRIBERY,COMMERCIAL</td>
+</tr>
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">OFFENSES RELATED TO CHILDREN</td>
 <td style="text-align: left;">CHILD,OFFENSES AGAINST,UNCLASS</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">OTHER OFFENSES RELATED TO THEF</td>
 <td style="text-align: left;">THEFT OF SERVICES, UNCLASSIFIE, THEFT,RELATED OFFENSES,UNCLASS, CREDIT CARD,UNLAWFUL USE OF</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">OTHER STATE LAWS</td>
 <td style="text-align: left;">NY STATE LAWS,UNCLASSIFIED VIO, A.B.C.,FALSE PROOF OF AGE</td>
 </tr>
-<tr class="even">
-<td style="text-align: left; font-weight: bold; color: black !important;">OTHER STATE LAWS (NON PENAL LA</td>
-<td style="text-align: left;">NY STATE LAWS,UNCLASSIFIED MIS, TAX LAW, PUBLIC HEALTH LAW,UNCLASSIFIED</td>
-</tr>
 <tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">OTHER STATE LAWS (NON PENAL LA</td>
+<td style="text-align: left;">NY STATE LAWS,UNCLASSIFIED MIS, PUBLIC HEALTH LAW,UNCLASSIFIED, TAX LAW</td>
+</tr>
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">OTHER STATE LAWS (NON PENAL LAW)</td>
 <td style="text-align: left;">GENERAL BUSINESS LAW / UNCLASSIFIED</td>
 </tr>
-<tr class="even">
-<td style="text-align: left; font-weight: bold; color: black !important;">OTHER TRAFFIC INFRACTION</td>
-<td style="text-align: left;">TRAFFIC,UNCLASSIFIED INFRACTIO, IMPROPER LIGHTS, LEAVING THE SCENE / PROPERTY DAMAGE / INJURED ANIMAL, FAIL TO SIGNAL</td>
-</tr>
 <tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">OTHER TRAFFIC INFRACTION</td>
+<td style="text-align: left;">TRAFFIC,UNCLASSIFIED INFRACTIO, LEAVING THE SCENE / PROPERTY DAMAGE / INJURED ANIMAL, IMPROPER LIGHTS, FAIL TO SIGNAL</td>
+</tr>
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">PARKING OFFENSES</td>
 <td style="text-align: left;">UNCLASSIFIED</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">PETIT LARCENY</td>
 <td style="text-align: left;">LARCENY,PETIT FROM OPEN AREAS,, LARCENY,PETIT BY ACQUIRING LOS</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">POSSESSION OF STOLEN PROPERTY</td>
-<td style="text-align: left;">STOLEN PROPERTY 3,POSSESSION, STOLEN PROPERTY 2,1,POSSESSION, STOLEN PROPERTY-MOTOR VEH 2ND,, STOLEN PROPERTY 2,POSSESSION B</td>
-</tr>
-<tr class="even">
-<td style="text-align: left; font-weight: bold; color: black !important;">PROSTITUTION &amp; RELATED OFFENSES</td>
-<td style="text-align: left;">PROSTITUTION, PROSTITUTION 4,PROMOTING&amp;SECUR, PROSTITUTION, PATRONIZING 4, 3, SEX TRAFFICKING, PROSTITUTION,PERMITTING, PROSTITUTION 3,PROMOTING BUSIN, PROSTITUTION 3, PROMOTING UNDE</td>
+<td style="text-align: left;">STOLEN PROPERTY 3,POSSESSION, STOLEN PROPERTY-MOTOR VEH 2ND,, STOLEN PROPERTY 2,1,POSSESSION, STOLEN PROPERTY 2,POSSESSION B</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left; font-weight: bold; color: black !important;">RAPE</td>
-<td style="text-align: left;">RAPE 3, RAPE 1, RAPE 2</td>
+<td style="text-align: left; font-weight: bold; color: black !important;">PROSTITUTION &amp; RELATED OFFENSES</td>
+<td style="text-align: left;">SEX TRAFFICKING, PROSTITUTION 4,PROMOTING&amp;SECUR, PROSTITUTION, PROSTITUTION, PATRONIZING 4, 3, PROSTITUTION 3, PROMOTING UNDE, PROSTITUTION 3,PROMOTING BUSIN, PROSTITUTION,PERMITTING</td>
 </tr>
 <tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">RAPE</td>
+<td style="text-align: left;">RAPE 1, RAPE 3, RAPE 2</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">ROBBERY</td>
 <td style="text-align: left;">ROBBERY,OPEN AREA UNCLASSIFIED, ROBBERY,CAR JACKING, ROBBERY,GAS STATION</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left; font-weight: bold; color: black !important;">SEX CRIMES</td>
-<td style="text-align: left;">SEXUAL ABUSE, SEXUAL ABUSE 3,2, SODOMY 1, SEX CRIMES, CHILD, ENDANGERING WELFARE, FORCIBLE TOUCHING, AGGRAVATED SEXUAL ASBUSE, COURSE OF SEXUAL CONDUCT AGAIN, OBSCENITY 1, SEXUAL MISCONDUCT,INTERCOURSE, SEXUAL MISCONDUCT,DEVIATE, INCEST 3, OBSCENE MATERIAL - UNDER 17 YE, SODOMY 3, SODOMY 2, OBSCENITY, PERFORMANCE 3</td>
-</tr>
 <tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">SEX CRIMES</td>
+<td style="text-align: left;">CHILD, ENDANGERING WELFARE, SEXUAL ABUSE 3,2, SEXUAL ABUSE, SEXUAL MISCONDUCT,INTERCOURSE, FORCIBLE TOUCHING, AGGRAVATED SEXUAL ASBUSE, OBSCENE MATERIAL - UNDER 17 YE, SODOMY 1, OBSCENITY 1, COURSE OF SEXUAL CONDUCT AGAIN, SODOMY 3, INCEST 3, SEXUAL MISCONDUCT,DEVIATE, SODOMY 2, SEX CRIMES, OBSCENITY, PERFORMANCE 3</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">THEFT OF SERVICES</td>
 <td style="text-align: left;">UNAUTH. SALE OF TRANS. SERVICE</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left; font-weight: bold; color: black !important;">THEFT-FRAUD</td>
-<td style="text-align: left;">FRAUD,UNCLASSIFIED-FELONY, COMPUTER TAMPER/TRESSPASS, MONEY LAUNDERING 1 &amp; 2</td>
-</tr>
 <tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">THEFT-FRAUD</td>
+<td style="text-align: left;">FRAUD,UNCLASSIFIED-FELONY, MONEY LAUNDERING 1 &amp; 2, COMPUTER TAMPER/TRESSPASS</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">UNAUTHORIZED USE OF A VEHICLE</td>
 <td style="text-align: left;">UNAUTHORIZED USE VEHICLE 3</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left; font-weight: bold; color: black !important;">UNLAWFUL POSS. WEAP. ON SCHOOL</td>
 <td style="text-align: left;">UNLAWFUL POSS. WEAPON UPON SCH</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left; font-weight: bold; color: black !important;">VEHICLE AND TRAFFIC LAWS</td>
 <td style="text-align: left;">TRAFFIC,UNCLASSIFIED MISDEMEAN, LEAVING SCENE-ACCIDENT-PERSONA, RECKLESS DRIVING</td>
 </tr>
@@ -514,37 +481,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>crime_summary <span class="ot">&lt;-</span> ds <span class="sc">|&gt;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(OFNS_DESC) <span class="sc">|&gt;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Incident_Count =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(Incident_Count)) <span class="sc">|&gt;</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(Incident_Count, <span class="at">n =</span> <span class="dv">10</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>crime_race_summary <span class="ot">&lt;-</span> ds <span class="sc">|&gt;</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(OFNS_DESC <span class="sc">%in%</span> crime_summary<span class="sc">$</span>OFNS_DESC) <span class="sc">|&gt;</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(OFNS_DESC, PERP_RACE) <span class="sc">|&gt;</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Incident_Count =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>total_counts <span class="ot">&lt;-</span> crime_race_summary <span class="sc">|&gt;</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(OFNS_DESC) <span class="sc">|&gt;</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Total_Count =</span> <span class="fu">sum</span>(Incident_Count), <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>crime_race_summary <span class="ot">&lt;-</span> crime_race_summary <span class="sc">|&gt;</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(total_counts, <span class="at">by =</span> <span class="st">"OFNS_DESC"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Proportion =</span> Incident_Count <span class="sc">/</span> Total_Count)</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(crime_race_summary, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(OFNS_DESC, <span class="sc">-</span>Proportion), <span class="at">y =</span> Proportion, <span class="at">fill =</span> PERP_RACE)) <span class="sc">+</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">position =</span> <span class="st">"fill"</span>) <span class="sc">+</span>  <span class="co"># Using 'fill' to show proportions</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Proportion of Top 10 Crime Categories by Race"</span>,</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Crime Categories"</span>,</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Proportion"</span>,</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Race"</span>) <span class="sc">+</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_grey</span>() <span class="sc">+</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">60</span>, <span class="at">hjust =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="fu">rel</span>(<span class="fl">0.8</span>) ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="2024_04_01_third_data_post_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>Misdemeanor appears to be the most common, followed by felonies. The crime incidents of infraction and violation are the least with small numbers of cases.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="2024_04_01_third_data_post_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This bar chart illustrates the racial composition of crime across ten categories, with the green segment indicating a dominant proportion of Black individuals in every category, followed by White Hispanics, represented by the pink segment. The smallest proportions are contributed by Asian/Pacific Islanders and American Indian/Alaskan Natives, shown in orange and red. This visualization provides a proportional breakdown by race, with each color-coded segment corresponding to the percentage of total incidents attributed to that racial group, reflecting the diversity and potential disparities within crime statistics.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="2024_04_01_third_data_post_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This bar chart illustrates the frequency of different crimes for various age groups. Notably, the 25-44 age group shows the highest incident counts in every category, while the groups under 18 and over 65 have significantly fewer incidents across all crime categories.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="2024_04_01_third_data_post_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The graph illustrates that the 25-44 age group has the highest incidence of felonies, a significant number of misdemeanors, and relatively lower counts for infractions and violations, suggesting this age range is the most involved in crime. The other age groups contribute fewer incidents across all categories, with the least involvement by those under 18 and over 65.</p>
 
 
 </section>

@@ -22,40 +22,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -95,6 +61,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+
+<script src="../../site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="../../site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="../../styles.css">
@@ -199,151 +168,118 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="data-loading-and-cleaning" class="level2">
 <h2 class="anchored" data-anchor-id="data-loading-and-cleaning">Data Loading and Cleaning</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"dataset/NYPD.csv"</span>,<span class="at">show_col_types =</span> <span class="cn">FALSE</span> )<span class="sc">|&gt;</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(<span class="sc">-</span>ARREST_KEY,<span class="sc">-</span>PD_CD,<span class="sc">-</span>KY_CD,<span class="sc">-</span>LAW_CODE,<span class="sc">-</span>ARREST_BORO,<span class="sc">-</span>JURISDICTION_CODE) </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>na_count <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(ds))</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>na_count</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 1599</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(ds) </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(ds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 225273     13</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> ds <span class="sc">|&gt;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>() <span class="sc">|&gt;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(PD_DESC <span class="sc">!=</span> <span class="st">"(null)"</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(ds, <span class="st">"dataset/load_and_clean_data.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>In the data cleaning, we delete the arrest ID, two classification ID, and jurisdiction code. These variables are redundant and not relevant with our research. Remove rows with any NA and null values from the dataset. All in all, it have 225256 rows and 13 columns. Below part shows the modified variables table.</p>
+<p><a href="scripts/load_and_clean_data.R">Data Loading and Cleaning Script</a></p>
+<p>In the cleaning of the crime dataset, we delete the arrest ID, two police classification ID, jurisdiction code, and four coordinate variables . These variables are redundant and not relevant with our research. Then, We remove rows with any NA and null values from the dataset. We also delete undefined data in Level of offense: felony, misdemeanor, violation, infraction, besides that, we deleted the race recorded as unknown.</p>
 <div class="cell">
 <div class="cell-output-display">
-<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<div class="table-responsive">
+<table class="table table-striped table-hover table-condensed table-sm small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">Variable</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Data_Types</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Description</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; background-color: rgba(211, 211, 211, 255) !important;">Variable</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; background-color: rgba(211, 211, 211, 255) !important;">Data_Types</th>
+<th data-quarto-table-cell-role="th" style="text-align: left; background-color: rgba(211, 211, 211, 255) !important;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">ARREST_DATE</td>
+<td style="text-align: left; font-weight: bold; color: black !important;">ARREST_DATE</td>
 <td style="text-align: left;">calendar date</td>
 <td style="text-align: left;">Exact date of arrest for the reported event</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">PD_DESC</td>
+<td style="text-align: left; font-weight: bold; color: black !important;">PD_DESC</td>
 <td style="text-align: left;">text</td>
 <td style="text-align: left;">Description of internal classification corresponding with PD code (more granular than Offense Description)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">OFNS_DESC</td>
+<td style="text-align: left; font-weight: bold; color: black !important;">OFNS_DESC</td>
 <td style="text-align: left;">text</td>
 <td style="text-align: left;">Description of internal classification corresponding with KY code (more general category than PD description)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">LAW_CAT_CD</td>
+<td style="text-align: left; font-weight: bold; color: black !important;">LAW_CAT_CD</td>
 <td style="text-align: left;">text</td>
 <td style="text-align: left;">Level of offense: felony, misdemeanor, violation, infraction</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">ARREST_PRECINCT</td>
+<td style="text-align: left; font-weight: bold; color: black !important;">ARREST_BORO</td>
+<td style="text-align: left;">text</td>
+<td style="text-align: left;">Borough of arrest. B(Bronx), S(Staten Island), K(Brooklyn), M(Manhattan), Q(Queens)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">ARREST_PRECINCT</td>
 <td style="text-align: left;">number</td>
 <td style="text-align: left;">Precinct where the arrest occurred</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">AGE_GROUP</td>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">AGE_GROUP</td>
 <td style="text-align: left;">text</td>
 <td style="text-align: left;">Perpetrator’s age within a category</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">PERP_SEX</td>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">PERP_SEX</td>
 <td style="text-align: left;">text</td>
 <td style="text-align: left;">Perpetrator’s sex description</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;">PERP_RACE</td>
+<tr class="odd">
+<td style="text-align: left; font-weight: bold; color: black !important;">PERP_RACE</td>
 <td style="text-align: left;">text</td>
 <td style="text-align: left;">Perpetrator’s race description</td>
 </tr>
+<tr class="even">
+<td style="text-align: left; font-weight: bold; color: black !important;">temp</td>
+<td style="text-align: left;">number</td>
+<td style="text-align: left;">Average Daily temperature in Celsius</td>
+</tr>
 <tr class="odd">
-<td style="text-align: left;">X_COORD_CD</td>
-<td style="text-align: left;">text</td>
-<td style="text-align: left;">Midblock X-coordinate for New York State Plane Coordinate System</td>
+<td style="text-align: left; font-weight: bold; color: black !important;">windspeed</td>
+<td style="text-align: left;">number</td>
+<td style="text-align: left;">Daily Windspeed in Kilometer</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Y_COORD_CD</td>
+<td style="text-align: left; font-weight: bold; color: black !important;">conditons</td>
 <td style="text-align: left;">text</td>
-<td style="text-align: left;">Midblock Y-coordinate for New York State Plane Coordinate System</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Latitude</td>
-<td style="text-align: left;">number</td>
-<td style="text-align: left;">Latitude coordinate for Global Coordinate System</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Longitude</td>
-<td style="text-align: left;">number</td>
-<td style="text-align: left;">Longitude coordinate for Global Coordinate System</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Lon_Lat</td>
-<td style="text-align: left;">point</td>
-<td style="text-align: left;">Georeferenced Point Column based on Longitude and Latitude fields</td>
+<td style="text-align: left;">Short description about the weather</td>
 </tr>
 </tbody>
 </table>
+</div>
 
 
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>unique_count <span class="ot">&lt;-</span> <span class="fu">unique</span>(ds<span class="sc">$</span>OFNS_DESC)  </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(unique_count) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 62</code></pre>
+<pre><code>[1] 63</code></pre>
 </div>
 </div>
-<p>Through count unique cases based on the “OFNS_DESC, there are 62 different types of arrest cases.</p>
+<p>Through count unique cases based on the “OFNS_DESC, there are 63 different types of arrest cases.</p>
+</section>
+<section id="explantory-analysis-part-1" class="level2">
+<h2 class="anchored" data-anchor-id="explantory-analysis-part-1">Explantory Analysis Part 1</h2>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="second_blog_post_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>On this graph we are showing the number of cases per race among all races. On this graph we can see that the lowest number of cases per race are represented by the Indian/Alaskan native people. The highest is for colred people having over 11k cases during this period.</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="second_blog_post_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>On this graph we are showing the number of cases per race among all races. On this graph we can see that the lowest number of cases per race are represented by the Indian/Alaskan native people. The highest is for colred people having over 11k cases during this period.</p>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Selecting by Incident_Count</code></pre>
-</div>
 <div class="cell-output-display">
-<p><img src="second_blog_post_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+<p><img src="second_blog_post_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Selecting by Incident_Count
-`summarise()` has grouped output by 'OFNS_DESC'. You can override using the
-`.groups` argument.</code></pre>
-</div>
 <div class="cell-output-display">
 <p><img src="second_blog_post_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Selecting by Incident_Count
-`summarise()` has grouped output by 'OFNS_DESC'. You can override using the
-`.groups` argument.</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="second_blog_post_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
-</div>
-</div>
+<p>This graph displays a breakdown of crime incidents by gender across different categories, with green bars representing males, red bars for females, and blue bars for unknown gender. A striking feature of the chart is the predominance of green bars (male incidents), which are consistently the highest in every crime category, indicating a higher number of male-associated incidents in these categories. The most significant numbers of incidents for both males and females are recorded in “PETIT LARCENY” and “ASSAULT 3 &amp; RELATED OFFENSES.” Incidents with an unknown gender, represented by blue bars, are the lowest across all categories, suggesting that gender data is more often available than not. The overall trend suggests that while crime affects all genders, males are associated with a higher number of incidents in the data represented.</p>
 
 
 </section>

@@ -148,33 +148,27 @@ ul.task-list li input[type="checkbox"] {
 <p>In our research, in addition to the explantory analysis of arrest data, we wanted to take it a step further and look at the non-human factors that affect crime, so we added the daily weather conditions of New York City over the course of a year to our master data. This data comes from <a href="https://www.visualcrossing.com/weather/weather-data-services#">Visual crossing</a>’s weather database.</p>
 <p>we selected basic weather conditions for New York City for the year 2023 so that we could explore whether extremes in temperature, wind speed, and so on, affect crime rates, as well as crime trends under different weather conditions. This way it can be more efficient to optimize the efficiency of NYPD’s police response.</p>
 <p><a href="scripts/load_and_clean_data.R">Data Loading and Cleaning Script</a></p>
+<section id="weather-condition" class="level3">
+<h3 class="anchored" data-anchor-id="weather-condition">Weather Condition</h3>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: There was 1 warning in `mutate()`.
-ℹ In argument: `ARREST_DATE = mdy(ARREST_DATE)`.
-Caused by warning:
-! All formats failed to parse. No formats found.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in min(x): no non-missing arguments to min; returning Inf</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in max(x): no non-missing arguments to max; returning -Inf</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in min(diff(sort(x))): no non-missing arguments to min; returning Inf</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Removed 1 rows containing missing values (`position_stack()`).</code></pre>
-</div>
 <div class="cell-output-display">
 <p><img src="2024-04-15-Fifth-blog-post_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>By examining the combined dataset through graphical analysis, we observed that there has been a steady increase in crime rates from winter to spring and decreases from Autumn to winter The proportion of different types of crimes remained relatively stable over the two years.</p>
+<p>The bar chart illustrates the frequency of Assault 3 incidents occurring under various weather conditions. Clear weather and Rain with partially is associated with the highest number of incidents, followed closely by overcast and partially cloudy conditions. Incidents are less frequent during more adverse weather conditions, such as combinations of snow, rain, and overcast skies, suggesting possible correlations between weather and the occurrence of Assault 3 crimes.</p>
+</section>
+<section id="windspeed" class="level3">
+<h3 class="anchored" data-anchor-id="windspeed">Windspeed</h3>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="2024-04-15-Fifth-blog-post_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This bar chart shows that incidents are most frequent in wind speeds ranging from 10 to 20 km/h and significantly less frequent as wind speeds increase beyond 20 km/h, suggesting fewer Assault 3 incidents occur in higher wind conditions.</p>
 <p>And our next step is to do the regression and logistic analysis to understanding the trends and patterns within the data. Moreover, we will create a more localized heat map of New York neighborhoods which will provide clear visual insights into areas with higher crime rates, potentially informing policy decisions, law enforcement resource allocation, or community support initiatives.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
