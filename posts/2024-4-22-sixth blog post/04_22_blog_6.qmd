@@ -6,7 +6,7 @@ date: "2024-04-22"
 draft: false
 ---
 
-We imported the  Newyork Maps shf to create heat maps to analyze where the highest amount of crime is in NYC, and also broke down the distribution of the top three crime categories in NYC.
+We imported the Newyork Maps shf to create heat maps to analyze where the highest amount of Assault is in NYC, 
 
 
 Temporary Thesis: the Crime rate of Assault 3 will increase as temperature rises in the New York City.
@@ -312,3 +312,15 @@ fall<-ggplot()+
 grid.arrange(spring, fall, summer, winter, ncol = 2, nrow = 2)
 ```
 
+These maps reveal a clear pattern in "Assault 3" incidents: they peak
+during the summer months, likely due to the increase in outdoor
+activities and social interactions that warmer weather encourages.
+Spring and Fall act as transitional periods with moderate crime rates,
+suggesting a correlation with the gradual changes in weather and
+daylight hours, which influence how much time people spend outside. The
+winter months show a marked decrease in crime rates, possibly due to the
+cold weather discouraging outdoor activity. These trends indicate that
+environmental factors, such as temperature and seasonality, may play a
+significant role in the fluctuation of crime rates, necessitating
+seasonally adjusted strategies for law enforcement and community safety
+programs.

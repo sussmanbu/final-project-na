@@ -35,7 +35,7 @@ Limitations and potential for misuse: Protecting people's privacy in the NYPD Ar
 Using these principles with the NYPD Arrest Data means we need to carefully consider how this data is collected and used. It's important to keep talking to the communities involved, be clear about what data could be shown, watch out for any biases, and make sure to protect people's privacy and treat them with respect in the data.
 
 
-## Data Analysis part 2
+## Expanlantory Analysis part 2
 ```{r include=FALSE}
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(stringr))
@@ -45,14 +45,14 @@ ds <- read_rds("dataset/load_and_clean_data.rds")
 ```
 
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning= FALSE}
 ds|>
   ggplot(aes(x =AGE_GROUP))+ geom_bar()
 ```
 It shows all range of age level in the data, no unusual data.
 
 
-```{r echo=FALSE}
+```{r echo=FALSE, message=FALSE, warning= FALSE}
 ds |>
   count(PERP_SEX) |>
   kable("html") |>
@@ -60,8 +60,6 @@ ds |>
 ```
 There are three big categories of sexes:male,female,undefined.
 
-
-There are 62 crimes, the below table shows the specific description and level in 62 crimes.
 
 ```{r echo=FALSE}
 category_details <- ds |>
@@ -77,7 +75,24 @@ category_details |>
   column_spec(1, bold = T, color = "black") |>
   row_spec(0, background = "#D3D3D3") 
 ```
-```{r}
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+ds |>
+  ggplot(aes(x = LAW_CAT_CD, fill = LAW_CAT_CD)) +
+  geom_bar() + 
+  theme_minimal() +
+  labs(
+    x = 'Type of Crime', 
+    y = 'Number of Cases', 
+    title = 'Number of Cases by Crime Category',
+    fill = 'Crime Category'  # Change legend title
+  ) +
+  scale_x_discrete(labels = c("F" = "Felony", "M" = "Misdemeanor", "V" = "Violation", "I"= "Infraction")) + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+Misdemeanor appears to be the most common, followed by felonies. The crime incidents of infraction and violation are the least with small numbers of cases.
+
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
 crime_summary <- ds |>
   group_by(OFNS_DESC) |>
   summarize(Incident_Count = n(), .groups = "drop") |>
@@ -107,6 +122,60 @@ ggplot(crime_race_summary, aes(x = reorder(OFNS_DESC, -Proportion), y = Proporti
   theme(axis.text.x = element_text(angle = 60, hjust = 1, size = rel(0.8) ))
 
 ```
+This bar chart illustrates the racial composition of crime across ten categories, with the green segment indicating a dominant proportion of Black individuals in every category, followed by White Hispanics, represented by the pink segment. The smallest proportions are contributed by Asian/Pacific Islanders and American Indian/Alaskan Natives, shown in orange and red. This visualization provides a proportional breakdown by race, with each color-coded segment corresponding to the percentage of total incidents attributed to that racial group, reflecting the diversity and potential disparities within crime statistics.
 
 
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+crime_summary <- ds %>%
+  group_by(OFNS_DESC) %>%
+  summarize(Incident_Count = n()) %>%
+  arrange(desc(Incident_Count)) %>%
+  top_n(10)
+# Group by OFNS_DESC and AGE_GROUP, and summarize the count
+crime_gender_summary <- ds %>%
+  filter(OFNS_DESC %in% crime_summary$OFNS_DESC) %>%
+  group_by(OFNS_DESC, AGE_GROUP) %>%
+  summarize(Incident_Count = n())
+  
+# Create a bar plot
+ggplot(crime_gender_summary, aes(x = reorder(OFNS_DESC, Incident_Count), y = Incident_Count, fill = AGE_GROUP)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Total Incidents in Top 10 crime Categories by Age",
+       x = "crime Categories",
+       y = "Incident Count",
+       fill = "Age") +
+  theme_minimal() +
+  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
 
+This bar chart illustrates the frequency of different crimes for various
+age groups. Notably, the 25-44 age group shows the highest incident
+counts in every category, while the groups under 18 and over 65 have
+significantly fewer incidents across all crime categories.
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+crime_summary <- ds %>%
+  group_by(LAW_CAT_CD) %>%
+  summarize(Incident_Count = n()) %>%
+  arrange(desc(Incident_Count)) %>%
+  top_n(10)
+
+# Group by LAW_CAT_CD and AGE_GROUP, and summarize the count
+crime_gender_summary <- ds %>%
+  filter(LAW_CAT_CD %in% crime_summary$LAW_CAT_CD) %>%
+  group_by(LAW_CAT_CD, AGE_GROUP) %>%
+  summarize(Incident_Count = n())
+# Create a bar plot
+ggplot(crime_gender_summary, aes(x = reorder(LAW_CAT_CD,Incident_Count), y=    
+                                 Incident_Count, fill = AGE_GROUP)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Total Incidents in General crime Categories by Age",
+       x = "General crime Categories",
+       y = "Incident Count",
+       fill = "Age") +
+  theme_minimal() +
+  scale_x_discrete(labels = c("F" = "Felony", "M" = "Misdemeanor", "V" = "Violation", "I"= "Infraction"))+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+The graph illustrates that the 25-44 age group has the highest incidence of felonies, a significant number of misdemeanors, and relatively lower counts for infractions and violations, suggesting this age range is the most involved in crime. The other age groups contribute fewer incidents across all categories, with the least involvement by those under 18 and over 65.

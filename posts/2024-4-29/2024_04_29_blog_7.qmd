@@ -11,6 +11,9 @@ draft: false
 library(tidyverse)
 library(lubridate)
 library(patchwork)
+library(pheatmap)
+library(gridExtra)
+library(data.table)
 data <- read_rds("dataset/load_and_clean_data.rds")
 data$ARREST_DATE <- as.Date(data$ARREST_DATE, "%m/%d/%Y")
 ```
@@ -131,61 +134,184 @@ combine_plot_crime
 These 4 graphs shows the total crime counts per season and top 3 crime categories per seasons. It all shows a trend that the crime rate will be higher in Summer and Spring, then it will gradually go lower in Autumn and Winter in 2023.This data suggests a correlation between warmer weather and increased crime rates in New York City, indicating that incidents tend to escalate during warmer periods.
 
 
-```{r echo=FALSE, include=F}
-#2022 female vs male 
-get_season <- function(date) {
-  month <- month(date)
-  if (month %in% c(12, 1, 2)) {
-    season <- "Winter"
-  } else if (month %in% c(3, 4, 5)) {
-    season <- "Spring"
-  } else if (month %in% c(6, 7, 8)) {
-    season <- "Summer"
-  } else {
-    season <- "Autumn"
-  }
-  return(season)
-}
+## Model 
 
+```{r echo=FALSE, message=FALSE, warning= FALSE}
 
-data$Season <- sapply(data$ARREST_DATE, get_season)
-data_2022 <- filter(data, year(ARREST_DATE) == 2022)
+ds <- read_rds("dataset/load_and_clean_data.rds") 
+daily_crime_count <- ds %>%
+  group_by(ARREST_DATE) %>%
+  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES")%>%
+  summarize(Daily_Count= n(), .groups = 'drop') %>%
+  arrange(ARREST_DATE)
 
-season_gender_counts22 <- data_2022 %>%
-  group_by(Season, PERP_SEX) %>%
-  summarise(Count = n(), .groups = 'drop') %>%
-  mutate(Season = factor(Season, levels = c("Spring", "Summer", "Autumn", "Winter")))
+ds$ARREST_BORO = as.factor(ds$ARREST_BORO)
+ds$ARREST_PRECINCT=as.factor(ds$ARREST_PRECINCT)
+ds$AGE_GROUP= as.factor(ds$AGE_GROUP)
+ds$PERP_SEX= as.factor(ds$PERP_SEX)
+ds$PERP_RACE =as.factor(ds$PERP_RACE)
+ds$conditions =as.factor(ds$conditions)
 
-plotgender_22<- ggplot(season_gender_counts22, aes(x = Season, y = Count, fill = PERP_SEX)) +
-  geom_bar(stat = "identity", position = position_dodge(width = 0.7)) +
-  scale_fill_manual(values = c("F" = "#f28e9b", "M" = "#8eaaf2")) +
-  theme_minimal() +
-  labs(title = "2022", 
-       x = "Season", 
-       y = "Number of Incidents",
-       fill = "Gender")
 ```
 
-```{r echo=F}
-#2023 female vs male 
-data$Season <- sapply(data$ARREST_DATE, get_season)
-data_2023 <- filter(data, year(ARREST_DATE) == 2023)
 
-season_gender_counts23 <- data_2023 %>%
-  group_by(Season, PERP_SEX) %>%
-  summarise(Count = n(), .groups = 'drop') %>%
-  mutate(Season = factor(Season, levels = c("Spring", "Summer", "Autumn", "Winter")))
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+library(dplyr)
+library(ggplot2)
+library(patchwork)
+library(lubridate)
 
-other_genders <- unique(season_gender_counts23$PERP_SEX)
+# Assuming 'ds' is your dataset and has 'ARREST_DATE', 'PD_DESC', and 'temp' columns
 
-ggplot(season_gender_counts23, aes(x = Season, y = Count, fill = PERP_SEX)) +
-  geom_bar(stat = "identity", position = position_dodge(width = 0.7)) +
-  scale_fill_manual(values = c("F" = "#ff9999", "M" = "#9999ff", "U" = "#ffff66")) +
-  theme_light() +
-  labs(title = "2023",
-       x = "Season",
-       y = "Count",
-       fill = "Gender")
+# Prepare the assault data summary
+assault_data <- ds %>%
+  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
+  mutate(Month = floor_date(as.Date(ARREST_DATE), "month")) %>%
+  group_by(Month) %>%
+  summarise(Count = n()) %>%
+  ungroup() 
+
+# Prepare the temperature data summary
+mean_temp_by_month <- ds %>%
+  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
+  mutate(Month = floor_date(as.Date(ARREST_DATE), "month")) %>%
+  group_by(Month) %>%
+  summarise(Mean_Temp = mean(temp, na.rm = TRUE)) %>%
+  ungroup()
+
+mean_wind_by_month <- ds %>%
+  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
+  mutate(Month = floor_date(as.Date(ARREST_DATE), "month")) %>%
+  group_by(Month) %>%
+  summarise(Mean_wind = mean(windspeed, na.rm = TRUE)) %>%
+  ungroup()
+
+
+# Join the datasets
+correlation_data <- left_join(assault_data, mean_temp_by_month,mean_wind_by_month, by = "Month")%>%
+   left_join(mean_wind_by_month, by = "Month")
+
+# Calculate the correlation coefficient between Count and Mean_Temp
+correlation_coefficient <- cor(correlation_data$Count, correlation_data$Mean_Temp,use = "complete.obs")
+
+# Output the correlation coefficient
+print(correlation_coefficient)
+
+# If you want to plot this correlation, you can use a scatter plot with a smooth line
+correlation_plot <- ggplot(correlation_data, aes(x = Mean_Temp, y = Count)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Average Monthly Temperature (°C)", y = "Count of Assault 3 Crimes", 
+       title = "Correlation between Temperature and 'Assault 3' Crime Count")
+
+# Print the correlation plot
+print(correlation_plot)
+
+cor_matrix1 <- cor(correlation_data[, c("Count", "Mean_Temp","Mean_wind")], use = "complete.obs")
+pheatmap(cor_matrix1, 
+         color = colorRampPalette(c("skyblue", "white", "lightgreen"))(200),
+         display_numbers = T,
+         clustering_distance_rows = "euclidean",
+         clustering_distance_cols = "euclidean",
+         clustering_method = "complete")
+
+```
+
+
+```{r}
+assault_data_weekly <- ds %>%
+  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
+  mutate(Week = floor_date(as.Date(ARREST_DATE), "week")) %>%
+  group_by(Week) %>%
+  summarise(Count = n()) %>%
+  ungroup() 
+
+mean_temp_by_week <- ds %>%
+  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
+  mutate(Week = floor_date(as.Date(ARREST_DATE), "week")) %>%
+  group_by(Week) %>%
+  summarise(Mean_Temp = mean(temp, na.rm = TRUE)) %>%
+  ungroup()
+
+mean_wind_by_week <- ds %>%
+  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
+  mutate(Week = floor_date(as.Date(ARREST_DATE), "week")) %>%
+  group_by(Week) %>%
+  summarise(Mean_Wind = mean(windspeed, na.rm = TRUE)) %>%
+  ungroup()
+
+correlation_data_weekly <- left_join(assault_data_weekly, mean_temp_by_week, by = "Week") %>%
+  left_join(mean_wind_by_week, by = "Week")
+
+correlation_plot2 <- ggplot(correlation_data_weekly, aes(x = Mean_Temp, y = Count)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Average Monthly Temperature (°C)", y = "Count of Assault 3 Crimes", 
+       title = "Correlation between Temperature and 'Assault 3' Crime Count")
+
+print(correlation_plot2)
+
+cor_matrix2 <- cor(correlation_data_weekly[, c("Count", "Mean_Temp","Mean_Wind")], use = "complete.obs")
+pheatmap(cor_matrix2, 
+         color = colorRampPalette(c("skyblue", "white", "lightgreen"))(200),
+         display_numbers = T,
+         clustering_distance_rows = "euclidean",
+         clustering_distance_cols = "euclidean",
+         clustering_method = "complete")
+```
+
+
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+daily_crime_count <- ds %>%
+  group_by(ARREST_DATE) %>%
+  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES")%>%
+  summarize(Daily_Count= n(), .groups = 'drop') %>%
+  arrange(ARREST_DATE)
+
+daily_temperature <- ds %>%
+  group_by(ARREST_DATE) %>%
+  summarise(Temp = mean(temp, na.rm = TRUE)) %>%
+  ungroup()
+
+wind <-ds %>%
+  group_by(ARREST_DATE) %>%
+  summarise(Wind = mean(windspeed, na.rm = TRUE)) %>%
+  ungroup()
+
+daily_data <- daily_crime_count %>%
+  left_join(daily_temperature, by = "ARREST_DATE") %>%
+  left_join(wind, by = "ARREST_DATE")
+
+cor_matrix3 <- cor(daily_data[, c("Daily_Count", "Temp","Wind")], use = "complete.obs")
+pheatmap(cor_matrix3, 
+         color = colorRampPalette(c("skyblue", "white", "lightgreen"))(200),
+         display_numbers = T,
+         clustering_distance_rows = "euclidean",
+         clustering_distance_cols = "euclidean",
+         clustering_method = "complete")
+```
+
+
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+modweek <- glm(correlation_data_weekly$Count~correlation_data_weekly$Mean_Temp+correlation_data_weekly$Mean_Wind)
+summary(modweek)
+modmonth <-glm(correlation_data$Count~ correlation_data$Mean_Temp + correlation_data$Mean_wind)
+summary(modmonth)
+modday <- lm(daily_data$Daily_Count ~ daily_data$Temp +daily_data$Wind)
+summary(modday)
+```
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+ds %>% 
+  group_by(OFNS_DESC, LAW_CAT_CD, AGE_GROUP, PERP_SEX, PERP_RACE,ARREST_BORO,ARREST_PRECINCT,conditions) %>%
+  filter((OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES"))%>%
+  count(name = 'y') -> df_y
+
+mod <- glm(y ~  conditions+ AGE_GROUP + PERP_SEX + PERP_RACE+ ARREST_BORO+ ARREST_PRECINCT,
+           data = df_y, family = poisson)
+summary(mod)
 ```
 
 ### Polish our graphs and charts

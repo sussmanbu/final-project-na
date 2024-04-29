@@ -28,26 +28,66 @@ we selected basic weather conditions for New York City for the year 2023 so that
 [Data Loading and Cleaning Script](scripts/load_and_clean_data.R)
 
 
-```{r echo =F}
-crime_counts_by_day <- ds %>%
-  mutate(ARREST_DATE = mdy(ARREST_DATE)) %>%  
-  count(ARREST_DATE)  
-  
-crime_counts_by_month <- crime_counts_by_day %>%
-  mutate(Month = floor_date(ARREST_DATE, "month")) %>%
-  group_by(Month) %>%
-  summarize(Monthly_Crime_Count = sum(n), .groups = "drop")
 
-ggplot(crime_counts_by_month, aes(x = Month, y = Monthly_Crime_Count)) +
-  geom_col(fill = "steelblue") +  # Use geom_col for bar charts
-  labs(title = "Monthly Crime Counts 2023",
-       x = "Month",
-       y = "Crime Incidents") +
-  scale_x_date(date_labels = "%b", date_breaks = "1 month") +
+### Weather Condition
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+# Filter for ASSAULT 3 and count occurrences per category in the 'conditions' column
+assault_conditions_counts <- ds %>%
+  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
+  group_by(conditions) %>%
+  summarise(Count = n()) %>%
+  arrange(desc(Count))
+# Print the counts
+#print(assault_conditions_counts)
+
+ggplot(assault_conditions_counts, aes(x = reorder(conditions, Count), y = Count, fill = conditions)) +
+  geom_bar(stat = "identity") +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, vjust = 0.5)) 
+  labs(title = "Assault 3 Incident count by Weather Condition",
+       x = " ",
+       y = "Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
-By examining the combined dataset through graphical analysis, we observed that there has been a steady increase in crime rates from winter to spring and decreases from Autumn to winter The proportion of different types of crimes remained relatively stable over the two years.
+
+The bar chart illustrates the frequency of Assault 3 incidents occurring
+under various weather conditions. Clear weather and Rain with partially
+is associated with the highest number of incidents, followed closely by
+overcast and partially cloudy conditions. Incidents are less frequent
+during more adverse weather conditions, such as combinations of snow,
+rain, and overcast skies, suggesting possible correlations between
+weather and the occurrence of Assault 3 crimes.
+
+### Windspeed
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+assault_wind_counts <- ds %>%
+  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
+  mutate(WindSpeedCategory = cut(windspeed, 
+                                 breaks = c(0, 9, 10, 15, 20, 25, 30, 35, 40, 45, 50),  
+                                 labels = c("(0,9]", "(9,10]", "(10,15]", "(15,20]", "(20,25]", 
+                                            "(25,30]", "(30,35]", "(35,40]", "(40,45]", "(45,50]"),
+                                 include.lowest = TRUE)) %>%
+  group_by(WindSpeedCategory) %>%
+  summarise(Count = n()) %>%
+  ungroup()
+
+ggplot(assault_wind_counts, aes(x = WindSpeedCategory, y = Count, fill = WindSpeedCategory)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  labs(title = " Assault 3 incidents count by Wind Speed ", 
+       x = "Wind Speed Category", 
+       y = "Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+This bar chart shows that incidents are most frequent in wind speeds
+ranging from 10 to 20 km/h and significantly less frequent as wind
+speeds increase beyond 20 km/h, suggesting fewer Assault 3 incidents
+occur in higher wind conditions.
+
+
 
 And our next step is to do the regression and logistic analysis to understanding the trends and patterns within the data. Moreover, we will create a more localized heat map of New York neighborhoods which will provide clear visual insights into areas with higher crime rates, potentially informing policy decisions, law enforcement resource allocation, or community support initiatives.
 

@@ -233,6 +233,7 @@ Now, we are moving to the EDA of environmental factors.
 ## Environmental Factors
 
 ### Temperature
+
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
 ds <- readRDS("dataset/load_and_clean_data.rds")
 ds <- as.data.table(ds)
@@ -263,7 +264,6 @@ map_data_spring <-as(map_data_spring , "sf")
 map_data_fall <- as(map_data_fall , "sf")
 
 ```
-
 
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
 map_data_winter$count_new<-cut(map_data_winter$count
@@ -356,7 +356,6 @@ spring<-ggplot()+
   labs(fill = "Count") 
 ```
 
-
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
 map_data_fall$count_new<-cut(map_data_fall$count
                             ,breaks=c(-Inf,50,100,150,200,250,300,Inf)
@@ -386,13 +385,22 @@ fall<-ggplot()+
   theme(plot.title = element_text(hjust = 0.5))+ labs(fill = "Count") 
 ```
 
-
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
 grid.arrange(spring, fall, summer, winter, ncol = 2, nrow = 2)
 ```
 
-These maps reveal a clear pattern in "Assault 3" incidents: they peak during the summer months, likely due to the increase in outdoor activities and social interactions that warmer weather encourages. Spring and Fall act as transitional periods with moderate crime rates, suggesting a correlation with the gradual changes in weather and daylight hours, which influence how much time people spend outside. The winter months show a marked decrease in crime rates, possibly due to the cold weather discouraging outdoor activity. These trends indicate that environmental factors, such as temperature and seasonality, may play a significant role in the fluctuation of crime rates, necessitating seasonally adjusted strategies for law enforcement and community safety programs.
-
+These maps reveal a clear pattern in "Assault 3" incidents: they peak
+during the summer months, likely due to the increase in outdoor
+activities and social interactions that warmer weather encourages.
+Spring and Fall act as transitional periods with moderate crime rates,
+suggesting a correlation with the gradual changes in weather and
+daylight hours, which influence how much time people spend outside. The
+winter months show a marked decrease in crime rates, possibly due to the
+cold weather discouraging outdoor activity. These trends indicate that
+environmental factors, such as temperature and seasonality, may play a
+significant role in the fluctuation of crime rates, necessitating
+seasonally adjusted strategies for law enforcement and community safety
+programs.
 
 ### Weather Condition
 
@@ -415,10 +423,16 @@ ggplot(assault_conditions_counts, aes(x = reorder(conditions, Count), y = Count,
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-The bar chart illustrates the frequency of Assault 3 incidents occurring under various weather conditions. Clear weather and Rain with partially is associated with the highest number of incidents, followed closely by overcast and partially cloudy conditions. Incidents are less frequent during more adverse weather conditions, such as combinations of snow, rain, and overcast skies, suggesting possible correlations between weather and the occurrence of Assault 3 crimes.
-
+The bar chart illustrates the frequency of Assault 3 incidents occurring
+under various weather conditions. Clear weather and Rain with partially
+is associated with the highest number of incidents, followed closely by
+overcast and partially cloudy conditions. Incidents are less frequent
+during more adverse weather conditions, such as combinations of snow,
+rain, and overcast skies, suggesting possible correlations between
+weather and the occurrence of Assault 3 crimes.
 
 ### Windspeed
+
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
 assault_wind_counts <- ds %>%
   filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
@@ -440,11 +454,13 @@ ggplot(assault_wind_counts, aes(x = WindSpeedCategory, y = Count, fill = WindSpe
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
-This bar chart shows that incidents are most frequent in wind speeds ranging from 10 to 20 km/h and significantly less frequent as wind speeds increase beyond 20 km/h, suggesting fewer Assault 3 incidents occur in higher wind conditions.
 
+This bar chart shows that incidents are most frequent in wind speeds
+ranging from 10 to 20 km/h and significantly less frequent as wind
+speeds increase beyond 20 km/h, suggesting fewer Assault 3 incidents
+occur in higher wind conditions.
 
-
-## Model 
+## Model
 
 ```{r}
 daily_crime_count <- ds %>%
@@ -461,7 +477,6 @@ ds$PERP_RACE =as.factor(ds$PERP_RACE)
 ds$conditions =as.factor(ds$conditions)
 
 ```
-
 
 ```{r}
 library(dplyr)
@@ -525,8 +540,6 @@ pheatmap(cor_matrix1,
 
 ```
 
-
-
 ```{r}
 assault_data_weekly <- ds %>%
   filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
@@ -573,8 +586,6 @@ pheatmap(cor_matrix2,
          clustering_method = "complete")
 ```
 
-
-
 ```{r}
 daily_crime_count <- ds %>%
   group_by(ARREST_DATE) %>%
@@ -616,8 +627,6 @@ pheatmap(cor_matrix3,
          clustering_method = "complete")
 ```
 
-
-
 ```{r}
 modweek <- glm(correlation_data_weekly$Count~correlation_data_weekly$Mean_Temp+correlation_data_weekly$Mean_Wind)
 summary(modweek)
@@ -637,4 +646,3 @@ mod <- glm(y ~  conditions+ AGE_GROUP + PERP_SEX + PERP_RACE+ ARREST_BORO+ ARRES
            data = df_y, family = poisson)
 summary(mod)
 ```
-
