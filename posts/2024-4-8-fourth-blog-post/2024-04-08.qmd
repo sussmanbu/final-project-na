@@ -16,6 +16,7 @@ library(ggcorrplot)
 library(ggmap)
 library(leaflet)
 library(pheatmap)
+library(gridExtra)
 ds <- read_rds("dataset/load_and_clean_data.rds") 
 ```
 
@@ -41,6 +42,143 @@ ggplot(crime_counts_by_month, aes(x = Month, y = Monthly_Crime_Count)) +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +  # Adjust text alignment for readability
   theme(plot.title = element_text(hjust = 0.5))  # Center the plot title
 ```
+
+## Model 
+
+### check for normality
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+conditions=factor(ds$condition)
+age=as.factor(ds$AGE_GROUP)
+sex=factor(ds$PERP_SEX)
+race=factor(ds$PERP_RACE)
+boro=factor(ds$ARREST_BORO)
+temp=ds$temp
+windspeed=ds$windspeed
+
+
+df_y <- ds %>%
+  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
+  group_by(temp,conditions,AGE_GROUP, PERP_SEX, PERP_RACE, ARREST_BORO) %>%
+  summarise(y = n(), .groups = 'drop')
+```
+
+
+
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+
+g1 <- hist(temp, breaks = 50, probability = TRUE, main = "Histogram of temp ", xlab = "Volume", col = "lightblue")
+
+g2 <- hist(windspeed, breaks = 50, probability = TRUE, main = "Histogram of windspeed", xlab = "Volume", col = "lightblue")
+
+g3<- ggplot(ds, aes(x = age)) +
+  geom_bar() +  # This creates a bar chart
+  labs(title = "Distribution of Age Groups", x = "Age Group", y = "Frequency") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+
+g4 <- ggplot(ds, aes(x = race)) +
+  geom_bar() +  # This creates a bar chart
+  labs(title = "Distribution of RACE", x = "RACE", y = "Frequency") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+
+
+g5 <- ggplot(ds, aes(x = boro)) +
+  geom_bar() +  # This creates a bar chart
+  labs(title = "Distribution of BORO", x = "BORO", y = "Frequency") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) 
+
+df_y$temp_range <- cut(df_y$temp,
+                      breaks = c(-Inf, 10, 20, 30, 40, Inf),
+                      labels = c("<10", "11-20", "21-30", "31-40", ">40"),
+                      include.lowest = TRUE)
+
+g6 <- ggplot(df_y, aes(x = y, fill = temp_range)) +
+  geom_density(alpha = 0.4) +
+  labs(title = "Density of 'y' for Temperature Ranges",
+       x = "'y' value",
+       fill = "Temperature Range")
+
+g6<- ggplot(df_y,aes(x = y, color = conditions,fill=conditions))+geom_density(alpha=0.4)
+
+
+```
+
+
+We found that some of the data are not normal distribution, so that we need to use the glm model to find the relationships.
+
+
+### model
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+df_y1 <- ds %>%
+  group_by(temp,windspeed,conditions,AGE_GROUP, PERP_SEX, PERP_RACE, ARREST_BORO) %>%
+  summarise(y = n(), .groups = 'drop')
+
+
+mod <- glm(y ~ temp+conditions+AGE_GROUP + PERP_SEX + PERP_RACE + ARREST_BORO , 
+           data = df_y1, 
+           family = poisson())
+# Summary of the model
+```
+
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+summary(mod)
+```
+
+the first model we regress contains all kinds of crimes, we found that the temperature has a small, positive coefficient, indicating that as temperature increases, the number of incidents tends to increase slightly. However, the relatively high residual deviance and AIC suggest that there is still unexplained variance, and perhaps we could improve with additional or different predictors, interaction terms, or considering another type of model.
+
+
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+df_y <- ds %>%
+  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
+  group_by(temp,conditions,AGE_GROUP, PERP_SEX, PERP_RACE, ARREST_BORO) %>%
+  summarise(y = n(), .groups = 'drop')
+
+
+mod1 <- glm(y ~ temp+conditions+AGE_GROUP + PERP_SEX + PERP_RACE + ARREST_BORO , 
+           data = df_y, 
+           family = poisson())
+```
+
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+summary(mod1)
+```
+in this model, we delete the predictor of wind speeds and focuses on the Assault 3 incidents.
+This time, the R squared gets better and AIC getting lower. 
+
+```{r,include=FALSE}
+par(mfrow=c(2,2))
+plot(mod)
+```
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+df_y1 <- ds %>%
+  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
+  group_by(temp,conditions,AGE_GROUP, PERP_SEX, PERP_RACE, ARREST_BORO) %>%
+  summarise(y = n(), .groups = 'drop')
+
+mod_temp <- glm(y ~ temp, 
+           data = df_y1, 
+           family = poisson())
+```
+
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+par(mfrow=c(2,2))
+summary(mod_temp)
+plot(mod_temp)
+```
+Then, we do the regression with only temperature's effect on the daily crime rate, we found that coefficients are extremely low and not significant anymore. This shows that other demographic predictors has more influence to the assault 3 crime rate.
+
+In conclusion, we need to think about better model that could fit with our data.
+
 
 
 
