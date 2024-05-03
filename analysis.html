@@ -164,7 +164,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#weather-condition" id="toc-weather-condition" class="nav-link" data-scroll-target="#weather-condition">Weather Condition</a></li>
   <li><a href="#windspeed" id="toc-windspeed" class="nav-link" data-scroll-target="#windspeed">Windspeed</a></li>
   </ul></li>
-  <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model">Model</a></li>
+  <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model">Model</a>
+  <ul class="collapse">
+  <li><a href="#logistic-regression-model" id="toc-logistic-regression-model" class="nav-link" data-scroll-target="#logistic-regression-model">Logistic Regression Model</a></li>
+  <li><a href="#logisitic-model-result" id="toc-logisitic-model-result" class="nav-link" data-scroll-target="#logisitic-model-result">Logisitic Model result</a></li>
+  </ul></li>
+  <li><a href="#confusion-matrix-for-log-model" id="toc-confusion-matrix-for-log-model" class="nav-link" data-scroll-target="#confusion-matrix-for-log-model">Confusion Matrix for log model</a>
+  <ul class="collapse">
+  <li><a href="#decision-trees-model" id="toc-decision-trees-model" class="nav-link" data-scroll-target="#decision-trees-model">Decision Trees model</a></li>
+  <li><a href="#compare-the-accuracy-between-these-two-models" id="toc-compare-the-accuracy-between-these-two-models" class="nav-link" data-scroll-target="#compare-the-accuracy-between-these-two-models">Compare the Accuracy between these two models</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -335,395 +344,620 @@ Geodetic CRS:  WGS84(DD)</code></pre>
 </section>
 <section id="model" class="level2">
 <h2 class="anchored" data-anchor-id="model">Model</h2>
+<section id="logistic-regression-model" class="level3">
+<h3 class="anchored" data-anchor-id="logistic-regression-model">Logistic Regression Model</h3>
+<p>To identify patterns in ASSAULT 3 by considering various factors such as age, gender, race of the perpetrator, as well as environmental factors like temperature and weather conditions, we decide to build a logistic regression model to predict the likelihood of an arrest being for “ASSAULT 3 &amp; RELATED OFFENSES”. This helps police understand under what circumstances such crimes are more likely to occur, aiding in the development of proactive policing strategies.</p>
+<p>first,we use a binary response variable y is created to represent whether each arrest falls into this category. The data is then split into training and validation sets, we randomly select 80% to be training set, 20% to be validation set.</p>
+</section>
+<section id="logisitic-model-result" class="level3">
+<h3 class="anchored" data-anchor-id="logisitic-model-result">Logisitic Model result</h3>
+<p>From the summary of the model,</p>
+</section>
+</section>
+<section id="confusion-matrix-for-log-model" class="level1">
+<h1>Confusion Matrix for log model</h1>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>daily_crime_count <span class="ot">&lt;-</span> ds <span class="sc">%&gt;%</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ARREST_DATE) <span class="sc">%&gt;%</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(OFNS_DESC <span class="sc">==</span> <span class="st">"ASSAULT 3 &amp; RELATED OFFENSES"</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Daily_Count=</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">'drop'</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(ARREST_DATE)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>ds<span class="sc">$</span>ARREST_BORO <span class="ot">=</span> <span class="fu">as.factor</span>(ds<span class="sc">$</span>ARREST_BORO)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>ds<span class="sc">$</span>ARREST_PRECINCT<span class="ot">=</span><span class="fu">as.factor</span>(ds<span class="sc">$</span>ARREST_PRECINCT)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>ds<span class="sc">$</span>AGE_GROUP<span class="ot">=</span> <span class="fu">as.factor</span>(ds<span class="sc">$</span>AGE_GROUP)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>ds<span class="sc">$</span>PERP_SEX<span class="ot">=</span> <span class="fu">as.factor</span>(ds<span class="sc">$</span>PERP_SEX)</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>ds<span class="sc">$</span>PERP_RACE <span class="ot">=</span><span class="fu">as.factor</span>(ds<span class="sc">$</span>PERP_RACE)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>ds<span class="sc">$</span>conditions <span class="ot">=</span><span class="fu">as.factor</span>(ds<span class="sc">$</span>conditions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming 'ds' is your dataset and has 'ARREST_DATE', 'PD_DESC', and 'temp' columns</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the assault data summary</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>assault_data <span class="ot">&lt;-</span> ds <span class="sc">%&gt;%</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(OFNS_DESC <span class="sc">==</span> <span class="st">"ASSAULT 3 &amp; RELATED OFFENSES"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Month =</span> <span class="fu">floor_date</span>(<span class="fu">as.Date</span>(ARREST_DATE), <span class="st">"month"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Month) <span class="sc">%&gt;%</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Count =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() </span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the temperature data summary</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>mean_temp_by_month <span class="ot">&lt;-</span> ds <span class="sc">%&gt;%</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(OFNS_DESC <span class="sc">==</span> <span class="st">"ASSAULT 3 &amp; RELATED OFFENSES"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Month =</span> <span class="fu">floor_date</span>(<span class="fu">as.Date</span>(ARREST_DATE), <span class="st">"month"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Month) <span class="sc">%&gt;%</span></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Mean_Temp =</span> <span class="fu">mean</span>(temp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>mean_wind_by_month <span class="ot">&lt;-</span> ds <span class="sc">%&gt;%</span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(OFNS_DESC <span class="sc">==</span> <span class="st">"ASSAULT 3 &amp; RELATED OFFENSES"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Month =</span> <span class="fu">floor_date</span>(<span class="fu">as.Date</span>(ARREST_DATE), <span class="st">"month"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Month) <span class="sc">%&gt;%</span></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Mean_wind =</span> <span class="fu">mean</span>(windspeed, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Join the datasets</span></span>
-<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>correlation_data <span class="ot">&lt;-</span> <span class="fu">left_join</span>(assault_data, mean_temp_by_month,mean_wind_by_month, <span class="at">by =</span> <span class="st">"Month"</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>   <span class="fu">left_join</span>(mean_wind_by_month, <span class="at">by =</span> <span class="st">"Month"</span>)</span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the correlation coefficient between Count and Mean_Temp</span></span>
-<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>correlation_coefficient <span class="ot">&lt;-</span> <span class="fu">cor</span>(correlation_data<span class="sc">$</span>Count, correlation_data<span class="sc">$</span>Mean_Temp,<span class="at">use =</span> <span class="st">"complete.obs"</span>)</span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Output the correlation coefficient</span></span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(correlation_coefficient)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.616935</code></pre>
+<pre><code>         Actual
+Predicted     0     1
+        0 38136  6600
+        1   236   277</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you want to plot this correlation, you can use a scatter plot with a smooth line</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>correlation_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(correlation_data, <span class="fu">aes</span>(<span class="at">x =</span> Mean_Temp, <span class="at">y =</span> Count)) <span class="sc">+</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Average Monthly Temperature (°C)"</span>, <span class="at">y =</span> <span class="st">"Count of Assault 3 Crimes"</span>, </span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Correlation between Temperature and 'Assault 3' Crime Count"</span>)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the correlation plot</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(correlation_plot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="analysis_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
-</div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cor_matrix1 <span class="ot">&lt;-</span> <span class="fu">cor</span>(correlation_data[, <span class="fu">c</span>(<span class="st">"Count"</span>, <span class="st">"Mean_Temp"</span>,<span class="st">"Mean_wind"</span>)], <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(cor_matrix1, </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">color =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"skyblue"</span>, <span class="st">"white"</span>, <span class="st">"lightgreen"</span>))(<span class="dv">200</span>),</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">display_numbers =</span> T,</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">clustering_distance_rows =</span> <span class="st">"euclidean"</span>,</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">clustering_distance_cols =</span> <span class="st">"euclidean"</span>,</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">clustering_method =</span> <span class="st">"complete"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="analysis_files/figure-html/unnamed-chunk-14-2.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>assault_data_weekly <span class="ot">&lt;-</span> ds <span class="sc">%&gt;%</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(OFNS_DESC <span class="sc">==</span> <span class="st">"ASSAULT 3 &amp; RELATED OFFENSES"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Week =</span> <span class="fu">floor_date</span>(<span class="fu">as.Date</span>(ARREST_DATE), <span class="st">"week"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Week) <span class="sc">%&gt;%</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Count =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() </span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>mean_temp_by_week <span class="ot">&lt;-</span> ds <span class="sc">%&gt;%</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(OFNS_DESC <span class="sc">==</span> <span class="st">"ASSAULT 3 &amp; RELATED OFFENSES"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Week =</span> <span class="fu">floor_date</span>(<span class="fu">as.Date</span>(ARREST_DATE), <span class="st">"week"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Week) <span class="sc">%&gt;%</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Mean_Temp =</span> <span class="fu">mean</span>(temp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>mean_wind_by_week <span class="ot">&lt;-</span> ds <span class="sc">%&gt;%</span></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(OFNS_DESC <span class="sc">==</span> <span class="st">"ASSAULT 3 &amp; RELATED OFFENSES"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Week =</span> <span class="fu">floor_date</span>(<span class="fu">as.Date</span>(ARREST_DATE), <span class="st">"week"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Week) <span class="sc">%&gt;%</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Mean_Wind =</span> <span class="fu">mean</span>(windspeed, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>correlation_data_weekly <span class="ot">&lt;-</span> <span class="fu">left_join</span>(assault_data_weekly, mean_temp_by_week, <span class="at">by =</span> <span class="st">"Week"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(mean_wind_by_week, <span class="at">by =</span> <span class="st">"Week"</span>)</span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>correlation_plot2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(correlation_data_weekly, <span class="fu">aes</span>(<span class="at">x =</span> Mean_Temp, <span class="at">y =</span> Count, <span class="at">color =</span> Count)) <span class="sc">+</span></span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">15</span>, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span>  <span class="co"># Square points</span></span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_gradient</span>(<span class="at">low =</span> <span class="st">"lightblue"</span>, <span class="at">high =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span>  <span class="co"># Color gradient</span></span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span>  <span class="co"># Linear regression line</span></span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Average Weekly Temperature (°C)"</span>, <span class="at">y =</span> <span class="st">"Count of Assault 3 Crimes"</span>, </span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Correlation between Temperature and 'Assault 3' Crime Count"</span>) <span class="sc">+</span></span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_colorbar</span>(<span class="at">title =</span> <span class="st">"Frequency"</span>, <span class="at">title.position =</span> <span class="st">"top"</span>))</span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the plot</span></span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(correlation_plot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="analysis_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
-</div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>cor_matrix2 <span class="ot">&lt;-</span> <span class="fu">cor</span>(correlation_data_weekly[, <span class="fu">c</span>(<span class="st">"Count"</span>, <span class="st">"Mean_Temp"</span>,<span class="st">"Mean_Wind"</span>)], <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(cor_matrix2, </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">color =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"skyblue"</span>, <span class="st">"white"</span>, <span class="st">"lightgreen"</span>))(<span class="dv">200</span>),</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">display_numbers =</span> T,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">clustering_distance_rows =</span> <span class="st">"euclidean"</span>,</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">clustering_distance_cols =</span> <span class="st">"euclidean"</span>,</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">clustering_method =</span> <span class="st">"complete"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="analysis_files/figure-html/unnamed-chunk-15-2.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>daily_crime_count <span class="ot">&lt;-</span> ds <span class="sc">%&gt;%</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ARREST_DATE) <span class="sc">%&gt;%</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(OFNS_DESC <span class="sc">==</span> <span class="st">"ASSAULT 3 &amp; RELATED OFFENSES"</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Daily_Count=</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">'drop'</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(ARREST_DATE)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>daily_temperature <span class="ot">&lt;-</span> ds <span class="sc">%&gt;%</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ARREST_DATE) <span class="sc">%&gt;%</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Temp =</span> <span class="fu">mean</span>(temp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>wind <span class="ot">&lt;-</span>ds <span class="sc">%&gt;%</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ARREST_DATE) <span class="sc">%&gt;%</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Wind =</span> <span class="fu">mean</span>(windspeed, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>daily_data <span class="ot">&lt;-</span> daily_crime_count <span class="sc">%&gt;%</span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(daily_temperature, <span class="at">by =</span> <span class="st">"ARREST_DATE"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(wind, <span class="at">by =</span> <span class="st">"ARREST_DATE"</span>)</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>scatter_plot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(daily_data, <span class="fu">aes</span>(<span class="at">x =</span> Temp, <span class="at">y =</span> Daily_Count, <span class="at">color =</span> Daily_Count)) <span class="sc">+</span></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">15</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span>  <span class="co"># Square points</span></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_gradient</span>(<span class="at">low =</span> <span class="st">"lightblue"</span>, <span class="at">high =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span>  <span class="co"># Color gradient</span></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span>  <span class="co"># Linear regression line</span></span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Average daily Temperature (°C)"</span>, <span class="at">y =</span> <span class="st">"Count of Assault 3 Crimes"</span>, </span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Correlation between Temperature and 'Assault 3' Crime Count"</span>) <span class="sc">+</span></span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_colorbar</span>(<span class="at">title =</span> <span class="st">"Frequency"</span>, <span class="at">title.position =</span> <span class="st">"top"</span>))</span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(scatter_plot3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
-</div>
-<div class="cell-output-display">
-<p><img src="analysis_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
-</div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>cor_matrix3 <span class="ot">&lt;-</span> <span class="fu">cor</span>(daily_data[, <span class="fu">c</span>(<span class="st">"Daily_Count"</span>, <span class="st">"Temp"</span>,<span class="st">"Wind"</span>)], <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pheatmap</span>(cor_matrix3, </span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">color =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"skyblue"</span>, <span class="st">"white"</span>, <span class="st">"lightgreen"</span>))(<span class="dv">200</span>),</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">display_numbers =</span> T,</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">clustering_distance_rows =</span> <span class="st">"euclidean"</span>,</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">clustering_distance_cols =</span> <span class="st">"euclidean"</span>,</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">clustering_method =</span> <span class="st">"complete"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="analysis_files/figure-html/unnamed-chunk-16-2.png" class="img-fluid" width="672"></p>
-</div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>modweek <span class="ot">&lt;-</span> <span class="fu">glm</span>(correlation_data_weekly<span class="sc">$</span>Count<span class="sc">~</span>correlation_data_weekly<span class="sc">$</span>Mean_Temp<span class="sc">+</span>correlation_data_weekly<span class="sc">$</span>Mean_Wind)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modweek)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-glm(formula = correlation_data_weekly$Count ~ correlation_data_weekly$Mean_Temp + 
-    correlation_data_weekly$Mean_Wind)
-
-Coefficients:
-                                  Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)                        542.168     96.452   5.621 8.44e-07 ***
-correlation_data_weekly$Mean_Temp    3.611      1.720   2.100   0.0408 *  
-correlation_data_weekly$Mean_Wind    1.825      4.114   0.443   0.6593    
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-(Dispersion parameter for gaussian family taken to be 7081.872)
-
-    Null deviance: 387713  on 52  degrees of freedom
-Residual deviance: 354094  on 50  degrees of freedom
-AIC: 625.18
-
-Number of Fisher Scoring iterations: 2</code></pre>
+<pre><code>[1] "Accuracy: 0.84892483811797"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>modmonth <span class="ot">&lt;-</span><span class="fu">glm</span>(correlation_data<span class="sc">$</span>Count<span class="sc">~</span> correlation_data<span class="sc">$</span>Mean_Temp <span class="sc">+</span> correlation_data<span class="sc">$</span>Mean_wind)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modmonth)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-glm(formula = correlation_data$Count ~ correlation_data$Mean_Temp + 
-    correlation_data$Mean_wind)
-
-Coefficients:
-                           Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)                4138.621    590.896   7.004  6.3e-05 ***
-correlation_data$Mean_Temp    2.432      5.399   0.451   0.6630    
-correlation_data$Mean_wind  -69.753     26.789  -2.604   0.0286 *  
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-(Dispersion parameter for gaussian family taken to be 9568.613)
-
-    Null deviance: 243773  on 11  degrees of freedom
-Residual deviance:  86118  on  9  degrees of freedom
-AIC: 148.6
-
-Number of Fisher Scoring iterations: 2</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>modday <span class="ot">&lt;-</span> <span class="fu">lm</span>(daily_data<span class="sc">$</span>Daily_Count <span class="sc">~</span> daily_data<span class="sc">$</span>Temp <span class="sc">+</span>daily_data<span class="sc">$</span>Wind)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modday)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-lm(formula = daily_data$Daily_Count ~ daily_data$Temp + daily_data$Wind)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--28.370  -9.303  -1.497   8.869  44.098 
-
-Coefficients:
-                Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)     89.09075    3.03922  29.314  &lt; 2e-16 ***
-daily_data$Temp  0.23861    0.08909   2.678  0.00774 ** 
-daily_data$Wind -0.04993    0.11675  -0.428  0.66915    
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 12.87 on 362 degrees of freedom
-Multiple R-squared:  0.02341,   Adjusted R-squared:  0.01802 
-F-statistic:  4.34 on 2 and 362 DF,  p-value: 0.01373</code></pre>
+<pre><code>[1] "AUC: 0.822264426291401"</code></pre>
 </div>
 </div>
+<p>To better evaluate the model, We build a confusion matrix to show the accuracy of the model, which is the proportion of correct predictions (true positives and true negatives) out of the total predictions, is calculated at approximately 84.88%. This indicates that the model performs well in general. Additionally, the Area Under the Curve (AUC) score of 0.8222, shown below the confusion matrix, further confirms the model’s effectiveness in distinguishing between the two classes.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>ds <span class="sc">%&gt;%</span> </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(OFNS_DESC, LAW_CAT_CD, AGE_GROUP, PERP_SEX, PERP_RACE,ARREST_BORO,ARREST_PRECINCT,conditions) <span class="sc">%&gt;%</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>((OFNS_DESC <span class="sc">==</span> <span class="st">"ASSAULT 3 &amp; RELATED OFFENSES"</span>))<span class="sc">%&gt;%</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(<span class="at">name =</span> <span class="st">'y'</span>) <span class="ot">-&gt;</span> df_y</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span>  conditions<span class="sc">+</span> AGE_GROUP <span class="sc">+</span> PERP_SEX <span class="sc">+</span> PERP_RACE<span class="sc">+</span> ARREST_BORO<span class="sc">+</span> ARREST_PRECINCT,</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">data =</span> df_y, <span class="at">family =</span> poisson)</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>
-Call:
-glm(formula = y ~ conditions + AGE_GROUP + PERP_SEX + PERP_RACE + 
-    ARREST_BORO + ARREST_PRECINCT, family = poisson, data = df_y)
-
-Coefficients: (3 not defined because of singularities)
-                                       Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)                            -1.65493    0.09951 -16.631  &lt; 2e-16 ***
-conditionsOvercast                     -1.78485    0.04457 -40.049  &lt; 2e-16 ***
-conditionsPartially cloudy             -0.10627    0.01516  -7.008 2.42e-12 ***
-conditionsRain                         -1.10053    0.02463 -44.681  &lt; 2e-16 ***
-conditionsRain, Overcast               -0.76048    0.02022 -37.614  &lt; 2e-16 ***
-conditionsRain, Partially cloudy        0.03254    0.01459   2.230 0.025738 *  
-conditionsSnow, Partially cloudy       -2.29470    0.10609 -21.629  &lt; 2e-16 ***
-conditionsSnow, Rain, Overcast         -2.21498    0.10860 -20.396  &lt; 2e-16 ***
-conditionsSnow, Rain, Partially cloudy -1.93889    0.05382 -36.025  &lt; 2e-16 ***
-AGE_GROUP18-24                          0.83808    0.03302  25.384  &lt; 2e-16 ***
-AGE_GROUP25-44                          1.81259    0.03111  58.269  &lt; 2e-16 ***
-AGE_GROUP45-64                          0.96066    0.03260  29.465  &lt; 2e-16 ***
-AGE_GROUP65+                           -0.16521    0.04688  -3.524 0.000425 ***
-PERP_SEXM                               0.73722    0.01257  58.660  &lt; 2e-16 ***
-PERP_SEXU                              -1.43457    0.04609 -31.123  &lt; 2e-16 ***
-PERP_RACEASIAN / PACIFIC ISLANDER       1.22719    0.08754  14.019  &lt; 2e-16 ***
-PERP_RACEBLACK                          2.41670    0.08548  28.273  &lt; 2e-16 ***
-PERP_RACEBLACK HISPANIC                 1.24769    0.08686  14.364  &lt; 2e-16 ***
-PERP_RACEWHITE                          1.28721    0.08705  14.787  &lt; 2e-16 ***
-PERP_RACEWHITE HISPANIC                 1.99411    0.08570  23.270  &lt; 2e-16 ***
-ARREST_BOROK                           -1.14847    0.08945 -12.839  &lt; 2e-16 ***
-ARREST_BOROM                           -0.87635    0.07688 -11.398  &lt; 2e-16 ***
-ARREST_BOROQ                            1.38875    0.41743   3.327 0.000878 ***
-ARREST_BOROS                           -0.79379    0.08730  -9.093  &lt; 2e-16 ***
-ARREST_PRECINCT5                        0.02022    0.09205   0.220 0.826094    
-ARREST_PRECINCT6                        0.04568    0.09241   0.494 0.621049    
-ARREST_PRECINCT7                        0.17566    0.08858   1.983 0.047359 *  
-ARREST_PRECINCT9                        0.15933    0.08940   1.782 0.074722 .  
-ARREST_PRECINCT10                      -0.02530    0.09348  -0.271 0.786621    
-ARREST_PRECINCT13                       0.31788    0.08553   3.717 0.000202 ***
-ARREST_PRECINCT14                       0.87492    0.07627  11.471  &lt; 2e-16 ***
-ARREST_PRECINCT17                      -0.28175    0.10546  -2.672 0.007548 ** 
-ARREST_PRECINCT18                       0.44011    0.08250   5.335 9.56e-08 ***
-ARREST_PRECINCT19                       0.07032    0.09308   0.755 0.449980    
-ARREST_PRECINCT20                      -0.38285    0.10821  -3.538 0.000403 ***
-ARREST_PRECINCT22                      -1.09142    0.20707  -5.271 1.36e-07 ***
-ARREST_PRECINCT23                       0.47131    0.08198   5.749 8.95e-09 ***
-ARREST_PRECINCT24                      -0.08732    0.09663  -0.904 0.366196    
-ARREST_PRECINCT25                       0.39193    0.08364   4.686 2.78e-06 ***
-ARREST_PRECINCT26                       0.03176    0.09591   0.331 0.740554    
-ARREST_PRECINCT28                       0.20064    0.08844   2.269 0.023293 *  
-ARREST_PRECINCT30                       0.17438    0.08820   1.977 0.048024 *  
-ARREST_PRECINCT32                       0.73514    0.07990   9.201  &lt; 2e-16 ***
-ARREST_PRECINCT33                       0.31908    0.08631   3.697 0.000218 ***
-ARREST_PRECINCT34                       0.39698    0.08440   4.703 2.56e-06 ***
-ARREST_PRECINCT40                       0.39545    0.04988   7.928 2.23e-15 ***
-ARREST_PRECINCT41                      -0.14451    0.05774  -2.503 0.012319 *  
-ARREST_PRECINCT42                       0.20755    0.05177   4.009 6.09e-05 ***
-ARREST_PRECINCT43                       0.22539    0.05082   4.435 9.22e-06 ***
-ARREST_PRECINCT44                       0.35116    0.05003   7.019 2.23e-12 ***
-ARREST_PRECINCT45                      -0.36216    0.06084  -5.953 2.63e-09 ***
-ARREST_PRECINCT46                       0.38984    0.04944   7.885 3.14e-15 ***
-ARREST_PRECINCT47                       0.29678    0.05050   5.877 4.17e-09 ***
-ARREST_PRECINCT48                       0.19595    0.05275   3.715 0.000203 ***
-ARREST_PRECINCT49                      -0.29020    0.05939  -4.886 1.03e-06 ***
-ARREST_PRECINCT50                      -0.80065    0.07304 -10.962  &lt; 2e-16 ***
-ARREST_PRECINCT52                            NA         NA      NA       NA    
-ARREST_PRECINCT60                       0.73734    0.09366   7.873 3.47e-15 ***
-ARREST_PRECINCT61                       0.36033    0.10216   3.527 0.000420 ***
-ARREST_PRECINCT62                       0.91595    0.09257   9.895  &lt; 2e-16 ***
-ARREST_PRECINCT63                       0.37582    0.10109   3.718 0.000201 ***
-ARREST_PRECINCT66                       0.53899    0.10117   5.328 9.95e-08 ***
-ARREST_PRECINCT67                       1.31269    0.08890  14.766  &lt; 2e-16 ***
-ARREST_PRECINCT68                       0.67343    0.09964   6.758 1.40e-11 ***
-ARREST_PRECINCT69                       0.70433    0.09880   7.129 1.01e-12 ***
-ARREST_PRECINCT70                       0.81328    0.09320   8.726  &lt; 2e-16 ***
-ARREST_PRECINCT71                       0.80808    0.09516   8.491  &lt; 2e-16 ***
-ARREST_PRECINCT72                       0.82505    0.09384   8.792  &lt; 2e-16 ***
-ARREST_PRECINCT73                       1.24677    0.08935  13.953  &lt; 2e-16 ***
-ARREST_PRECINCT75                       1.48802    0.08704  17.096  &lt; 2e-16 ***
-ARREST_PRECINCT76                      -0.19118    0.12485  -1.531 0.125706    
-ARREST_PRECINCT77                       0.87359    0.09363   9.331  &lt; 2e-16 ***
-ARREST_PRECINCT78                       0.21993    0.10857   2.026 0.042798 *  
-ARREST_PRECINCT79                       0.90390    0.09260   9.762  &lt; 2e-16 ***
-ARREST_PRECINCT81                       0.55679    0.09895   5.627 1.83e-08 ***
-ARREST_PRECINCT83                       0.89312    0.09281   9.624  &lt; 2e-16 ***
-ARREST_PRECINCT84                       0.46124    0.10199   4.522 6.12e-06 ***
-ARREST_PRECINCT88                       0.21501    0.10689   2.012 0.044269 *  
-ARREST_PRECINCT90                       0.54995    0.09809   5.606 2.07e-08 ***
-ARREST_PRECINCT94                            NA         NA      NA       NA    
-ARREST_PRECINCT100                     -2.39426    0.42201  -5.673 1.40e-08 ***
-ARREST_PRECINCT101                     -2.00746    0.42004  -4.779 1.76e-06 ***
-ARREST_PRECINCT102                     -1.65931    0.41817  -3.968 7.25e-05 ***
-ARREST_PRECINCT103                     -1.31176    0.41720  -3.144 0.001665 ** 
-ARREST_PRECINCT104                     -1.73404    0.41869  -4.142 3.45e-05 ***
-ARREST_PRECINCT105                     -1.47858    0.41762  -3.540 0.000399 ***
-ARREST_PRECINCT106                     -1.64218    0.41813  -3.927 8.59e-05 ***
-ARREST_PRECINCT107                     -1.98661    0.41909  -4.740 2.13e-06 ***
-ARREST_PRECINCT108                     -1.89938    0.41884  -4.535 5.76e-06 ***
-ARREST_PRECINCT109                     -1.48049    0.41763  -3.545 0.000393 ***
-ARREST_PRECINCT110                     -1.17777    0.41712  -2.824 0.004749 ** 
-ARREST_PRECINCT111                     -2.45244    0.42360  -5.790 7.06e-09 ***
-ARREST_PRECINCT112                     -2.38702    0.42187  -5.658 1.53e-08 ***
-ARREST_PRECINCT113                     -1.26789    0.41723  -3.039 0.002375 ** 
-ARREST_PRECINCT114                     -1.52999    0.41368  -3.698 0.000217 ***
-ARREST_PRECINCT115                     -1.37068    0.41750  -3.283 0.001027 ** 
-ARREST_PRECINCT120                      0.56024    0.08896   6.297 3.03e-10 ***
-ARREST_PRECINCT121                      0.24570    0.09403   2.613 0.008979 ** 
-ARREST_PRECINCT122                      0.02011    0.10052   0.200 0.841456    
-ARREST_PRECINCT123                           NA         NA      NA       NA    
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-(Dispersion parameter for poisson family taken to be 1)
-
-    Null deviance: 45008  on 8615  degrees of freedom
-Residual deviance: 15195  on 8519  degrees of freedom
-AIC: 38899
-
-Number of Fisher Scoring iterations: 5</code></pre>
+<pre><code>    ARREST_DATE LAW_CAT_CD ARREST_BORO ARREST_PRECINCT AGE_GROUP PERP_SEX
+ 1:  2023-03-20          M           K              67       &lt;18        F
+ 2:  2023-03-27          M           B              48       &lt;18        F
+ 3:  2023-04-30          M           M              32       &lt;18        F
+ 4:  2023-04-30          M           M              32       &lt;18        F
+ 5:  2023-04-30          M           M              32       &lt;18        F
+ 6:  2023-06-17          M           M              22     25-44        F
+ 7:  2023-07-25          M           B              42       &lt;18        F
+ 8:  2023-08-12          M           B              42       &lt;18        F
+ 9:  2023-08-16          M           B              47       &lt;18        F
+10:  2023-08-21          M           K              67       &lt;18        F
+11:  2023-09-23          M           K              67       &lt;18        F
+12:  2023-10-09          M           B              47       &lt;18        F
+13:  2023-10-10          M           K              83       &lt;18        F
+14:  2023-10-16          M           B              42       &lt;18        F
+15:  2023-10-24          M           K              67       &lt;18        F
+16:  2023-11-13          M           M              22     25-44        M
+17:  2023-11-29          M           K              67       &lt;18        F
+18:  2023-12-14          M           B              42       &lt;18        F
+19:  2023-12-22          M           M              32       &lt;18        F
+                   PERP_RACE temp windspeed             conditions cloudcover
+ 1:                    BLACK  5.0      17.5                  Clear        0.1
+ 2:           WHITE HISPANIC 10.3      23.6 Rain, Partially cloudy       41.2
+ 3:                    BLACK 12.4      21.8         Rain, Overcast      100.0
+ 4:                    BLACK 12.4      21.8         Rain, Overcast      100.0
+ 5:                    BLACK 12.4      21.8         Rain, Overcast      100.0
+ 6:           WHITE HISPANIC 20.9      13.3       Partially cloudy       54.0
+ 7:           WHITE HISPANIC 24.3      20.1 Rain, Partially cloudy       24.4
+ 8:                    BLACK 25.4      18.0 Rain, Partially cloudy       26.5
+ 9:                    BLACK 24.0      19.7 Rain, Partially cloudy       85.3
+10:                    BLACK 27.0      12.8       Partially cloudy       21.7
+11:                    BLACK 16.4      36.4 Rain, Partially cloudy       81.9
+12:           WHITE HISPANIC 13.7      22.3       Partially cloudy       35.5
+13:           WHITE HISPANIC 15.1      19.8 Rain, Partially cloudy       62.7
+14:           WHITE HISPANIC 14.1      14.7       Partially cloudy       36.7
+15:                    BLACK 14.8      14.4                  Clear        0.8
+16: ASIAN / PACIFIC ISLANDER  7.5      17.8       Partially cloudy       29.8
+17:                    BLACK  1.0      26.2       Partially cloudy       20.7
+18:           WHITE HISPANIC  3.8      20.3                  Clear        9.7
+19:                    BLACK  1.0      20.2                  Clear        3.2
+    ARREST_month y
+ 1:            3 0
+ 2:            3 1
+ 3:            4 1
+ 4:            4 1
+ 5:            4 1
+ 6:            6 1
+ 7:            7 1
+ 8:            8 1
+ 9:            8 1
+10:            8 1
+11:            9 1
+12:           10 1
+13:           10 1
+14:           10 1
+15:           10 1
+16:           11 1
+17:           11 0
+18:           12 1
+19:           12 1</code></pre>
 </div>
 </div>
+<p>We filtered out cases where the logistic regression model predicted a probability greater than 0.70 for the outcome of interest, focusing on instances where the model confidently predicted an arrest as “ASSAULT 3.”</p>
+<p>The results indicate that “ASSAULT 3” crimes typically occur between March and December, especially during rainy or cloudy weather with temperatures above zero Celsius. These incidents predominantly happen in central Brooklyn, the Bronx, and uptown Manhattan. At the precinct level, Precincts 67, 32, and 42 are notable hotspots.</p>
+<p>Demographically, the majority of offenders are African American or White Hispanic, often around or below 18 years of age. Interestingly, the data also shows a significant proportion of female offenders, primarily involved in misdemeanor-level offenses.</p>
+<section id="decision-trees-model" class="level2">
+<h2 class="anchored" data-anchor-id="decision-trees-model">Decision Trees model</h2>
+<p>Next we decide to use Decision tree model to predict whether an arrest falls into the category of “ASSAULT 3” based on various demographic, legal, and environmental factors.It will provides a clear framework for understanding and predicting “ASSAULT 3”, helping law enforcement and policymakers make informed decisions based on data-driven insights.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="analysis_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell" data-incldue="false">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_tree)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:
+rpart(formula = y ~ ., data = train_all, method = "class", control = rpart.control(minsplit = 1, 
+    minbucket = 1, cp = 3e-04))
+  n= 180995 
+
+            CP nsplit rel error    xerror        xstd
+1 0.0004450708      0 1.0000000 1.0000000 0.005618205
+2 0.0004079816     23 0.9833098 0.9951784 0.005607008
+3 0.0003000000     24 0.9829019 0.9893183 0.005593340
+
+Variable importance
+   LAW_CAT_CDM    LAW_CAT_CDF      PERP_SEXM PERP_RACEWHITE     LAW_CAT_CD 
+            46             45              3              1              1 
+     PERP_SEXU    LAW_CAT_CDV 
+             1              1 
+
+Node number 1: 180995 observations,    complexity param=0.0004450708
+  predicted class=0  expected loss=0.1489654  P(node) =1
+    class counts: 154033 26962
+   probabilities: 0.851 0.149 
+  left son=2 (81406 obs) right son=3 (99589 obs)
+  Primary splits:
+      LAW_CAT_CDM  &lt; 0.5     to the left,  improve=6566.17800, (0 missing)
+      LAW_CAT_CDF  &lt; 0.5     to the right, improve=6206.44000, (0 missing)
+      PERP_SEXM    &lt; 0.5     to the right, improve= 447.04830, (0 missing)
+      ARREST_BOROM &lt; 0.5     to the right, improve=  62.29161, (0 missing)
+      LAW_CAT_CD   &lt; 0.5     to the right, improve=  56.98774, (0 missing)
+  Surrogate splits:
+      LAW_CAT_CDF       &lt; 0.5     to the right, agree=0.986, adj=0.969, (0 split)
+      LAW_CAT_CD        &lt; 0.5     to the right, agree=0.557, adj=0.016, (0 split)
+      LAW_CAT_CDV       &lt; 0.5     to the right, agree=0.556, adj=0.013, (0 split)
+      ARREST_PRECINCT5  &lt; 0.5     to the right, agree=0.554, adj=0.009, (0 split)
+      ARREST_PRECINCT77 &lt; 0.5     to the right, agree=0.552, adj=0.003, (0 split)
+
+Node number 2: 81406 observations
+  predicted class=0  expected loss=0  P(node) =0.4497693
+    class counts: 81406     0
+   probabilities: 1.000 0.000 
+
+Node number 3: 99589 observations,    complexity param=0.0004450708
+  predicted class=0  expected loss=0.2707327  P(node) =0.5502307
+    class counts: 72627 26962
+   probabilities: 0.729 0.271 
+  left son=6 (78821 obs) right son=7 (20768 obs)
+  Primary splits:
+      PERP_SEXM         &lt; 0.5     to the right, improve=477.22230, (0 missing)
+      ARREST_BOROM      &lt; 0.5     to the right, improve=143.27830, (0 missing)
+      ARREST_PRECINCT14 &lt; 0.5     to the right, improve= 98.92446, (0 missing)
+      ARREST_PRECINCT25 &lt; 0.5     to the right, improve= 79.02140, (0 missing)
+      ARREST_PRECINCT47 &lt; 0.5     to the left,  improve= 69.91668, (0 missing)
+  Surrogate splits:
+      PERP_SEXU &lt; 0.5     to the left,  agree=0.81, adj=0.087, (0 split)
+
+Node number 6: 78821 observations
+  predicted class=0  expected loss=0.2456071  P(node) =0.4354872
+    class counts: 59462 19359
+   probabilities: 0.754 0.246 
+
+Node number 7: 20768 observations,    complexity param=0.0004450708
+  predicted class=0  expected loss=0.3660921  P(node) =0.1147435
+    class counts: 13165  7603
+   probabilities: 0.634 0.366 
+  left son=14 (2405 obs) right son=15 (18363 obs)
+  Primary splits:
+      PERP_RACEWHITE    &lt; 0.5     to the right, improve=120.84440, (0 missing)
+      PERP_RACEBLACK    &lt; 0.5     to the left,  improve= 41.65986, (0 missing)
+      PERP_SEXU         &lt; 0.5     to the right, improve= 40.42381, (0 missing)
+      ARREST_PRECINCT14 &lt; 0.5     to the right, improve= 40.36593, (0 missing)
+      ARREST_PRECINCT46 &lt; 0.5     to the left,  improve= 31.73186, (0 missing)
+  Surrogate splits:
+      ARREST_PRECINCT123 &lt; 0.5     to the right, agree=0.886, adj=0.016, (0 split)
+      ARREST_PRECINCT122 &lt; 0.5     to the right, agree=0.885, adj=0.005, (0 split)
+
+Node number 14: 2405 observations
+  predicted class=0  expected loss=0.2170478  P(node) =0.01328766
+    class counts:  1883   522
+   probabilities: 0.783 0.217 
+
+Node number 15: 18363 observations,    complexity param=0.0004450708
+  predicted class=0  expected loss=0.3856124  P(node) =0.1014558
+    class counts: 11282  7081
+   probabilities: 0.614 0.386 
+  left son=30 (1645 obs) right son=31 (16718 obs)
+  Primary splits:
+      PERP_SEXU         &lt; 0.5     to the right, improve=44.39672, (0 missing)
+      ARREST_PRECINCT14 &lt; 0.5     to the right, improve=38.70121, (0 missing)
+      ARREST_PRECINCT46 &lt; 0.5     to the left,  improve=28.09559, (0 missing)
+      ARREST_PRECINCT52 &lt; 0.5     to the right, improve=26.42396, (0 missing)
+      ARREST_PRECINCT42 &lt; 0.5     to the left,  improve=22.70366, (0 missing)
+  Surrogate splits:
+      PERP_RACEUNKNOWN &lt; 0.5     to the right, agree=0.915, adj=0.057, (0 split)
+
+Node number 30: 1645 observations
+  predicted class=0  expected loss=0.274772  P(node) =0.009088649
+    class counts:  1193   452
+   probabilities: 0.725 0.275 
+
+Node number 31: 16718 observations,    complexity param=0.0004450708
+  predicted class=0  expected loss=0.3965187  P(node) =0.09236719
+    class counts: 10089  6629
+   probabilities: 0.603 0.397 
+  left son=62 (539 obs) right son=63 (16179 obs)
+  Primary splits:
+      ARREST_PRECINCT14 &lt; 0.5     to the right, improve=35.13273, (0 missing)
+      ARREST_PRECINCT46 &lt; 0.5     to the left,  improve=31.22499, (0 missing)
+      ARREST_PRECINCT52 &lt; 0.5     to the right, improve=24.75762, (0 missing)
+      ARREST_PRECINCT42 &lt; 0.5     to the left,  improve=20.53621, (0 missing)
+      ARREST_PRECINCT32 &lt; 0.5     to the left,  improve=16.77097, (0 missing)
+
+Node number 62: 539 observations
+  predicted class=0  expected loss=0.2189239  P(node) =0.002977983
+    class counts:   421   118
+   probabilities: 0.781 0.219 
+
+Node number 63: 16179 observations,    complexity param=0.0004450708
+  predicted class=0  expected loss=0.4024353  P(node) =0.08938921
+    class counts:  9668  6511
+   probabilities: 0.598 0.402 
+  left son=126 (15721 obs) right son=127 (458 obs)
+  Primary splits:
+      ARREST_PRECINCT46  &lt; 0.5     to the left,  improve=29.25620, (0 missing)
+      ARREST_PRECINCT52  &lt; 0.5     to the right, improve=26.67374, (0 missing)
+      ARREST_PRECINCT42  &lt; 0.5     to the left,  improve=19.08854, (0 missing)
+      ARREST_PRECINCT110 &lt; 0.5     to the right, improve=17.29538, (0 missing)
+      ARREST_BOROS       &lt; 0.5     to the right, improve=16.88308, (0 missing)
+
+Node number 126: 15721 observations,    complexity param=0.0004450708
+  predicted class=0  expected loss=0.397303  P(node) =0.08685875
+    class counts:  9475  6246
+   probabilities: 0.603 0.397 
+  left son=252 (482 obs) right son=253 (15239 obs)
+  Primary splits:
+      ARREST_PRECINCT52  &lt; 0.5     to the right, improve=25.05128, (0 missing)
+      ARREST_PRECINCT42  &lt; 0.5     to the left,  improve=20.36907, (0 missing)
+      ARREST_PRECINCT32  &lt; 0.5     to the left,  improve=16.64146, (0 missing)
+      ARREST_PRECINCT110 &lt; 0.5     to the right, improve=16.00387, (0 missing)
+      ARREST_PRECINCT67  &lt; 0.5     to the left,  improve=15.60341, (0 missing)
+
+Node number 127: 458 observations
+  predicted class=1  expected loss=0.4213974  P(node) =0.002530457
+    class counts:   193   265
+   probabilities: 0.421 0.579 
+
+Node number 252: 482 observations
+  predicted class=0  expected loss=0.2385892  P(node) =0.002663057
+    class counts:   367   115
+   probabilities: 0.761 0.239 
+
+Node number 253: 15239 observations,    complexity param=0.0004450708
+  predicted class=0  expected loss=0.402323  P(node) =0.0841957
+    class counts:  9108  6131
+   probabilities: 0.598 0.402 
+  left son=506 (14862 obs) right son=507 (377 obs)
+  Primary splits:
+      ARREST_PRECINCT42  &lt; 0.5     to the left,  improve=19.14398, (0 missing)
+      ARREST_PRECINCT110 &lt; 0.5     to the right, improve=17.29834, (0 missing)
+      ARREST_BOROS       &lt; 0.5     to the right, improve=16.89363, (0 missing)
+      ARREST_PRECINCT32  &lt; 0.5     to the left,  improve=15.73019, (0 missing)
+      ARREST_PRECINCT67  &lt; 0.5     to the left,  improve=14.67431, (0 missing)
+
+Node number 506: 14862 observations,    complexity param=0.0004450708
+  predicted class=0  expected loss=0.3983313  P(node) =0.08211277
+    class counts:  8942  5920
+   probabilities: 0.602 0.398 
+  left son=1012 (14607 obs) right son=1013 (255 obs)
+  Primary splits:
+      ARREST_PRECINCT32  &lt; 0.5     to the left,  improve=16.46667, (0 missing)
+      ARREST_PRECINCT110 &lt; 0.5     to the right, improve=16.29072, (0 missing)
+      ARREST_BOROS       &lt; 0.5     to the right, improve=15.70582, (0 missing)
+      ARREST_PRECINCT67  &lt; 0.5     to the left,  improve=15.42532, (0 missing)
+      ARREST_PRECINCT48  &lt; 0.5     to the left,  improve=14.92448, (0 missing)
+
+Node number 507: 377 observations
+  predicted class=1  expected loss=0.4403183  P(node) =0.00208293
+    class counts:   166   211
+   probabilities: 0.440 0.560 
+
+Node number 1012: 14607 observations,    complexity param=0.0004450708
+  predicted class=0  expected loss=0.3952215  P(node) =0.08070389
+    class counts:  8834  5773
+   probabilities: 0.605 0.395 
+  left son=2024 (14324 obs) right son=2025 (283 obs)
+  Primary splits:
+      ARREST_PRECINCT67  &lt; 0.5     to the left,  improve=16.02310, (0 missing)
+      ARREST_PRECINCT48  &lt; 0.5     to the left,  improve=15.60832, (0 missing)
+      ARREST_PRECINCT110 &lt; 0.5     to the right, improve=15.52519, (0 missing)
+      ARREST_BOROS       &lt; 0.5     to the right, improve=14.80824, (0 missing)
+      ARREST_PRECINCT47  &lt; 0.5     to the left,  improve=14.36577, (0 missing)
+
+Node number 1013: 255 observations,    complexity param=0.0004450708
+  predicted class=1  expected loss=0.4235294  P(node) =0.001408879
+    class counts:   108   147
+   probabilities: 0.424 0.576 
+  left son=2026 (77 obs) right son=2027 (178 obs)
+  Primary splits:
+      ARREST_DATE             &lt; 19468.5 to the left,  improve=6.669697, (0 missing)
+      windspeed               &lt; 21.75   to the left,  improve=3.403168, (0 missing)
+      cloudcover              &lt; 56.9    to the left,  improve=2.609295, (0 missing)
+      temp                    &lt; 13.9    to the left,  improve=1.902982, (0 missing)
+      PERP_RACEBLACK.HISPANIC &lt; 0.5     to the left,  improve=1.573813, (0 missing)
+  Surrogate splits:
+      temp                                   &lt; 7.1     to the left,  agree=0.804, adj=0.351, (0 split)
+      PERP_RACEASIAN...PACIFIC.ISLANDER      &lt; 0.5     to the right, agree=0.706, adj=0.026, (0 split)
+      conditionsSnow..Rain..Partially.cloudy &lt; 0.5     to the right, agree=0.706, adj=0.026, (0 split)
+      windspeed                              &lt; 36.75   to the right, agree=0.706, adj=0.026, (0 split)
+      cloudcover                             &lt; 0.2     to the left,  agree=0.706, adj=0.026, (0 split)
+
+Node number 2024: 14324 observations,    complexity param=0.0004450708
+  predicted class=0  expected loss=0.3919296  P(node) =0.07914031
+    class counts:  8710  5614
+   probabilities: 0.608 0.392 
+  left son=4048 (13946 obs) right son=4049 (378 obs)
+  Primary splits:
+      ARREST_PRECINCT48  &lt; 0.5     to the left,  improve=16.34992, (0 missing)
+      ARREST_PRECINCT47  &lt; 0.5     to the left,  improve=15.10929, (0 missing)
+      ARREST_PRECINCT110 &lt; 0.5     to the right, improve=14.73526, (0 missing)
+      ARREST_BOROS       &lt; 0.5     to the right, improve=13.88720, (0 missing)
+      ARREST_PRECINCT83  &lt; 0.5     to the left,  improve=12.89547, (0 missing)
+
+Node number 2025: 283 observations,    complexity param=0.0004450708
+  predicted class=1  expected loss=0.4381625  P(node) =0.001563579
+    class counts:   124   159
+   probabilities: 0.438 0.562 
+  left son=4050 (99 obs) right son=4051 (184 obs)
+  Primary splits:
+      cloudcover              &lt; 50.05   to the right, improve=10.774860, (0 missing)
+      temp                    &lt; 2.35    to the left,  improve= 4.536259, (0 missing)
+      PERP_RACEBLACK          &lt; 0.5     to the right, improve= 3.180716, (0 missing)
+      ARREST_DATE             &lt; 19499   to the left,  improve= 2.932719, (0 missing)
+      PERP_RACEBLACK.HISPANIC &lt; 0.5     to the left,  improve= 2.370854, (0 missing)
+  Surrogate splits:
+      conditionsRain..Overcast &lt; 0.5     to the right, agree=0.756, adj=0.303, (0 split)
+      windspeed                &lt; 30.9    to the right, agree=0.696, adj=0.131, (0 split)
+      ARREST_DATE              &lt; 19384   to the left,  agree=0.671, adj=0.061, (0 split)
+      AGE_GROUP65.             &lt; 0.5     to the right, agree=0.657, adj=0.020, (0 split)
+      conditionsOvercast       &lt; 0.5     to the right, agree=0.657, adj=0.020, (0 split)
+
+Node number 2026: 77 observations,    complexity param=0.0004450708
+  predicted class=0  expected loss=0.4025974  P(node) =0.0004254261
+    class counts:    46    31
+   probabilities: 0.597 0.403 
+  left son=4052 (52 obs) right son=4053 (25 obs)
+  Primary splits:
+      cloudcover              &lt; 55.1    to the left,  improve=9.457423, (0 missing)
+      temp                    &lt; 6.35    to the right, improve=4.417010, (0 missing)
+      ARREST_DATE             &lt; 19383.5 to the right, improve=4.172807, (0 missing)
+      windspeed               &lt; 22.95   to the left,  improve=4.013471, (0 missing)
+      PERP_RACEBLACK.HISPANIC &lt; 0.5     to the left,  improve=1.421314, (0 missing)
+  Surrogate splits:
+      ARREST_DATE              &lt; 19383.5 to the right, agree=0.818, adj=0.44, (0 split)
+      conditionsRain..Overcast &lt; 0.5     to the left,  agree=0.779, adj=0.32, (0 split)
+      windspeed                &lt; 22.95   to the left,  agree=0.714, adj=0.12, (0 split)
+      temp                     &lt; 3.75    to the right, agree=0.688, adj=0.04, (0 split)
+
+Node number 2027: 178 observations
+  predicted class=1  expected loss=0.3483146  P(node) =0.0009834526
+    class counts:    62   116
+   probabilities: 0.348 0.652 
+
+Node number 4048: 13946 observations,    complexity param=0.0004450708
+  predicted class=0  expected loss=0.3879966  P(node) =0.07705185
+    class counts:  8535  5411
+   probabilities: 0.612 0.388 
+  left son=8096 (13535 obs) right son=8097 (411 obs)
+  Primary splits:
+      ARREST_PRECINCT47  &lt; 0.5     to the left,  improve=16.02470, (0 missing)
+      ARREST_PRECINCT110 &lt; 0.5     to the right, improve=13.81971, (0 missing)
+      ARREST_PRECINCT83  &lt; 0.5     to the left,  improve=13.43397, (0 missing)
+      ARREST_BOROS       &lt; 0.5     to the right, improve=12.82694, (0 missing)
+      ARREST_PRECINCT23  &lt; 0.5     to the left,  improve=11.64730, (0 missing)
+
+Node number 4049: 378 observations,    complexity param=0.0004450708
+  predicted class=1  expected loss=0.462963  P(node) =0.002088455
+    class counts:   175   203
+   probabilities: 0.463 0.537 
+  left son=8098 (110 obs) right son=8099 (268 obs)
+  Primary splits:
+      windspeed                         &lt; 21.55   to the right, improve=5.079652, (0 missing)
+      temp                              &lt; 9.6     to the left,  improve=4.725793, (0 missing)
+      ARREST_DATE                       &lt; 19425.5 to the left,  improve=3.647406, (0 missing)
+      cloudcover                        &lt; 97.55   to the right, improve=2.540741, (0 missing)
+      PERP_RACEASIAN...PACIFIC.ISLANDER &lt; 0.5     to the right, improve=2.331947, (0 missing)
+  Surrogate splits:
+      cloudcover                             &lt; 93.5    to the right, agree=0.733, adj=0.082, (0 split)
+      ARREST_DATE                            &lt; 19396   to the left,  agree=0.728, adj=0.064, (0 split)
+      conditionsRain..Overcast               &lt; 0.5     to the right, agree=0.725, adj=0.055, (0 split)
+      conditionsSnow..Rain..Partially.cloudy &lt; 0.5     to the right, agree=0.722, adj=0.045, (0 split)
+      temp                                   &lt; 2.2     to the left,  agree=0.720, adj=0.036, (0 split)
+
+Node number 4050: 99 observations
+  predicted class=0  expected loss=0.3737374  P(node) =0.0005469764
+    class counts:    62    37
+   probabilities: 0.626 0.374 
+
+Node number 4051: 184 observations
+  predicted class=1  expected loss=0.3369565  P(node) =0.001016603
+    class counts:    62   122
+   probabilities: 0.337 0.663 
+
+Node number 4052: 52 observations
+  predicted class=0  expected loss=0.2307692  P(node) =0.0002873008
+    class counts:    40    12
+   probabilities: 0.769 0.231 
+
+Node number 4053: 25 observations
+  predicted class=1  expected loss=0.24  P(node) =0.0001381254
+    class counts:     6    19
+   probabilities: 0.240 0.760 
+
+Node number 8096: 13535 observations,    complexity param=0.0004450708
+  predicted class=0  expected loss=0.3838197  P(node) =0.07478107
+    class counts:  8340  5195
+   probabilities: 0.616 0.384 
+  left son=16192 (13362 obs) right son=16193 (173 obs)
+  Primary splits:
+      ARREST_PRECINCT83  &lt; 0.5     to the left,  improve=14.01853, (0 missing)
+      ARREST_PRECINCT110 &lt; 0.5     to the right, improve=12.87975, (0 missing)
+      ARREST_PRECINCT23  &lt; 0.5     to the left,  improve=12.27970, (0 missing)
+      ARREST_BOROS       &lt; 0.5     to the right, improve=11.74701, (0 missing)
+      ARREST_PRECINCT78  &lt; 0.5     to the right, improve=11.13040, (0 missing)
+
+Node number 8097: 411 observations,    complexity param=0.0004450708
+  predicted class=1  expected loss=0.4744526  P(node) =0.002270781
+    class counts:   195   216
+   probabilities: 0.474 0.526 
+  left son=16194 (290 obs) right son=16195 (121 obs)
+  Primary splits:
+      ARREST_DATE        &lt; 19629.5 to the left,  improve=4.211780, (0 missing)
+      AGE_GROUP25.44     &lt; 0.5     to the right, improve=3.662325, (0 missing)
+      cloudcover         &lt; 13.95   to the right, improve=2.967922, (0 missing)
+      conditionsOvercast &lt; 0.5     to the left,  improve=2.278775, (0 missing)
+      windspeed          &lt; 17      to the right, improve=2.249239, (0 missing)
+  Surrogate splits:
+      PERP_RACEASIAN...PACIFIC.ISLANDER &lt; 0.5     to the left,  agree=0.713, adj=0.025, (0 split)
+      windspeed                         &lt; 10.95   to the right, agree=0.713, adj=0.025, (0 split)
+
+Node number 8098: 110 observations
+  predicted class=0  expected loss=0.4090909  P(node) =0.0006077516
+    class counts:    65    45
+   probabilities: 0.591 0.409 
+
+Node number 8099: 268 observations
+  predicted class=1  expected loss=0.4104478  P(node) =0.001480704
+    class counts:   110   158
+   probabilities: 0.410 0.590 
+
+Node number 16192: 13362 observations,    complexity param=0.0004450708
+  predicted class=0  expected loss=0.3812304  P(node) =0.07382524
+    class counts:  8268  5094
+   probabilities: 0.619 0.381 
+  left son=32384 (13131 obs) right son=32385 (231 obs)
+  Primary splits:
+      ARREST_PRECINCT23  &lt; 0.5     to the left,  improve=12.67914, (0 missing)
+      ARREST_PRECINCT110 &lt; 0.5     to the right, improve=12.31080, (0 missing)
+      ARREST_PRECINCT49  &lt; 0.5     to the left,  improve=11.46907, (0 missing)
+      ARREST_BOROS       &lt; 0.5     to the right, improve=11.09750, (0 missing)
+      AGE_GROUP25.44     &lt; 0.5     to the right, improve=10.88149, (0 missing)
+
+Node number 16193: 173 observations
+  predicted class=1  expected loss=0.416185  P(node) =0.0009558275
+    class counts:    72   101
+   probabilities: 0.416 0.584 
+
+Node number 16194: 290 observations,    complexity param=0.0004450708
+  predicted class=0  expected loss=0.4793103  P(node) =0.001602254
+    class counts:   151   139
+   probabilities: 0.521 0.479 
+  left son=32388 (172 obs) right son=32389 (118 obs)
+  Primary splits:
+      windspeed          &lt; 17      to the right, improve=3.115540, (0 missing)
+      ARREST_DATE        &lt; 19586.5 to the right, improve=2.246876, (0 missing)
+      conditionsOvercast &lt; 0.5     to the left,  improve=2.199277, (0 missing)
+      cloudcover         &lt; 1.05    to the right, improve=2.092465, (0 missing)
+      temp               &lt; 4.1     to the right, improve=1.492971, (0 missing)
+  Surrogate splits:
+      temp                       &lt; 24.85   to the left,  agree=0.669, adj=0.186, (0 split)
+      conditionsPartially.cloudy &lt; 0.5     to the left,  agree=0.648, adj=0.136, (0 split)
+      ARREST_DATE                &lt; 19507.5 to the left,  agree=0.624, adj=0.076, (0 split)
+      conditionsRain             &lt; 0.5     to the left,  agree=0.621, adj=0.068, (0 split)
+      cloudcover                 &lt; 3.6     to the right, agree=0.610, adj=0.042, (0 split)
+
+Node number 16195: 121 observations
+  predicted class=1  expected loss=0.3636364  P(node) =0.0006685268
+    class counts:    44    77
+   probabilities: 0.364 0.636 
+
+Node number 32384: 13131 observations,    complexity param=0.0004450708
+  predicted class=0  expected loss=0.3783413  P(node) =0.07254897
+    class counts:  8163  4968
+   probabilities: 0.622 0.378 
+  left son=64768 (12935 obs) right son=64769 (196 obs)
+  Primary splits:
+      ARREST_PRECINCT49  &lt; 0.5     to the left,  improve=11.86580, (0 missing)
+      ARREST_PRECINCT110 &lt; 0.5     to the right, improve=11.69231, (0 missing)
+      ARREST_PRECINCT81  &lt; 0.5     to the left,  improve=11.14122, (0 missing)
+      ARREST_PRECINCT77  &lt; 0.5     to the left,  improve=10.81028, (0 missing)
+      ARREST_PRECINCT78  &lt; 0.5     to the right, improve=10.49826, (0 missing)
+
+Node number 32385: 231 observations
+  predicted class=1  expected loss=0.4545455  P(node) =0.001276278
+    class counts:   105   126
+   probabilities: 0.455 0.545 
+
+Node number 32388: 172 observations
+  predicted class=0  expected loss=0.4186047  P(node) =0.0009503025
+    class counts:   100    72
+   probabilities: 0.581 0.419 
+
+Node number 32389: 118 observations
+  predicted class=1  expected loss=0.4322034  P(node) =0.0006519517
+    class counts:    51    67
+   probabilities: 0.432 0.568 
+
+Node number 64768: 12935 observations,    complexity param=0.0004450708
+  predicted class=0  expected loss=0.3757248  P(node) =0.07146606
+    class counts:  8075  4860
+   probabilities: 0.624 0.376 
+  left son=129536 (12807 obs) right son=129537 (128 obs)
+  Primary splits:
+      ARREST_PRECINCT81  &lt; 0.5     to the left,  improve=11.425550, (0 missing)
+      ARREST_PRECINCT77  &lt; 0.5     to the left,  improve=11.157880, (0 missing)
+      ARREST_PRECINCT110 &lt; 0.5     to the right, improve=11.145370, (0 missing)
+      ARREST_PRECINCT78  &lt; 0.5     to the right, improve=10.202900, (0 missing)
+      ARREST_BOROS       &lt; 0.5     to the right, improve= 9.779563, (0 missing)
+
+Node number 64769: 196 observations
+  predicted class=1  expected loss=0.4489796  P(node) =0.001082903
+    class counts:    88   108
+   probabilities: 0.449 0.551 
+
+Node number 129536: 12807 observations,    complexity param=0.0004450708
+  predicted class=0  expected loss=0.3736238  P(node) =0.07075886
+    class counts:  8022  4785
+   probabilities: 0.626 0.374 
+  left son=259072 (12612 obs) right son=259073 (195 obs)
+  Primary splits:
+      ARREST_PRECINCT77  &lt; 0.5     to the left,  improve=11.440680, (0 missing)
+      ARREST_PRECINCT110 &lt; 0.5     to the right, improve=10.714660, (0 missing)
+      ARREST_PRECINCT78  &lt; 0.5     to the right, improve= 9.968505, (0 missing)
+      ARREST_BOROS       &lt; 0.5     to the right, improve= 9.296893, (0 missing)
+      AGE_GROUP25.44     &lt; 0.5     to the right, improve= 8.805863, (0 missing)
+
+Node number 129537: 128 observations
+  predicted class=1  expected loss=0.4140625  P(node) =0.0007072019
+    class counts:    53    75
+   probabilities: 0.414 0.586 
+
+Node number 259072: 12612 observations
+  predicted class=0  expected loss=0.3709959  P(node) =0.06968148
+    class counts:  7933  4679
+   probabilities: 0.629 0.371 
+
+Node number 259073: 195 observations,    complexity param=0.0004079816
+  predicted class=1  expected loss=0.4564103  P(node) =0.001077378
+    class counts:    89   106
+   probabilities: 0.456 0.544 
+  left son=518146 (87 obs) right son=518147 (108 obs)
+  Primary splits:
+      windspeed    &lt; 17.95   to the left,  improve=3.584006, (0 missing)
+      ARREST_DATE  &lt; 19603.5 to the right, improve=3.188989, (0 missing)
+      AGE_GROUP65. &lt; 0.5     to the right, improve=1.800641, (0 missing)
+      cloudcover   &lt; 67.35   to the right, improve=1.499976, (0 missing)
+      temp         &lt; 1.65    to the right, improve=1.269391, (0 missing)
+  Surrogate splits:
+      temp                       &lt; 21.4    to the right, agree=0.656, adj=0.230, (0 split)
+      ARREST_DATE                &lt; 19520.5 to the right, agree=0.590, adj=0.080, (0 split)
+      conditionsPartially.cloudy &lt; 0.5     to the right, agree=0.585, adj=0.069, (0 split)
+      conditionsRain             &lt; 0.5     to the right, agree=0.585, adj=0.069, (0 split)
+      cloudcover                 &lt; 3.6     to the left,  agree=0.585, adj=0.069, (0 split)
+
+Node number 518146: 87 observations
+  predicted class=0  expected loss=0.4367816  P(node) =0.0004806763
+    class counts:    49    38
+   probabilities: 0.563 0.437 
+
+Node number 518147: 108 observations
+  predicted class=1  expected loss=0.3703704  P(node) =0.0005967016
+    class counts:    40    68
+   probabilities: 0.370 0.630 </code></pre>
+</div>
+</div>
+<p>#Confusion Matrix</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>         Actual
+Predicted     0     1
+        0 38076  6557
+        1   296   320</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Accuracy: 0.848549139207496"</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "AUC: 0.789745859173009"</code></pre>
+</div>
+</div>
+<p>To better evaluate the model, We build a confusion matrix to show the accuracy of the model, which is the proportion of correct predictions (true positives and true negatives) out of the total predictions, is calculated at approximately 84.86%. This indicates that the model performs well in general. Additionally, the Area Under the Curve (AUC) score of 0.7897, shown below the confusion matrix, further confirms the model’s effectiveness in distinguishing between the two classes.</p>
+</section>
+<section id="compare-the-accuracy-between-these-two-models" class="level2">
+<h2 class="anchored" data-anchor-id="compare-the-accuracy-between-these-two-models">Compare the Accuracy between these two models</h2>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="analysis_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We use the ROC curves to evaluate the performance of classification models. The area under the curve (AUC) for each model can be used to quantify the overall performance. The higher the AUC, the better the model’s ability to discriminate between the two classes.The logistic model (red curve) appears to outperform the tree model (blue curve) by achieving a higher AUC, which indicates that it has a better overall classification performance for the arrest data.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
