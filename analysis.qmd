@@ -494,7 +494,7 @@ model_lr <- glm(y ~ .
                 , data = data_train)
 ```
 
-```{r echo=FALSE, message=FALSE, warning= FALSE}
+```{r include=FALSE}
 summary(model_lr)
 ```
 
@@ -521,17 +521,20 @@ print(paste("AUC:", AUC(predict_lr,data_valid$y)))
 
 To better evaluate the model, We build a confusion matrix to show the accuracy of the model, which is the proportion of correct predictions (true positives and true negatives) out of the total predictions, is calculated at approximately 84.88%. This indicates that the model performs well in general. Additionally, the Area Under the Curve (AUC) score of 0.8222, shown below the confusion matrix, further confirms the model's effectiveness in distinguishing between the two classes. 
 
-```{r}
+```{r  echo=FALSE, message=FALSE, warning= FALSE}
 data_valid[which(predict_lr>0.70), ]
 ```
 
+We filtered out cases where the logistic regression model predicted a probability greater than 0.70 for the outcome of interest, focusing on instances where the model confidently predicted an arrest as "ASSAULT 3."
+
+The results indicate that "ASSAULT 3" crimes typically occur between March and December, especially during rainy or cloudy weather with temperatures above zero Celsius. These incidents predominantly happen in central Brooklyn, the Bronx, and uptown Manhattan. At the precinct level, Precincts 67, 32, and 42 are notable hotspots.
+
+Demographically, the majority of offenders are African American or White Hispanic, often around or below 18 years of age. Interestingly, the data also shows a significant proportion of female offenders, primarily involved in misdemeanor-level offenses.
 
 
 
-
-
-
-```{r}
+## Decision Trees model
+```{r  echo=FALSE, message=FALSE, warning= FALSE}
 
 train_dummy <- model.matrix(~ LAW_CAT_CD
                             +ARREST_BORO+ARREST_PRECINCT
@@ -549,7 +552,7 @@ train_all <- data.frame(train_dummy
 ```
 
 
-```{r}
+```{r  echo=FALSE, message=FALSE, warning= FALSE}
 
 valid_dummy <- model.matrix(~ LAW_CAT_CD
                             +ARREST_BORO+ARREST_PRECINCT
@@ -569,33 +572,31 @@ valid_all <- data.frame(valid_dummy
 
 ```
 
-```{r}
-dim(train_dummy)
-length(data_train$ARREST_DATE)
-
-```
+Next we decide to use Decision tree model to predict whether an arrest falls into the category of "ASSAULT 3" based on various demographic, legal, and environmental factors.It will provides a clear framework for understanding and predicting "ASSAULT 3", helping law enforcement and policymakers make informed decisions based on data-driven insights.
 
 
-```{r}
+
+```{r  echo=FALSE, message=FALSE, warning= FALSE}
 model_tree <- rpart(y ~ .
                     , data = train_all, method = "class"
                     ,control=rpart.control(minsplit=1, minbucket=1, cp=0.0003))
 rpart.plot(model_tree,cex=0.35,type = 3) ###cex=0.35,type = 3
 ```
 
-```{r}
+```{r  incldue=FALSE}
 summary(model_tree)
 ```
 
 
-
-```{r}
+#Confusion Matrix 
+```{r  echo=FALSE, message=FALSE, warning= FALSE}
 predict_tree <- predict(model_tree,valid_all,type = "prob")[,2]
 predict_classes_tree <- ifelse(predict_tree > 0.5, 1, 0)
 ```
 
 
-```{r}
+
+```{r  echo=FALSE, message=FALSE, warning= FALSE}
 
 conf_matrix_tree <- table(Predicted = predict_classes_tree, Actual = data_valid$y)
 
@@ -607,7 +608,12 @@ print(paste("Accuracy:", accuracy_tree))
 print(paste("AUC:", AUC(predict_tree,data_valid$y)))
 ```
 
-```{r message=FALSE}
+To better evaluate the model, We build a confusion matrix to show the accuracy of the model, which is the proportion of correct predictions (true positives and true negatives) out of the total predictions, is calculated at approximately 84.86%. This indicates that the model performs well in general. Additionally, the Area Under the Curve (AUC) score of 0.7897, shown below the confusion matrix, further confirms the model's effectiveness in distinguishing between the two classes. 
+
+
+
+## Compare the Accuracy between these two models
+```{r  include=FALSE}
 library(pROC)
 roc_lr <- roc(data_valid$y,predict_lr)
 roc_tree <- roc(data_valid$y,predict_tree)
@@ -615,8 +621,7 @@ roc_tree <- roc(data_valid$y,predict_tree)
 ```
 
 
-### 在本次建模中logistic 的AUC建模效果优于tree模型,准确率上2者差不多。
-```{r}
+```{r  echo=FALSE, message=FALSE, warning= FALSE}
 roc_df <- data.frame(
   Sensitivity = c(0, roc_lr$sensitivities),
   OneMinusSpecificity = c(0, 1 - roc_lr$specificities),
@@ -640,4 +645,5 @@ auc_plot <- ggplot(roc_df, aes(x = OneMinusSpecificity, y = Sensitivity, color =
 auc_plot
 ```
 
+We use the ROC curves to evaluate the performance of classification models. The area under the curve (AUC) for each model can be used to quantify the overall performance. The higher the AUC, the better the model's ability to discriminate between the two classes.The logistic model (red curve) appears to outperform the tree model (blue curve) by achieving a higher AUC, which indicates that it has a better overall classification performance for the arrest data. 
 
