@@ -87,6 +87,7 @@ library(gridExtra)
 library(data.table)
 library(sp)
 library(sf)
+library(RColorBrewer)
 ds <- read_rds("dataset/load_and_clean_data.rds") 
 ```
 
@@ -190,7 +191,7 @@ This dance of crime rates with the thermometer shows us a reminder that the city
 
 Warmer temperature causes higher incidents of “Assault 3” crimes
 
-```{r}
+```{r echo=FALSE, message=FALSE, warning= FALSE}
 # Load the necessary libraries
 library(patchwork)
 library(lubridate)  # For handling date objects
@@ -246,6 +247,48 @@ The bar chart at the top displays the counts of Assault 3 crimes month by month,
 Directly beneath it, the temperature graph provides a monthly overview of New York City's climate.
 While at first glance, the correlation between temperature and crime incidents may not jump out, a closer examination of the peaks and troughs in crime rates alongside temperature variations suggests a potential seasonal trend. 
 
+#calendar
+```{r include =F}
+Sys.setenv(LANG = "en")
+Sys.setlocale("LC_TIME", "English")
+ds$ARREST_DATE <- ymd(ds$ARREST_DATE)
+
+plot_day <- ds %>% 
+  filter(OFNS_DESC =="ASSAULT 3 & RELATED OFFENSES") %>% 
+  group_by(ARREST_DATE) %>%
+  
+  summarise(count_day =n()) %>%
+  
+  mutate(Month = lubridate::month(ARREST_DATE,label = T),
+         Week = as.integer(strftime(ARREST_DATE, '%W')),
+         Weekdayf = as.integer(strftime(ARREST_DATE, '%w')),
+         Week = ifelse(Weekdayf==0,Week+1,Week),) %>%
+  group_by(Month) %>%
+  mutate(Weekday = lubridate::wday(ARREST_DATE,label=T), 
+         MonthWeek = Week + 1 - min(Week), 
+         Days = mday(ARREST_DATE) 
+  )
+
+```
+
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+p1 <- plot_day %>% ggplot(aes(x=Weekday,y=MonthWeek,fill=count_day))+
+  geom_tile(color = "white") + 
+  geom_text(aes(label = Days), size = 3) + 
+  scale_fill_gradientn(colours = rev(brewer.pal(11, "Spectral"))) + 
+  facet_wrap(~Month,ncol = 4,scales = "free_x")+  ##改nol=4可以改变排版
+  scale_y_reverse() + 
+  labs(x="Day",y=NULL,title = "Calendar 2023")+
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        strip.text = element_text(size = 11, face = "plain", color = "black"),
+        panel.grid = element_blank())
+p1
+
+
+```
 ### **Conclusion**
 
 Through New York City arrest data, particularly for “Assault 3” offenses, we have gained important insights into the occurrence of crimes in the city, discovering how social climates, seasons, and temperatures are intertwined with public safety.

@@ -114,6 +114,10 @@ library(gridExtra)
 library(data.table)
 library(sp)
 library(sf)
+library(MLmetrics)
+library(MASS)
+library(rpart)
+library(rpart.plot)
 ds <- read_rds("dataset/load_and_clean_data.rds") 
 ```
 
@@ -462,187 +466,178 @@ occur in higher wind conditions.
 
 ## Model
 
-```{r}
-daily_crime_count <- ds %>%
-  group_by(ARREST_DATE) %>%
-  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES")%>%
-  summarize(Daily_Count= n(), .groups = 'drop') %>%
-  arrange(ARREST_DATE)
+### Logistic Regression Model 
 
-ds$ARREST_BORO = as.factor(ds$ARREST_BORO)
-ds$ARREST_PRECINCT=as.factor(ds$ARREST_PRECINCT)
-ds$AGE_GROUP= as.factor(ds$AGE_GROUP)
-ds$PERP_SEX= as.factor(ds$PERP_SEX)
-ds$PERP_RACE =as.factor(ds$PERP_RACE)
-ds$conditions =as.factor(ds$conditions)
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+ds$y <- ifelse(ds$OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES",1,0)
+ds$PD_DESC <- NULL
+ds$OFNS_DESC  <- NULL
+ds$`New Georeferenced Column` <- NULL
+ds$ARREST_PRECINCT <- as.factor(ds$ARREST_PRECINCT)
+
+set.seed(123)
+size <- round(dim(ds)[1]*0.8)
+index <- sample(1:dim(ds)[1],size ,replace = F)
+data_train <- ds[index,]
+data_valid <- ds[-index,]
+
+```
+
+To identify patterns in ASSAULT 3 by considering various factors such as age, gender, race of the perpetrator, as well as environmental factors like temperature and weather conditions, we decide to build a logistic regression model to predict the likelihood of an arrest being for "ASSAULT 3 & RELATED OFFENSES". This helps police understand under what circumstances such crimes are more likely to occur, aiding in the development of proactive policing strategies.
+
+first,we use a binary response variable y is created to represent whether each arrest falls into this category. The data is then split into training and validation sets, we randomly select 80% to be training set, 20% to be validation set.
+
+### Logisitic Model result
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+model_lr <- glm(y ~ .
+                , family = binomial
+                , data = data_train)
+```
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+summary(model_lr)
+```
+
+From the summary of the model, 
+
+
+# Confusion Matrix for log model
+```{r  echo=FALSE, message=FALSE, warning= FALSE}
+library(MLmetrics)
+predict_lr <- predict(model_lr,data_valid,type = "response")
+predict_classes <- ifelse(predict_lr > 0.5, 1, 0)
+```
+
+```{r  echo=FALSE, message=FALSE, warning= FALSE}
+
+conf_matrix <- table(Predicted = predict_classes, Actual = data_valid$y)
+
+print(conf_matrix)
+
+accuracy <- sum(diag(conf_matrix)) / sum(conf_matrix)
+print(paste("Accuracy:", accuracy))
+print(paste("AUC:", AUC(predict_lr,data_valid$y)))
+```
+
+To better evaluate the model, We build a confusion matrix to show the accuracy of the model, which is the proportion of correct predictions (true positives and true negatives) out of the total predictions, is calculated at approximately 84.88%. This indicates that the model performs well in general. Additionally, the Area Under the Curve (AUC) score of 0.8222, shown below the confusion matrix, further confirms the model's effectiveness in distinguishing between the two classes. 
+
+```{r}
+data_valid[which(predict_lr>0.70), ]
+```
+
+
+
+
+
+
+
+```{r}
+
+train_dummy <- model.matrix(~ LAW_CAT_CD
+                            +ARREST_BORO+ARREST_PRECINCT
+                            +AGE_GROUP + PERP_SEX
+                            +PERP_RACE +conditions            
+                            - 1
+                            , data = data_train)
+train_all <- data.frame(train_dummy
+                        , ARREST_DATE  = data_train$ARREST_DATE
+                        , temp = data_train$temp
+                        , windspeed = data_train$windspeed
+                        , cloudcover = data_train$cloudcover
+                       ,y = data_train$y
+                        )
+```
+
+
+```{r}
+
+valid_dummy <- model.matrix(~ LAW_CAT_CD
+                            +ARREST_BORO+ARREST_PRECINCT
+                            +AGE_GROUP + PERP_SEX
+                            +PERP_RACE +conditions            
+                            - 1
+                            , data = data_valid)
+valid_all <- data.frame(valid_dummy
+                        , ARREST_DATE  = data_valid$ARREST_DATE
+                        , temp = data_valid$temp
+                        , windspeed = data_valid$windspeed
+                        , cloudcover = data_valid$cloudcover
+                        ,y = data_valid$y
+                        )
+
+
 
 ```
 
 ```{r}
-library(dplyr)
+dim(train_dummy)
+length(data_train$ARREST_DATE)
+
+```
+
+
+```{r}
+model_tree <- rpart(y ~ .
+                    , data = train_all, method = "class"
+                    ,control=rpart.control(minsplit=1, minbucket=1, cp=0.0003))
+rpart.plot(model_tree,cex=0.35,type = 3) ###cex=0.35,type = 3
+```
+
+```{r}
+summary(model_tree)
+```
+
+
+
+```{r}
+predict_tree <- predict(model_tree,valid_all,type = "prob")[,2]
+predict_classes_tree <- ifelse(predict_tree > 0.5, 1, 0)
+```
+
+
+```{r}
+
+conf_matrix_tree <- table(Predicted = predict_classes_tree, Actual = data_valid$y)
+
+
+print(conf_matrix_tree)
+
+accuracy_tree <- sum(diag(conf_matrix_tree)) / sum(conf_matrix_tree)
+print(paste("Accuracy:", accuracy_tree))
+print(paste("AUC:", AUC(predict_tree,data_valid$y)))
+```
+
+```{r message=FALSE}
+library(pROC)
+roc_lr <- roc(data_valid$y,predict_lr)
+roc_tree <- roc(data_valid$y,predict_tree)
+
+```
+
+
+### 在本次建模中logistic 的AUC建模效果优于tree模型,准确率上2者差不多。
+```{r}
+roc_df <- data.frame(
+  Sensitivity = c(0, roc_lr$sensitivities),
+  OneMinusSpecificity = c(0, 1 - roc_lr$specificities),
+  Model = rep("Logistic", length(roc_lr$sensitivities) + 1)
+)
+
+roc_df <- rbind(roc_df,
+                data.frame(
+                  Sensitivity = c(0, roc_tree$sensitivities),
+                  OneMinusSpecificity = c(0, 1 - roc_tree$specificities),
+                  Model = rep("Tree", length(roc_tree$sensitivities) + 1)
+                ))
+
 library(ggplot2)
-library(patchwork)
-library(lubridate)
 
-# Assuming 'ds' is your dataset and has 'ARREST_DATE', 'PD_DESC', and 'temp' columns
-
-# Prepare the assault data summary
-assault_data <- ds %>%
-  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
-  mutate(Month = floor_date(as.Date(ARREST_DATE), "month")) %>%
-  group_by(Month) %>%
-  summarise(Count = n()) %>%
-  ungroup() 
-
-# Prepare the temperature data summary
-mean_temp_by_month <- ds %>%
-  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
-  mutate(Month = floor_date(as.Date(ARREST_DATE), "month")) %>%
-  group_by(Month) %>%
-  summarise(Mean_Temp = mean(temp, na.rm = TRUE)) %>%
-  ungroup()
-
-mean_wind_by_month <- ds %>%
-  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
-  mutate(Month = floor_date(as.Date(ARREST_DATE), "month")) %>%
-  group_by(Month) %>%
-  summarise(Mean_wind = mean(windspeed, na.rm = TRUE)) %>%
-  ungroup()
-
-
-# Join the datasets
-correlation_data <- left_join(assault_data, mean_temp_by_month,mean_wind_by_month, by = "Month")%>%
-   left_join(mean_wind_by_month, by = "Month")
-
-# Calculate the correlation coefficient between Count and Mean_Temp
-correlation_coefficient <- cor(correlation_data$Count, correlation_data$Mean_Temp,use = "complete.obs")
-
-# Output the correlation coefficient
-print(correlation_coefficient)
-
-# If you want to plot this correlation, you can use a scatter plot with a smooth line
-correlation_plot <- ggplot(correlation_data, aes(x = Mean_Temp, y = Count)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
-  labs(x = "Average Monthly Temperature (°C)", y = "Count of Assault 3 Crimes", 
-       title = "Correlation between Temperature and 'Assault 3' Crime Count")
-
-# Print the correlation plot
-print(correlation_plot)
-
-cor_matrix1 <- cor(correlation_data[, c("Count", "Mean_Temp","Mean_wind")], use = "complete.obs")
-pheatmap(cor_matrix1, 
-         color = colorRampPalette(c("skyblue", "white", "lightgreen"))(200),
-         display_numbers = T,
-         clustering_distance_rows = "euclidean",
-         clustering_distance_cols = "euclidean",
-         clustering_method = "complete")
-
+auc_plot <- ggplot(roc_df, aes(x = OneMinusSpecificity, y = Sensitivity, color = Model)) +
+  geom_line() +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+  labs(title = "AUC Comparison", x = "1 - Specificity", y = "Sensitivity") +
+  theme_minimal()
+auc_plot
 ```
 
-```{r}
-assault_data_weekly <- ds %>%
-  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
-  mutate(Week = floor_date(as.Date(ARREST_DATE), "week")) %>%
-  group_by(Week) %>%
-  summarise(Count = n()) %>%
-  ungroup() 
 
-mean_temp_by_week <- ds %>%
-  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
-  mutate(Week = floor_date(as.Date(ARREST_DATE), "week")) %>%
-  group_by(Week) %>%
-  summarise(Mean_Temp = mean(temp, na.rm = TRUE)) %>%
-  ungroup()
-
-mean_wind_by_week <- ds %>%
-  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
-  mutate(Week = floor_date(as.Date(ARREST_DATE), "week")) %>%
-  group_by(Week) %>%
-  summarise(Mean_Wind = mean(windspeed, na.rm = TRUE)) %>%
-  ungroup()
-
-correlation_data_weekly <- left_join(assault_data_weekly, mean_temp_by_week, by = "Week") %>%
-  left_join(mean_wind_by_week, by = "Week")
-
-correlation_plot2 <- ggplot(correlation_data_weekly, aes(x = Mean_Temp, y = Count, color = Count)) +
-  geom_point(shape = 15, size = 3) +  # Square points
-  scale_color_gradient(low = "lightblue", high = "steelblue") +  # Color gradient
-  geom_smooth(method = "lm", se = FALSE, color = "red") +  # Linear regression line
-  labs(x = "Average Weekly Temperature (°C)", y = "Count of Assault 3 Crimes", 
-       title = "Correlation between Temperature and 'Assault 3' Crime Count") +
-  theme_minimal() +
-  guides(color = guide_colorbar(title = "Frequency", title.position = "top"))
-
-# Print the plot
-print(correlation_plot2)
-
-cor_matrix2 <- cor(correlation_data_weekly[, c("Count", "Mean_Temp","Mean_Wind")], use = "complete.obs")
-pheatmap(cor_matrix2, 
-         color = colorRampPalette(c("skyblue", "white", "lightgreen"))(200),
-         display_numbers = T,
-         clustering_distance_rows = "euclidean",
-         clustering_distance_cols = "euclidean",
-         clustering_method = "complete")
-```
-
-```{r}
-daily_crime_count <- ds %>%
-  group_by(ARREST_DATE) %>%
-  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES")%>%
-  summarize(Daily_Count= n(), .groups = 'drop') %>%
-  arrange(ARREST_DATE)
-
-daily_temperature <- ds %>%
-  group_by(ARREST_DATE) %>%
-  summarise(Temp = mean(temp, na.rm = TRUE)) %>%
-  ungroup()
-
-wind <-ds %>%
-  group_by(ARREST_DATE) %>%
-  summarise(Wind = mean(windspeed, na.rm = TRUE)) %>%
-  ungroup()
-
-daily_data <- daily_crime_count %>%
-  left_join(daily_temperature, by = "ARREST_DATE") %>%
-  left_join(wind, by = "ARREST_DATE")
-
-scatter_plot3 <- ggplot(daily_data, aes(x = Temp, y = Daily_Count, color = Daily_Count)) +
-  geom_point(shape = 15, size = 2) +  # Square points
-  scale_color_gradient(low = "lightblue", high = "steelblue") +  # Color gradient
-  geom_smooth(method = "lm", se = FALSE, color = "red") +  # Linear regression line
-  labs(x = "Average daily Temperature (°C)", y = "Count of Assault 3 Crimes", 
-       title = "Correlation between Temperature and 'Assault 3' Crime Count") +
-  theme_minimal() +
-  guides(color = guide_colorbar(title = "Frequency", title.position = "top"))
-
-print(scatter_plot3)
-
-cor_matrix3 <- cor(daily_data[, c("Daily_Count", "Temp","Wind")], use = "complete.obs")
-pheatmap(cor_matrix3, 
-         color = colorRampPalette(c("skyblue", "white", "lightgreen"))(200),
-         display_numbers = T,
-         clustering_distance_rows = "euclidean",
-         clustering_distance_cols = "euclidean",
-         clustering_method = "complete")
-```
-
-```{r}
-modweek <- glm(correlation_data_weekly$Count~correlation_data_weekly$Mean_Temp+correlation_data_weekly$Mean_Wind)
-summary(modweek)
-modmonth <-glm(correlation_data$Count~ correlation_data$Mean_Temp + correlation_data$Mean_wind)
-summary(modmonth)
-modday <- lm(daily_data$Daily_Count ~ daily_data$Temp +daily_data$Wind)
-summary(modday)
-```
-
-```{r}
-ds %>% 
-  group_by(OFNS_DESC, LAW_CAT_CD, AGE_GROUP, PERP_SEX, PERP_RACE,ARREST_BORO,ARREST_PRECINCT,conditions) %>%
-  filter((OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES"))%>%
-  count(name = 'y') -> df_y
-
-mod <- glm(y ~  conditions+ AGE_GROUP + PERP_SEX + PERP_RACE+ ARREST_BORO+ ARREST_PRECINCT,
-           data = df_y, family = poisson)
-summary(mod)
-```

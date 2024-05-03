@@ -314,6 +314,40 @@ mod <- glm(y ~  conditions+ AGE_GROUP + PERP_SEX + PERP_RACE+ ARREST_BORO+ ARRES
 summary(mod)
 ```
 
+
+
+## Model
+
+### train the model
+
+### 下面开始建模，先随机抽取80%作为训练集，20%作为验证集
+```{r}
+ds$y <- ifelse(ds$OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES",1,0)
+ds$PD_DESC <- NULL
+ds$OFNS_DESC  <- NULL
+ds$`New Georeferenced Column` <- NULL
+# ds$LAW_CAT_CD <-  NULL
+ds$ARREST_PRECINCT <- as.factor(ds$ARREST_PRECINCT)
+
+set.seed(123)
+size <- round(dim(ds)[1]*0.8)
+index <- sample(1:dim(ds)[1],size ,replace = F)
+data_train <- ds[index,]
+data_valid <- ds[-index,]
+
+```
+
+
+```{r echo=FALSE, message=FALSE, warning= FALSE}
+model_lr <- glm(y ~ .
+                , family = binomial
+                , data = data_train)
+```
+
+```{r}
+summary(model_lr)
+```
+
 ### Polish our graphs and charts
 
 Titles and Labels: We are going to craft clear, descriptive titles and axis labels that succinctly convey the meaning of the data, and use numbers to label each in sequence.
