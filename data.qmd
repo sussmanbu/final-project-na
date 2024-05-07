@@ -160,8 +160,6 @@ These are the following new packages were used in making this project.
 
 -   `Magrittr`: It introduces the piping operator %\>% to R to make code readability and flow.
 
--   `corrplot`: This package provides graphical visualizations of correlation matrices.
-
 -   `MLmetrics`: This package provides various metrics to evaluate machine learning models.
 
 -   `rpart`: This package is used for building and analyzing decision trees for data modeling.
