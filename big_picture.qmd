@@ -16,7 +16,7 @@ Read articles from those sites and similar sites to get a feeling for what they 
 Try to write in the style of a news or popular article.
 Importantly, this pge should be geared towards the general public.
 You shouldn't assume the reader understands how to interpret a linear regression.
-Focus on interpretation and visualizations. 
+Focus on interpretation and visualizations.
 
 ------------------------------------------------------------------------
 
@@ -38,7 +38,6 @@ You will
 ------------------------------------------------------------------------
 
 ## Rubric: Other components
-
 
 ### Video Recording
 
@@ -74,15 +73,33 @@ library(sf)
 library(RColorBrewer)
 library(MASS)
 ds <- read_rds("dataset/load_and_clean_data.rds") 
+
 ```
 
-### Why does analyzing NYC Arrest Data significant?
+## **Does Bad Weather Fuel Violent Crime in New York ?**
 
-In a city as vast and dynamic as New York, understanding crime patterns is not only about statistics, but also about protecting neighborhoods and shaping policy.
-Analyzing crime rates reveals the underlying factors that affect the safety of New York and helps to unravel the complexities of city life.
-By looking at the numbers, as well as other information, we can get a clearer understanding of the actual impact of crime rates on the streets and the lived experiences of New York citizens.
+In the busy city of New York, where every street has its own story, the complex relationship between weather patterns and crime rates tells a story that captures our attention.
+A sudden spike in crime during [an unexpected heatwave made headlines in 2023](https://www.worldweatherattribution.org/extreme-heat-in-north-america-europe-and-china-in-july-2023-made-much-more-likely-by-climate-change/), underscoring the urgency of this issue.
+This real-world example sets the stage for the research ["Weather and Crime: New York State,"](https://academicworks.cuny.edu/jj_etds/197/) conducted by Yuna Kim from John Jay College of Criminal Justice.
+Through meticulous analysis, Kim delves into how fluctuations in temperature across New York's 62 counties correlate with variations in crime rates, highlighting the significant impact of weather on urban safety.
 
-### Level 3 Assault has the highest number of incidents in all crimes
+As New York faces the reality of climate change, with its attendant shifts in weather extremes, understanding these correlations is more crucial than ever.
+This isn't just about numbers and data; it's about protecting communities, shaping effective policies, and addressing the challenges posed by weather and human behavior in the urban landscape.
+
+### **Why is Analyzing NYC Arrest Data Significant?**
+
+Following the insights from Yuna Kim's study, it's clear that understanding the broader spectrum of crime patterns in New York City is not just about dealing with statistics; it's about real-world impacts on community safety and policy-making.
+Analyzing crime rates goes beyond mere numbers, revealing the underlying factors that affect New Yorkers' safety and helping decipher the complex dynamics of urban life. 
+
+\
+The NYPD Arrest dataset acts as more than a mere ledger of offenses.
+By dissecting each arrest—examining the timing, location, and profiles of those involved—we can begin to identify patterns that inform targeted, effective policy decisions.
+This analysis is a vital step toward making improvements in community safety.
+Focusing on the most frequent offenses allows us to delve into the causes of these crimes and develop practical strategies to improve safety for the broader population.
+This approach is especially important after noticing that crime rates tend to rise with extreme weather.
+By using this data wisely, we can make policies that tackle both crime and the effects of changing weather, helping keep New York City's residents safer.
+
+### **“Assault 3” has the highest number of incidents in all crimes**
 
 ```{r echo=FALSE,message=FALSE, warning= FALSE}
 # Group by OFNS_DESC and summarize the count
@@ -102,22 +119,22 @@ ggplot(crime_summary, aes(x = reorder(OFNS_DESC, Incident_Count), y = Incident_C
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-The bar graph tells us a fact: among the top ten crime categories by incident count of New York in 2023, one stands out—Assault 3.
+The bar graph tells us a fact: among the top ten crime categories by the incident count of New York in 2023, one stands out—Assault 3.
 This category represents instances when individuals recklessly cause physical injury to another person; or with criminal negligence, the individual causes physical injury to another person by means of a deadly weapon or a dangerous instrument.
 In the densely social fabric of New York City’s society, where every block can tell a thousand stories, Assault 3 serves as an important indicator of public well-being.
 It’s the most common thread that requires our focused attention to understand and, more importantly, to address.
 
-## Thesis Statement:
+**Considering that Assault 3 crimes are so common in New York City, it's important to understand what causes these incidents.**
+
+### **Thesis Statement:**
 
 The daily crime rates in New York City are significantly influenced by a combination of demographic factors — specifically age, gender, and race of individuals — and environmental conditions, including daily temperature fluctuations and weather patterns.
 
-### **1.  Crime on the Map: Uncovering the Regions of “Assault 3” Across New York**
+### **1. Crime on the Map: Uncovering the Regions of “Assault 3” Across New York**
 
 New York City has an intricate mix of neighborhoods, which causes crime rates in these areas differently.
-From the socio-economic environment to the density of the urban environment, a variety of factors unique to each area contribute to the difference of crime rates.
+From the socio-economic environment to the density of the urban environment, a variety of factors unique to each area contribute to the difference in crime rates.
 Understanding the “why” behind these numbers is key to developing effective solutions tailored to crime prevention and community safety.
-
-**Analyzing the number of incidents of “Assault 3” in different areas of New York city**
 
 ```{r include= F, echo=FALSE, message=FALSE, warning= FALSE}
 
@@ -138,7 +155,6 @@ map_data_all <- as(map_data_all, "sf")
 
 ```
 
-
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
 ggplot()+
   geom_sf(data = map_data_all,colour = "gray60",size = 0.1,aes(fill = count) )+
@@ -151,87 +167,27 @@ ggplot()+
          axis.text=element_blank() , 
          panel.background = element_blank()
          
-  )+ggtitle("ALL YEAR")+
+  )+ggtitle(" Assault 3 Incident Distribution Across NYC in 2023")+
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
-
-The map on the left is an indicator to show the exact names correlated to different regions.
-The map on the right shows the number of incidents occurring in different regions of New York city in 2023.
-In the right map, the most red color shows the number of “Assault 3” crimes is over 1000 and the least red color shows the number of “Assault 3” is from 0 to 200.
-The darker reds that mark the Bronx and Queens suggest a higher incidence of “Assault 3” crimes.
-This could be because of a higher density of people, not enough money, and less help and services for the community.
-Conversely, the light red observed in Manhattan and Staten Island could be indicative of a different set of socio-economic dynamics, possibly including higher income levels, more community resources, or more effective community policing strategies.
+This map analysis provides a visual breakdown of Assault 3 crimes across different boroughs of New York City in 2023.
+The color intensity on the map indicates the frequency of incidents, with darker shades representing higher crime rates.
+The deepest red color shows the number of “Assault 3” crimes is over 1000 and the lightest red color shows the number of “Assault 3” is from 0 to 200.
+The Bronx and Queens, depicted in darker reds, show elevated crime levels potentially due to higher population density, lower socioeconomic conditions, and limited access to community resources.
+In contrast, lighter shades in Manhattan and Staten Island suggest fewer incidents, possibly reflecting better socioeconomic conditions and more effective policing strategies.
 However, these lightly colored areas on the map should not be misunderstood as a sign that there is no problem.
 The incidence of crimes is a citywide problem and areas with fewer incidents still need diligent community support to maintain safety.
-The graph also lays bare the fact that 'Assault 3' crimes are not randomly distributed; they are clustered in areas that may be struggling with systemic challenges that need to be addressed through focused and sustained effort.
 
-### **2. Warmth and Warning: Unraveling the Ties Between New York's Temperatures and its Tumult**
+The graph shows the fact that ‘Assault 3’ crimes are not randomly distributed; they are clustered in areas that may be struggling with systemic challenges that need to be addressed through focused and sustained effort.
+it highlights the stark contrasts in crime rates across various regions, suggesting targeted areas for law enforcement and community intervention.
 
-In New York City, where the pace of life never slows down, there's a hidden connection between the seasons and the city’s heartbeat.
-The temperature sways up and down, and with it, there’s a rise and fall in the number of Assault 3 crimes.
-It's a pattern that reveals a silent force at work.
-The heat and the cold do more than just change the weather, they seem to stir up the actions of people too.
-This dance of crime rates with the thermometer shows us a reminder that the city’s rhythm is highly related with the temperatures.
+### 
 
-Warmer temperature causes higher incidents of “Assault 3” crimes
+### **2. Calendar of Crime: Tracing Daily Assault 3 Incidents Through the Year in New York**
 
-```{r echo=FALSE, message=FALSE, warning= FALSE}
-# Load the necessary libraries
- # For handling date objects
+Following the discussion on the influence of weather on crime rates, this graph offers a detailed day-by-day analysis of Assault 3 incidents throughout 2023. 
 
-# Load the data
-# Note: Make sure to change the file path to where your dataset is located.
-
-# Preprocess the dataset
-# Filter for "Assault 3" crimes
-assault_data <- ds %>%
-  filter(PD_DESC == "ASSAULT 3") %>%
-  mutate(Month = floor_date(as.Date(ARREST_DATE), "month")) %>%
-  group_by(Month) %>%
-  summarise(Count = n()) %>%
-  ungroup() 
-
-
-temp_data <- ds %>%
-  filter(PD_DESC == "ASSAULT 3") %>%
-  mutate(Month = floor_date(as.Date(ARREST_DATE), "month")) %>%
-  select(Month, temp)  # Make sure 'temp' is the name of your temperature column
-
-# Now that 'temp_data' is defined, calculate the mean temperature by month
-mean_temp_by_month <- temp_data %>%
-  group_by(Month) %>%
-  summarise(Mean_Temp = mean(temp, na.rm = TRUE)) %>%
-  ungroup()
-
-# Create a bar chart for "Assault 3" crime count by month
-crime_bar_chart <- ggplot(assault_data, aes(x = Month, y = Count)) +
-  geom_bar(stat = "identity", fill = "steelblue") +
-  labs(title = "Monthly Count of 'Assault 3' Crimes", y = "Count", x = "") +
-  theme_minimal() +
-  theme(plot.title = element_text(hjust = 0.5), axis.text.x = element_blank(), axis.ticks.x = element_blank())
-
-# Create a scatter plot for temperature data by month and overlay the mean temperatures
-temp_scatter_plot <- ggplot(temp_data, aes(x = Month, y = temp)) +
-  geom_point(color = "blue", alpha = 0.5) +
-  geom_line(data = mean_temp_by_month, aes(x = Month, y = Mean_Temp), color = "lightgreen", size = 1) +
-  geom_point(data = mean_temp_by_month, aes(x = Month, y = Mean_Temp), color = "lightgreen", size = 3) +
-  labs(title = "Monthly Temperature for 'Assault 3' Incidents", y = "Temperature (°F)", x = "") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
-
-# Combine the two charts with patchwork
-combined_plot <- crime_bar_chart / temp_scatter_plot
-
-# Print the combined plot
-print(combined_plot)
-```
-
-The bar chart at the top displays the counts of Assault 3 crimes month by month, offering us a visual timeline of crime frequency throughout the year.
-Directly beneath it, the temperature graph provides a monthly overview of New York City's climate.
-While at first glance, the correlation between temperature and crime incidents may not jump out, a closer examination of the peaks and troughs in crime rates alongside temperature variations suggests a potential seasonal trend. 
-
-#calendar
 ```{r include =F}
 Sys.setenv(LANG = "en")
 Sys.setlocale("LC_TIME", "English")
@@ -255,8 +211,6 @@ plot_day <- ds %>%
 
 ```
 
-
-
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
 p1 <- plot_day %>% ggplot(aes(x=Weekday,y=MonthWeek,fill=count_day))+
   geom_tile(color = "white") + 
@@ -274,12 +228,14 @@ p1
 
 
 ```
-### **Conclusion**
 
-Through New York City arrest data, particularly for “Assault 3” offenses, we have gained important insights into the occurrence of crimes in the city, discovering how social climates, seasons, and temperatures are intertwined with public safety.
-This analysis goes beyond mere numbers and points the way to policy and prevention efforts.
-We observed how warmer months increased”:Assault 3” crime rates, suggesting that we need dynamic, seasonally sensitive strategies to keep neighborhoods safe.
-From the dense red patches of the Bronx and Queens, where there are more “Assault 3” attacks, to the lighter reds of Manhattan and Staten Island, crime scenes vary from borough to borough, underscoring the need for specific policies.
-These findings are a clarion call for targeted action, emphasizing that safety is a collective responsibility.
-By understanding the unique challenges and needs faced by each community, we can customize interventions that not only reduce "Assault 3" crimes, but also strengthen the fabric of New York city.
-This analysis is a critical step toward a future that New York could be a safer city for all people in all regions.
+The visualization represents daily crime frequencies using a color gradient from cooler to warmer tones to indicate activity levels, ranging from 80 to 140 incidents.
+Early in the year, January through March, the cooler colors suggest a lower frequency of incidents in colder months, while the warmer colors from May to September reflect a higher frequency, indicative of increased incidents during warmer months.
+This pattern likely results from changes in social dynamics and environmental factors, such as more people being outdoors during warmer weather, which elevates interaction rates and potential conflicts.
+Understanding these trends is crucial for law enforcement and community safety programs, which could benefit from adjusting their strategies seasonally to preemptively address and mitigate the peak crime periods.
+
+### **Conclusion: Unveiling Regional and Seasonal Patterns of Assault 3 Crimes**
+
+The data depicted in the maps and calendar reveals a clear pattern: the prevalence of Assault 3 crimes in New York City varies significantly by both region and time of year.
+This variability highlights the need for region-specific and season-specific crime analysis.
+As we move forward, understanding the root causes behind these observable trends will be critical in developing effective crime prevention policies that are both responsive and adaptive to the unique challenges faced by different New York City neighborhoods throughout the year.
