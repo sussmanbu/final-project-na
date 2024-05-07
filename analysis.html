@@ -114,10 +114,7 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#example-of-loading-data" id="toc-example-of-loading-data" class="nav-link active" data-scroll-target="#example-of-loading-data">Example of loading data</a></li>
-  <li><a href="#note-on-attribution" id="toc-note-on-attribution" class="nav-link" data-scroll-target="#note-on-attribution">Note on Attribution</a></li>
-  <li><a href="#rubric-on-this-page" id="toc-rubric-on-this-page" class="nav-link" data-scroll-target="#rubric-on-this-page">Rubric: On this page</a></li>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#demographic-factor" id="toc-demographic-factor" class="nav-link" data-scroll-target="#demographic-factor">Demographic factor</a>
   <ul class="collapse">
   <li><a href="#age" id="toc-age" class="nav-link" data-scroll-target="#age">Age</a></li>
@@ -128,7 +125,7 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#temperature" id="toc-temperature" class="nav-link" data-scroll-target="#temperature">Temperature</a></li>
   <li><a href="#weather-condition" id="toc-weather-condition" class="nav-link" data-scroll-target="#weather-condition">Weather Condition</a></li>
-  <li><a href="#windspeed" id="toc-windspeed" class="nav-link" data-scroll-target="#windspeed">Windspeed</a></li>
+  <li><a href="#wind-speed" id="toc-wind-speed" class="nav-link" data-scroll-target="#wind-speed">Wind speed</a></li>
   </ul></li>
   <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model">Model</a></li>
   <li><a href="#logistic-regression-model" id="toc-logistic-regression-model" class="nav-link" data-scroll-target="#logistic-regression-model">Logistic Regression Model</a>
@@ -141,6 +138,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#prediction-of-decision-tree-model" id="toc-prediction-of-decision-tree-model" class="nav-link" data-scroll-target="#prediction-of-decision-tree-model">Prediction of Decision Tree Model</a></li>
   <li><a href="#confusion-matrix-for-decision-tree-model" id="toc-confusion-matrix-for-decision-tree-model" class="nav-link" data-scroll-target="#confusion-matrix-for-decision-tree-model">Confusion Matrix for decision tree model</a></li>
   <li><a href="#compare-the-accuracy-between-these-two-models" id="toc-compare-the-accuracy-between-these-two-models" class="nav-link" data-scroll-target="#compare-the-accuracy-between-these-two-models">Compare the Accuracy between these two models</a></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations">Limitations</a></li>
   </ul></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
@@ -172,72 +170,16 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <p><img src="images/nypd3.jpeg" class="img-fluid"></p>
-<p>This comes from the file <code>analysis.qmd</code>.</p>
-<p>We describe here our detailed data analysis. This page will provide an overview of what questions you addressed, illustrations of relevant aspects of the data with tables and figures, and a statistical model that attempts to answer part of the question. You’ll also reflect on next steps and further analysis.</p>
-<p>The audience for this page is someone like your class mates, so you can expect that they have some level of statistical and quantitative sophistication and understand ideas like linear and logistic regression, coefficients, confidence intervals, overfitting, etc.</p>
-<p>While the exact number of figures and tables will vary and depend on your analysis, you should target around 5 to 6. An overly long analysis could lead to losing points. If you want you can link back to your blog posts or create separate pages with more details.</p>
-<p>The style of this paper should aim to be that of an academic paper. I don’t expect this to be of publication quality but you should keep that aim in mind. Avoid using “we” too frequently, for example “We also found that …”. Describe your methodology and your findings but don’t describe your whole process.</p>
-<section id="example-of-loading-data" class="level3">
-<h3 class="anchored" data-anchor-id="example-of-loading-data">Example of loading data</h3>
-<p>The code below shows an example of loading the loan refusal data set (which you should delete at some point).</p>
-</section>
-<section id="note-on-attribution" class="level2">
-<h2 class="anchored" data-anchor-id="note-on-attribution">Note on Attribution</h2>
-<p>In general, you should try to provide links to relevant resources, especially those that helped you. You don’t have to link to every StackOverflow post you used but if there are explainers on aspects of the data or specific models that you found helpful, try to link to those. Also, try to link to other sources that might support (or refute) your analysis. These can just be regular hyperlinks. You don’t need a formal citation.</p>
-<p>If you are directly quoting from a source, please make that clear. You can show quotes using <code>&gt;</code> like this</p>
-<pre><code>&gt; To be or not to be.</code></pre>
-<blockquote class="blockquote">
-<p>To be or not to be.</p>
-</blockquote>
 <hr>
-</section>
-<section id="rubric-on-this-page" class="level2">
-<h2 class="anchored" data-anchor-id="rubric-on-this-page">Rubric: On this page</h2>
-<p>You will</p>
-<ul>
-<li>Introduce what motivates your Data Analysis (DA)
-<ul>
-<li>Which variables and relationships are you most interested in?</li>
-<li>What questions are you interested in answering?</li>
-<li>Provide context for the rest of the page. This will include figures/tables that illustrate aspects of the data of your question.</li>
-</ul></li>
-<li>Modeling and Inference
-<ul>
-<li>The page will include some kind of formal statistical model. This could be a linear regression, logistic regression, or another modeling framework.</li>
-<li>Explain the ideas and techniques you used to choose the predictors for your model. (Think about including interaction terms and other transformations of your variables.)</li>
-<li>Describe the results of your modelling and make sure to give a sense of the uncertainty in your estimates and conclusions.</li>
-</ul></li>
-<li>Explain the flaws and limitations of your analysis
-<ul>
-<li>Are there some assumptions that you needed to make that might not hold? Is there other data that would help to answer your questions?</li>
-</ul></li>
-<li>Clarity Figures
-<ul>
-<li>Are your figures/tables/results easy to read, informative, without problems like overplotting, hard-to-read labels, etc?</li>
-<li>Each figure should provide a key insight. Too many figures or other data summaries can detract from this. (While not a hard limit, around 5 total figures is probably a good target.)</li>
-<li>Default <code>lm</code> output and plots are typically not acceptable.</li>
-</ul></li>
-<li>Clarity of Explanations
-<ul>
-<li>How well do you explain each figure/result?</li>
-<li>Do you provide interpretations that suggest further analysis or explanations for observed phenomenon?</li>
-</ul></li>
-<li>Organization and cleanliness.
-<ul>
-<li>Make sure to remove excessive warnings, hide most or all code, organize with sections or multiple pages, use bullets, etc.</li>
-<li>This page should be self-contained, i.e.&nbsp;provide a description of the relevant data.</li>
-</ul></li>
-</ul>
-</section>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>From our data page, we know that the Level 3 Assault is the most common cases in the New York city, so we decide to locate our target on the Demographic factor and Environmental factor that would effect the incidents of Level 3 Assault. Through this analysis, We could uncover correlations that inform targeted interventions, enhance policy-making, and improve resource allocation. By identifying specific risk factors related to demographics and environmental conditions, the analysis aims to guide more effective prevention strategies, optimize urban planning, and strengthen community engagement and support.</p>
-<p>Breifly, We found that Precinct and</p>
+<p>According to our analysis in Big Picture page, we found that the Level 3 Assault is the most common cases in the New York City, so we decide to locate our target on the Demographic factor and Environmental factor that would effect the incidents of Level 3 Assault. Through this analysis, We could uncover correlations that inform targeted interventions, enhance policy-making, and improve resource allocation. By identifying specific risk factors related to demographics and environmental conditions, the analysis aims to guide more effective prevention strategies, optimize urban planning, and strengthen community engagement and support.</p>
 <p>Our team will focus on the analysis of following variables in the dataset:</p>
 <ul>
 <li><p>Demographic factor : Age, Race, Borough</p></li>
 <li><p>Environmental factor: Temperature,weather condition,wind speed</p></li>
 </ul>
+<p>Briefly, we found these factors shows some effect to occurring of Assaults 3 crime in different levels.</p>
 </section>
 <section id="demographic-factor" class="level2">
 <h2 class="anchored" data-anchor-id="demographic-factor">Demographic factor</h2>
@@ -302,8 +244,8 @@ Geodetic CRS:  WGS84(DD)</code></pre>
 </div>
 <p>The bar chart illustrates the frequency of Assault 3 incidents occurring under various weather conditions. Clear weather and Rain with partially is associated with the highest number of incidents, followed closely by overcast and partially cloudy conditions. Incidents are less frequent during more adverse weather conditions, such as combinations of snow, rain, and overcast skies, suggesting possible correlations between weather and the occurrence of Assault 3 crimes.</p>
 </section>
-<section id="windspeed" class="level3">
-<h3 class="anchored" data-anchor-id="windspeed">Windspeed</h3>
+<section id="wind-speed" class="level3">
+<h3 class="anchored" data-anchor-id="wind-speed">Wind speed</h3>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="analysis_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
@@ -323,16 +265,49 @@ Geodetic CRS:  WGS84(DD)</code></pre>
 <h3 class="anchored" data-anchor-id="confusion-matrix-for-log-model">Confusion Matrix for log model</h3>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>         Actual
-Predicted     0     1
-        0 38136  6600
-        1   236   277</code></pre>
+<pre><code>&lt;table&gt;
+&lt;caption&gt;Confusion Matrix&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Actual 0 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Actual 1 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Predicted 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 38136 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6600 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Predicted 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 236 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 277 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Accuracy: 0.84892483811797"</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "AUC: 0.822264426291401"</code></pre>
+<pre><code>&lt;table&gt;
+&lt;caption&gt;Model Performance Metrics&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Metric &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Value &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Accuracy &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.8489 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; AUC &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.8223 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
 </div>
 </div>
 <p>To better evaluate the model, We build a confusion matrix to show the accuracy of the model, which is the proportion of correct predictions (true positives and true negatives) out of the total predictions, is calculated at approximately 84.88%. This indicates that the model performs well in general. Additionally, the Area Under the Curve (AUC) score of 0.8222, shown below the confusion matrix, further confirms the model’s effectiveness in distinguishing between the two classes.</p>
@@ -340,67 +315,723 @@ Predicted     0     1
 <section id="prediction-of-logistic-model" class="level3">
 <h3 class="anchored" data-anchor-id="prediction-of-logistic-model">Prediction of Logistic Model</h3>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>    ARREST_DATE LAW_CAT_CD ARREST_BORO ARREST_PRECINCT AGE_GROUP PERP_SEX
- 1:  2023-03-20          M           K              67       &lt;18        F
- 2:  2023-03-27          M           B              48       &lt;18        F
- 3:  2023-04-30          M           M              32       &lt;18        F
- 4:  2023-04-30          M           M              32       &lt;18        F
- 5:  2023-04-30          M           M              32       &lt;18        F
- 6:  2023-06-17          M           M              22     25-44        F
- 7:  2023-07-25          M           B              42       &lt;18        F
- 8:  2023-08-12          M           B              42       &lt;18        F
- 9:  2023-08-16          M           B              47       &lt;18        F
-10:  2023-08-21          M           K              67       &lt;18        F
-11:  2023-09-23          M           K              67       &lt;18        F
-12:  2023-10-09          M           B              47       &lt;18        F
-13:  2023-10-10          M           K              83       &lt;18        F
-14:  2023-10-16          M           B              42       &lt;18        F
-15:  2023-10-24          M           K              67       &lt;18        F
-16:  2023-11-13          M           M              22     25-44        M
-17:  2023-11-29          M           K              67       &lt;18        F
-18:  2023-12-14          M           B              42       &lt;18        F
-19:  2023-12-22          M           M              32       &lt;18        F
-                   PERP_RACE temp windspeed             conditions cloudcover
- 1:                    BLACK  5.0      17.5                  Clear        0.1
- 2:           WHITE HISPANIC 10.3      23.6 Rain, Partially cloudy       41.2
- 3:                    BLACK 12.4      21.8         Rain, Overcast      100.0
- 4:                    BLACK 12.4      21.8         Rain, Overcast      100.0
- 5:                    BLACK 12.4      21.8         Rain, Overcast      100.0
- 6:           WHITE HISPANIC 20.9      13.3       Partially cloudy       54.0
- 7:           WHITE HISPANIC 24.3      20.1 Rain, Partially cloudy       24.4
- 8:                    BLACK 25.4      18.0 Rain, Partially cloudy       26.5
- 9:                    BLACK 24.0      19.7 Rain, Partially cloudy       85.3
-10:                    BLACK 27.0      12.8       Partially cloudy       21.7
-11:                    BLACK 16.4      36.4 Rain, Partially cloudy       81.9
-12:           WHITE HISPANIC 13.7      22.3       Partially cloudy       35.5
-13:           WHITE HISPANIC 15.1      19.8 Rain, Partially cloudy       62.7
-14:           WHITE HISPANIC 14.1      14.7       Partially cloudy       36.7
-15:                    BLACK 14.8      14.4                  Clear        0.8
-16: ASIAN / PACIFIC ISLANDER  7.5      17.8       Partially cloudy       29.8
-17:                    BLACK  1.0      26.2       Partially cloudy       20.7
-18:           WHITE HISPANIC  3.8      20.3                  Clear        9.7
-19:                    BLACK  1.0      20.2                  Clear        3.2
-    ARREST_month y
- 1:            3 0
- 2:            3 1
- 3:            4 1
- 4:            4 1
- 5:            4 1
- 6:            6 1
- 7:            7 1
- 8:            8 1
- 9:            8 1
-10:            8 1
-11:            9 1
-12:           10 1
-13:           10 1
-14:           10 1
-15:           10 1
-16:           11 1
-17:           11 0
-18:           12 1
-19:           12 1</code></pre>
+<div class="cell-output-display">
+
+<div id="hrguosaaqk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#hrguosaaqk table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#hrguosaaqk thead, #hrguosaaqk tbody, #hrguosaaqk tfoot, #hrguosaaqk tr, #hrguosaaqk td, #hrguosaaqk th {
+  border-style: none;
+}
+
+#hrguosaaqk p {
+  margin: 0;
+  padding: 0;
+}
+
+#hrguosaaqk .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#hrguosaaqk .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#hrguosaaqk .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#hrguosaaqk .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#hrguosaaqk .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#hrguosaaqk .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hrguosaaqk .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#hrguosaaqk .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#hrguosaaqk .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#hrguosaaqk .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#hrguosaaqk .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#hrguosaaqk .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#hrguosaaqk .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#hrguosaaqk .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#hrguosaaqk .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#hrguosaaqk .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#hrguosaaqk .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#hrguosaaqk .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#hrguosaaqk .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hrguosaaqk .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#hrguosaaqk .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#hrguosaaqk .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#hrguosaaqk .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hrguosaaqk .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#hrguosaaqk .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#hrguosaaqk .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hrguosaaqk .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hrguosaaqk .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#hrguosaaqk .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hrguosaaqk .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#hrguosaaqk .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hrguosaaqk .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#hrguosaaqk .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hrguosaaqk .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#hrguosaaqk .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hrguosaaqk .gt_left {
+  text-align: left;
+}
+
+#hrguosaaqk .gt_center {
+  text-align: center;
+}
+
+#hrguosaaqk .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#hrguosaaqk .gt_font_normal {
+  font-weight: normal;
+}
+
+#hrguosaaqk .gt_font_bold {
+  font-weight: bold;
+}
+
+#hrguosaaqk .gt_font_italic {
+  font-style: italic;
+}
+
+#hrguosaaqk .gt_super {
+  font-size: 65%;
+}
+
+#hrguosaaqk .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#hrguosaaqk .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#hrguosaaqk .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#hrguosaaqk .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#hrguosaaqk .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#hrguosaaqk .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#hrguosaaqk .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_heading">
+      <td colspan="13" class="gt_heading gt_title gt_font_normal gt_bottom_border" style="">High Confidence Predictions for Assault 3 Crimes</td>
+    </tr>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Arrest Date">Arrest Date</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Offense level">Offense level</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Borough">Borough</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Precinct">Precinct</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Age group">Age group</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Sex">Sex</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Race">Race</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Temperature">Temperature</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Wind Speed">Wind Speed</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Weather Condition">Weather Condition</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Cloud Cover">Cloud Cover</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Arrest Month">Arrest Month</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="y">y</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="ARREST_DATE" class="gt_row gt_right">2023-03-20</td>
+<td headers="LAW_CAT_CD" class="gt_row gt_left">M</td>
+<td headers="ARREST_BORO" class="gt_row gt_left">K</td>
+<td headers="ARREST_PRECINCT" class="gt_row gt_center">67</td>
+<td headers="AGE_GROUP" class="gt_row gt_left">&lt;18</td>
+<td headers="PERP_SEX" class="gt_row gt_left">F</td>
+<td headers="PERP_RACE" class="gt_row gt_left">BLACK</td>
+<td headers="temp" class="gt_row gt_right">5.0</td>
+<td headers="windspeed" class="gt_row gt_right">17.5</td>
+<td headers="conditions" class="gt_row gt_left">Clear</td>
+<td headers="cloudcover" class="gt_row gt_right">0.1</td>
+<td headers="ARREST_month" class="gt_row gt_right">3</td>
+<td headers="y" class="gt_row gt_right">0</td></tr>
+    <tr><td headers="ARREST_DATE" class="gt_row gt_right">2023-03-27</td>
+<td headers="LAW_CAT_CD" class="gt_row gt_left">M</td>
+<td headers="ARREST_BORO" class="gt_row gt_left">B</td>
+<td headers="ARREST_PRECINCT" class="gt_row gt_center">48</td>
+<td headers="AGE_GROUP" class="gt_row gt_left">&lt;18</td>
+<td headers="PERP_SEX" class="gt_row gt_left">F</td>
+<td headers="PERP_RACE" class="gt_row gt_left">WHITE HISPANIC</td>
+<td headers="temp" class="gt_row gt_right">10.3</td>
+<td headers="windspeed" class="gt_row gt_right">23.6</td>
+<td headers="conditions" class="gt_row gt_left">Rain, Partially cloudy</td>
+<td headers="cloudcover" class="gt_row gt_right">41.2</td>
+<td headers="ARREST_month" class="gt_row gt_right">3</td>
+<td headers="y" class="gt_row gt_right">1</td></tr>
+    <tr><td headers="ARREST_DATE" class="gt_row gt_right">2023-04-30</td>
+<td headers="LAW_CAT_CD" class="gt_row gt_left">M</td>
+<td headers="ARREST_BORO" class="gt_row gt_left">M</td>
+<td headers="ARREST_PRECINCT" class="gt_row gt_center">32</td>
+<td headers="AGE_GROUP" class="gt_row gt_left">&lt;18</td>
+<td headers="PERP_SEX" class="gt_row gt_left">F</td>
+<td headers="PERP_RACE" class="gt_row gt_left">BLACK</td>
+<td headers="temp" class="gt_row gt_right">12.4</td>
+<td headers="windspeed" class="gt_row gt_right">21.8</td>
+<td headers="conditions" class="gt_row gt_left">Rain, Overcast</td>
+<td headers="cloudcover" class="gt_row gt_right">100.0</td>
+<td headers="ARREST_month" class="gt_row gt_right">4</td>
+<td headers="y" class="gt_row gt_right">1</td></tr>
+    <tr><td headers="ARREST_DATE" class="gt_row gt_right">2023-04-30</td>
+<td headers="LAW_CAT_CD" class="gt_row gt_left">M</td>
+<td headers="ARREST_BORO" class="gt_row gt_left">M</td>
+<td headers="ARREST_PRECINCT" class="gt_row gt_center">32</td>
+<td headers="AGE_GROUP" class="gt_row gt_left">&lt;18</td>
+<td headers="PERP_SEX" class="gt_row gt_left">F</td>
+<td headers="PERP_RACE" class="gt_row gt_left">BLACK</td>
+<td headers="temp" class="gt_row gt_right">12.4</td>
+<td headers="windspeed" class="gt_row gt_right">21.8</td>
+<td headers="conditions" class="gt_row gt_left">Rain, Overcast</td>
+<td headers="cloudcover" class="gt_row gt_right">100.0</td>
+<td headers="ARREST_month" class="gt_row gt_right">4</td>
+<td headers="y" class="gt_row gt_right">1</td></tr>
+    <tr><td headers="ARREST_DATE" class="gt_row gt_right">2023-04-30</td>
+<td headers="LAW_CAT_CD" class="gt_row gt_left">M</td>
+<td headers="ARREST_BORO" class="gt_row gt_left">M</td>
+<td headers="ARREST_PRECINCT" class="gt_row gt_center">32</td>
+<td headers="AGE_GROUP" class="gt_row gt_left">&lt;18</td>
+<td headers="PERP_SEX" class="gt_row gt_left">F</td>
+<td headers="PERP_RACE" class="gt_row gt_left">BLACK</td>
+<td headers="temp" class="gt_row gt_right">12.4</td>
+<td headers="windspeed" class="gt_row gt_right">21.8</td>
+<td headers="conditions" class="gt_row gt_left">Rain, Overcast</td>
+<td headers="cloudcover" class="gt_row gt_right">100.0</td>
+<td headers="ARREST_month" class="gt_row gt_right">4</td>
+<td headers="y" class="gt_row gt_right">1</td></tr>
+    <tr><td headers="ARREST_DATE" class="gt_row gt_right">2023-06-17</td>
+<td headers="LAW_CAT_CD" class="gt_row gt_left">M</td>
+<td headers="ARREST_BORO" class="gt_row gt_left">M</td>
+<td headers="ARREST_PRECINCT" class="gt_row gt_center">22</td>
+<td headers="AGE_GROUP" class="gt_row gt_left">25-44</td>
+<td headers="PERP_SEX" class="gt_row gt_left">F</td>
+<td headers="PERP_RACE" class="gt_row gt_left">WHITE HISPANIC</td>
+<td headers="temp" class="gt_row gt_right">20.9</td>
+<td headers="windspeed" class="gt_row gt_right">13.3</td>
+<td headers="conditions" class="gt_row gt_left">Partially cloudy</td>
+<td headers="cloudcover" class="gt_row gt_right">54.0</td>
+<td headers="ARREST_month" class="gt_row gt_right">6</td>
+<td headers="y" class="gt_row gt_right">1</td></tr>
+    <tr><td headers="ARREST_DATE" class="gt_row gt_right">2023-07-25</td>
+<td headers="LAW_CAT_CD" class="gt_row gt_left">M</td>
+<td headers="ARREST_BORO" class="gt_row gt_left">B</td>
+<td headers="ARREST_PRECINCT" class="gt_row gt_center">42</td>
+<td headers="AGE_GROUP" class="gt_row gt_left">&lt;18</td>
+<td headers="PERP_SEX" class="gt_row gt_left">F</td>
+<td headers="PERP_RACE" class="gt_row gt_left">WHITE HISPANIC</td>
+<td headers="temp" class="gt_row gt_right">24.3</td>
+<td headers="windspeed" class="gt_row gt_right">20.1</td>
+<td headers="conditions" class="gt_row gt_left">Rain, Partially cloudy</td>
+<td headers="cloudcover" class="gt_row gt_right">24.4</td>
+<td headers="ARREST_month" class="gt_row gt_right">7</td>
+<td headers="y" class="gt_row gt_right">1</td></tr>
+    <tr><td headers="ARREST_DATE" class="gt_row gt_right">2023-08-12</td>
+<td headers="LAW_CAT_CD" class="gt_row gt_left">M</td>
+<td headers="ARREST_BORO" class="gt_row gt_left">B</td>
+<td headers="ARREST_PRECINCT" class="gt_row gt_center">42</td>
+<td headers="AGE_GROUP" class="gt_row gt_left">&lt;18</td>
+<td headers="PERP_SEX" class="gt_row gt_left">F</td>
+<td headers="PERP_RACE" class="gt_row gt_left">BLACK</td>
+<td headers="temp" class="gt_row gt_right">25.4</td>
+<td headers="windspeed" class="gt_row gt_right">18.0</td>
+<td headers="conditions" class="gt_row gt_left">Rain, Partially cloudy</td>
+<td headers="cloudcover" class="gt_row gt_right">26.5</td>
+<td headers="ARREST_month" class="gt_row gt_right">8</td>
+<td headers="y" class="gt_row gt_right">1</td></tr>
+    <tr><td headers="ARREST_DATE" class="gt_row gt_right">2023-08-16</td>
+<td headers="LAW_CAT_CD" class="gt_row gt_left">M</td>
+<td headers="ARREST_BORO" class="gt_row gt_left">B</td>
+<td headers="ARREST_PRECINCT" class="gt_row gt_center">47</td>
+<td headers="AGE_GROUP" class="gt_row gt_left">&lt;18</td>
+<td headers="PERP_SEX" class="gt_row gt_left">F</td>
+<td headers="PERP_RACE" class="gt_row gt_left">BLACK</td>
+<td headers="temp" class="gt_row gt_right">24.0</td>
+<td headers="windspeed" class="gt_row gt_right">19.7</td>
+<td headers="conditions" class="gt_row gt_left">Rain, Partially cloudy</td>
+<td headers="cloudcover" class="gt_row gt_right">85.3</td>
+<td headers="ARREST_month" class="gt_row gt_right">8</td>
+<td headers="y" class="gt_row gt_right">1</td></tr>
+    <tr><td headers="ARREST_DATE" class="gt_row gt_right">2023-08-21</td>
+<td headers="LAW_CAT_CD" class="gt_row gt_left">M</td>
+<td headers="ARREST_BORO" class="gt_row gt_left">K</td>
+<td headers="ARREST_PRECINCT" class="gt_row gt_center">67</td>
+<td headers="AGE_GROUP" class="gt_row gt_left">&lt;18</td>
+<td headers="PERP_SEX" class="gt_row gt_left">F</td>
+<td headers="PERP_RACE" class="gt_row gt_left">BLACK</td>
+<td headers="temp" class="gt_row gt_right">27.0</td>
+<td headers="windspeed" class="gt_row gt_right">12.8</td>
+<td headers="conditions" class="gt_row gt_left">Partially cloudy</td>
+<td headers="cloudcover" class="gt_row gt_right">21.7</td>
+<td headers="ARREST_month" class="gt_row gt_right">8</td>
+<td headers="y" class="gt_row gt_right">1</td></tr>
+    <tr><td headers="ARREST_DATE" class="gt_row gt_right">2023-09-23</td>
+<td headers="LAW_CAT_CD" class="gt_row gt_left">M</td>
+<td headers="ARREST_BORO" class="gt_row gt_left">K</td>
+<td headers="ARREST_PRECINCT" class="gt_row gt_center">67</td>
+<td headers="AGE_GROUP" class="gt_row gt_left">&lt;18</td>
+<td headers="PERP_SEX" class="gt_row gt_left">F</td>
+<td headers="PERP_RACE" class="gt_row gt_left">BLACK</td>
+<td headers="temp" class="gt_row gt_right">16.4</td>
+<td headers="windspeed" class="gt_row gt_right">36.4</td>
+<td headers="conditions" class="gt_row gt_left">Rain, Partially cloudy</td>
+<td headers="cloudcover" class="gt_row gt_right">81.9</td>
+<td headers="ARREST_month" class="gt_row gt_right">9</td>
+<td headers="y" class="gt_row gt_right">1</td></tr>
+    <tr><td headers="ARREST_DATE" class="gt_row gt_right">2023-10-09</td>
+<td headers="LAW_CAT_CD" class="gt_row gt_left">M</td>
+<td headers="ARREST_BORO" class="gt_row gt_left">B</td>
+<td headers="ARREST_PRECINCT" class="gt_row gt_center">47</td>
+<td headers="AGE_GROUP" class="gt_row gt_left">&lt;18</td>
+<td headers="PERP_SEX" class="gt_row gt_left">F</td>
+<td headers="PERP_RACE" class="gt_row gt_left">WHITE HISPANIC</td>
+<td headers="temp" class="gt_row gt_right">13.7</td>
+<td headers="windspeed" class="gt_row gt_right">22.3</td>
+<td headers="conditions" class="gt_row gt_left">Partially cloudy</td>
+<td headers="cloudcover" class="gt_row gt_right">35.5</td>
+<td headers="ARREST_month" class="gt_row gt_right">10</td>
+<td headers="y" class="gt_row gt_right">1</td></tr>
+    <tr><td headers="ARREST_DATE" class="gt_row gt_right">2023-10-10</td>
+<td headers="LAW_CAT_CD" class="gt_row gt_left">M</td>
+<td headers="ARREST_BORO" class="gt_row gt_left">K</td>
+<td headers="ARREST_PRECINCT" class="gt_row gt_center">83</td>
+<td headers="AGE_GROUP" class="gt_row gt_left">&lt;18</td>
+<td headers="PERP_SEX" class="gt_row gt_left">F</td>
+<td headers="PERP_RACE" class="gt_row gt_left">WHITE HISPANIC</td>
+<td headers="temp" class="gt_row gt_right">15.1</td>
+<td headers="windspeed" class="gt_row gt_right">19.8</td>
+<td headers="conditions" class="gt_row gt_left">Rain, Partially cloudy</td>
+<td headers="cloudcover" class="gt_row gt_right">62.7</td>
+<td headers="ARREST_month" class="gt_row gt_right">10</td>
+<td headers="y" class="gt_row gt_right">1</td></tr>
+    <tr><td headers="ARREST_DATE" class="gt_row gt_right">2023-10-16</td>
+<td headers="LAW_CAT_CD" class="gt_row gt_left">M</td>
+<td headers="ARREST_BORO" class="gt_row gt_left">B</td>
+<td headers="ARREST_PRECINCT" class="gt_row gt_center">42</td>
+<td headers="AGE_GROUP" class="gt_row gt_left">&lt;18</td>
+<td headers="PERP_SEX" class="gt_row gt_left">F</td>
+<td headers="PERP_RACE" class="gt_row gt_left">WHITE HISPANIC</td>
+<td headers="temp" class="gt_row gt_right">14.1</td>
+<td headers="windspeed" class="gt_row gt_right">14.7</td>
+<td headers="conditions" class="gt_row gt_left">Partially cloudy</td>
+<td headers="cloudcover" class="gt_row gt_right">36.7</td>
+<td headers="ARREST_month" class="gt_row gt_right">10</td>
+<td headers="y" class="gt_row gt_right">1</td></tr>
+    <tr><td headers="ARREST_DATE" class="gt_row gt_right">2023-10-24</td>
+<td headers="LAW_CAT_CD" class="gt_row gt_left">M</td>
+<td headers="ARREST_BORO" class="gt_row gt_left">K</td>
+<td headers="ARREST_PRECINCT" class="gt_row gt_center">67</td>
+<td headers="AGE_GROUP" class="gt_row gt_left">&lt;18</td>
+<td headers="PERP_SEX" class="gt_row gt_left">F</td>
+<td headers="PERP_RACE" class="gt_row gt_left">BLACK</td>
+<td headers="temp" class="gt_row gt_right">14.8</td>
+<td headers="windspeed" class="gt_row gt_right">14.4</td>
+<td headers="conditions" class="gt_row gt_left">Clear</td>
+<td headers="cloudcover" class="gt_row gt_right">0.8</td>
+<td headers="ARREST_month" class="gt_row gt_right">10</td>
+<td headers="y" class="gt_row gt_right">1</td></tr>
+    <tr><td headers="ARREST_DATE" class="gt_row gt_right">2023-11-13</td>
+<td headers="LAW_CAT_CD" class="gt_row gt_left">M</td>
+<td headers="ARREST_BORO" class="gt_row gt_left">M</td>
+<td headers="ARREST_PRECINCT" class="gt_row gt_center">22</td>
+<td headers="AGE_GROUP" class="gt_row gt_left">25-44</td>
+<td headers="PERP_SEX" class="gt_row gt_left">M</td>
+<td headers="PERP_RACE" class="gt_row gt_left">ASIAN / PACIFIC ISLANDER</td>
+<td headers="temp" class="gt_row gt_right">7.5</td>
+<td headers="windspeed" class="gt_row gt_right">17.8</td>
+<td headers="conditions" class="gt_row gt_left">Partially cloudy</td>
+<td headers="cloudcover" class="gt_row gt_right">29.8</td>
+<td headers="ARREST_month" class="gt_row gt_right">11</td>
+<td headers="y" class="gt_row gt_right">1</td></tr>
+    <tr><td headers="ARREST_DATE" class="gt_row gt_right">2023-11-29</td>
+<td headers="LAW_CAT_CD" class="gt_row gt_left">M</td>
+<td headers="ARREST_BORO" class="gt_row gt_left">K</td>
+<td headers="ARREST_PRECINCT" class="gt_row gt_center">67</td>
+<td headers="AGE_GROUP" class="gt_row gt_left">&lt;18</td>
+<td headers="PERP_SEX" class="gt_row gt_left">F</td>
+<td headers="PERP_RACE" class="gt_row gt_left">BLACK</td>
+<td headers="temp" class="gt_row gt_right">1.0</td>
+<td headers="windspeed" class="gt_row gt_right">26.2</td>
+<td headers="conditions" class="gt_row gt_left">Partially cloudy</td>
+<td headers="cloudcover" class="gt_row gt_right">20.7</td>
+<td headers="ARREST_month" class="gt_row gt_right">11</td>
+<td headers="y" class="gt_row gt_right">0</td></tr>
+    <tr><td headers="ARREST_DATE" class="gt_row gt_right">2023-12-14</td>
+<td headers="LAW_CAT_CD" class="gt_row gt_left">M</td>
+<td headers="ARREST_BORO" class="gt_row gt_left">B</td>
+<td headers="ARREST_PRECINCT" class="gt_row gt_center">42</td>
+<td headers="AGE_GROUP" class="gt_row gt_left">&lt;18</td>
+<td headers="PERP_SEX" class="gt_row gt_left">F</td>
+<td headers="PERP_RACE" class="gt_row gt_left">WHITE HISPANIC</td>
+<td headers="temp" class="gt_row gt_right">3.8</td>
+<td headers="windspeed" class="gt_row gt_right">20.3</td>
+<td headers="conditions" class="gt_row gt_left">Clear</td>
+<td headers="cloudcover" class="gt_row gt_right">9.7</td>
+<td headers="ARREST_month" class="gt_row gt_right">12</td>
+<td headers="y" class="gt_row gt_right">1</td></tr>
+    <tr><td headers="ARREST_DATE" class="gt_row gt_right">2023-12-22</td>
+<td headers="LAW_CAT_CD" class="gt_row gt_left">M</td>
+<td headers="ARREST_BORO" class="gt_row gt_left">M</td>
+<td headers="ARREST_PRECINCT" class="gt_row gt_center">32</td>
+<td headers="AGE_GROUP" class="gt_row gt_left">&lt;18</td>
+<td headers="PERP_SEX" class="gt_row gt_left">F</td>
+<td headers="PERP_RACE" class="gt_row gt_left">BLACK</td>
+<td headers="temp" class="gt_row gt_right">1.0</td>
+<td headers="windspeed" class="gt_row gt_right">20.2</td>
+<td headers="conditions" class="gt_row gt_left">Clear</td>
+<td headers="cloudcover" class="gt_row gt_right">3.2</td>
+<td headers="ARREST_month" class="gt_row gt_right">12</td>
+<td headers="y" class="gt_row gt_right">1</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
 </div>
 </div>
 <p>We filtered out cases where the logistic regression model predicted a probability greater than 0.70 for the outcome of interest, focusing on instances where the model confidently predicted an arrest as “ASSAULT 3.”</p>
@@ -426,16 +1057,49 @@ Predicted     0     1
 <h3 class="anchored" data-anchor-id="confusion-matrix-for-decision-tree-model">Confusion Matrix for decision tree model</h3>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
-<pre><code>         Actual
-Predicted     0     1
-        0 38076  6557
-        1   296   320</code></pre>
+<pre><code>&lt;table&gt;
+&lt;caption&gt;Confusion Matrix&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Actual 0 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Actual 1 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Predicted 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 38076 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6557 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Predicted 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 296 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 320 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Accuracy: 0.848549139207496"</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "AUC: 0.789745859173009"</code></pre>
+<pre><code>&lt;table&gt;
+&lt;caption&gt;Model Performance Metrics&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Metric &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Value &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Accuracy &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.8485 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; AUC &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.7897 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
 </div>
 </div>
 <p>To better evaluate the model, We build a confusion matrix to show the accuracy of the model, which is the proportion of correct predictions (true positives and true negatives) out of the total predictions, is calculated at approximately 84.86%. This indicates that the model performs well in general. Additionally, the Area Under the Curve (AUC) score of 0.7897, shown below the confusion matrix, further confirms the model’s effectiveness in distinguishing between the two classes.</p>
@@ -448,6 +1112,11 @@ Predicted     0     1
 </div>
 </div>
 <p>We use the ROC curves to evaluate the performance of classification models. The area under the curve (AUC) for each model can be used to quantify the overall performance. The higher the AUC, the better the model’s ability to discriminate between the two classes.The logistic model (red curve) appears to outperform the tree model (blue curve) by achieving a higher AUC, which indicates that it has a better overall classification performance for the arrest data.</p>
+<p>More details about summary of models could find in <a href="posts/2024-4-29/2024_04_29_blog_7">post 7</a>.</p>
+</section>
+<section id="limitations" class="level3">
+<h3 class="anchored" data-anchor-id="limitations">Limitations</h3>
+<p>Errors in how data on crimes, demographics, or environmental factors are measured and recorded can lead to biased outcomes in the analysis. And the findings are based on specific demographic and environmental conditions that may not be applicable to other regions or over different time periods.</p>
 </section>
 </section>
 <section id="conclusion" class="level2">
