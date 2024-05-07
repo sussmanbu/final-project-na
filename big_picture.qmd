@@ -1,6 +1,6 @@
 ---
 title: "Big Picture"
-description: "Unveiling the Interplay of Region, Season, and Crime in New York City"
+description: "Unveiling the Interplay of Region, Weather, and Crime in New York City"
 toc: true
 draft: FALSE
 editor: 
@@ -178,7 +178,7 @@ Early in the year, January through March, the cooler colors suggest a lower freq
 This pattern likely results from changes in social dynamics and environmental factors, such as more people being outdoors during warmer weather, which elevates interaction rates and potential conflicts.
 Understanding these trends is crucial for law enforcement and community safety programs, which could benefit from adjusting their strategies seasonally to preemptively address and mitigate the peak crime periods.
 
-### **Conclusion: Unveiling Regional and Seasonal Patterns of Assault 3 Crimes**
+### **Conclusion: Unveiling Regional and Weather Patterns of Assault 3 Crimes**
 
 The data depicted in the maps and calendar reveals a clear pattern: the prevalence of Assault 3 crimes in New York City varies significantly by both region and time of year.
 This variability highlights the need for region-specific and season-specific crime analysis.
