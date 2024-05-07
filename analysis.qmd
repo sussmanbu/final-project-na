@@ -51,7 +51,7 @@ dataset:
 
 -   Demographic factor : Age, Race, Borough
 
--   Environmental factor: Temperature,weather condition,wind speed
+-   Environmental factor: Temperature,weather condition,wind speed, cloud space
 
 Briefly, we found these factors shows some effect to occurring of
 Assaults 3 crime in different levels.
@@ -154,7 +154,7 @@ Now, we are moving to the EDA of environmental factors.
 
 ### Temperature
 
-```{r echo=FALSE, message=FALSE, warning= FALSE}
+```{r echo=FALSE, message=FALSE, warning= FALSE,include=FALSE}
 ds <- readRDS("dataset/load_and_clean_data.rds")
 ds <- as.data.table(ds)
 ds$ARREST_DATE <- ymd(ds$ARREST_DATE)
@@ -442,10 +442,10 @@ summary_stats <- data.frame(
   Value = c(accuracy, auc_value)
 )
 
-# Print the tables
-print(kable(conf_matrix_df, format = "html", caption = "Confusion Matrix"))
 
-print(kable(summary_stats, format = "html", digits = 4, caption = "Model Performance Metrics"))
+kable(conf_matrix_df, format = "html", caption = "Confusion Matrix")
+
+kable(summary_stats, format = "html", digits = 4, caption = "Model Performance Metrics")
 
 ```
 To better evaluate the model, We build a confusion matrix to show the
@@ -458,34 +458,47 @@ model's effectiveness in distinguishing between the two classes.
 
 ### Prediction of Logistic Model
 
-```{r  echo=FALSE, message=FALSE, warning= FALSE}
+```{r echo=FALSE, message=FALSE, warning= FALSE}
 
-high_confidence_cases <- data_valid[which(predict_lr > 0.70), ]
-
-# Create a gt table for the high confidence cases
 library(gt)
+high_confidence_cases <- data_valid[which(predict_lr > 0.70), ]
 gt(high_confidence_cases) %>%
   tab_header(
-    title = "High Confidence Predictions for Assault 3 Crimes"
+    title = "High Confidence Predictions for Assault 3 Crimes",
+    subtitle = "Displaying cases with prediction probability above 70%"
   ) %>%
   cols_label(
-    # Rename columns as needed for clarity
     ARREST_month = "Arrest Month",
-    ARREST_DATE ="Arrest Date",
-    LAW_CAT_CD ="Offense level",
-
-    PERP_SEX= "Sex",
-    PERP_RACE= "Race",
-    ARREST_BORO= "Borough",
-    ARREST_PRECINCT= "Precinct",
-    AGE_GROUP ="Age group",
-    temp = "Temperature",
-    windspeed = "Wind Speed",
-    cloudcover = "Cloud Cover",
-    conditions ="Weather Condition"
+    ARREST_DATE = "Arrest Date",
+    LAW_CAT_CD = "Offense Level",
+    PERP_SEX = "Sex",
+    PERP_RACE = "Race",
+    ARREST_BORO = "Borough",
+    ARREST_PRECINCT = "Precinct",
+    AGE_GROUP = "Age Group",
+    temp = "Temperature (°C)",
+    windspeed = "Wind Speed (km/h)",
+    cloudcover = "Cloud Cover (%)",
+    conditions = "Weather Condition"
+  ) %>%
+  fmt_number(
+    columns = vars(temp, windspeed, cloudcover),
+    decimals = 1  # Adjust the number of decimals for numerical columns
+  ) %>%
+  tab_options(
+    table.width = pct(100),  
+    data_row.padding = px(5),  
+    heading.title.font.size = px(18),  
+    heading.subtitle.font.size = px(14)  
+  ) %>%
+  tab_style(
+    style = cell_borders(sides = "top", color = "gray", weight = px(1)),
+    locations = cells_column_labels(columns = TRUE)
+  ) %>%
+  tab_footnote(
+    footnote = "Data sourced from validated records with high predictive confidence.",
+    locations = cells_title(groups = "title")
   )
-
-
 ```
 
 We filtered out cases where the logistic regression model predicted a
@@ -540,10 +553,9 @@ valid_all <- data.frame(valid_dummy
                         )
 
 
-
 ```
 
-Next，we decide to use Decision tree model to predict whether an arrest
+Next, we decide to use Decision tree model to predict whether an arrest
 falls into the category of "ASSAULT 3" based on various demographic,
 legal, and environmental factors.It will provides a clear framework for
 understanding and predicting "ASSAULT 3", helping law enforcement and
@@ -603,9 +615,9 @@ summary_stats_tree <- data.frame(
 )
 
 # Print the tables using kable for nicer formatting in Markdown or HTML output
-print(kable(conf_matrix_tree_df, format = "html", caption = "Confusion Matrix"))
+kable(conf_matrix_tree_df, format = "html", caption = "Confusion Matrix")
 
-print(kable(summary_stats_tree, format = "html", digits = 4, caption = "Model Performance Metrics"))
+kable(summary_stats_tree, format = "html", digits = 4, caption = "Model Performance Metrics")
 ```
 
 

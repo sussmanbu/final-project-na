@@ -152,20 +152,20 @@ category_details |>
 
 These are the following new packages were used in making this project.
 
--   knitr: It automates the generation of dynamic reports directly from R code.
+-   `knitr`: It automates the generation of dynamic reports directly from R code.
 
--   kableExtra: It enhances knitr's kable() function by providing advanced styling and formatting options for tables in HTML and LaTeX.
+-   `kableExtra`: It enhances knitr's kable() function by providing advanced styling and formatting options for tables in HTML and LaTeX.
 
--   data.table: It provides a data manipulation tool for data analysis with large datasets.
+-   `data.table`: It provides a data manipulation tool for data analysis with large datasets.
 
--   Magrittr: It introduces the piping operator %\>% to R to make code readability and flow.
+-   `Magrittr`: It introduces the piping operator %\>% to R to make code readability and flow.
 
--   corrplot: This package provides graphical visualizations of correlation matrices.
+-   `corrplot`: This package provides graphical visualizations of correlation matrices.
 
--   MLmetrics: This package provides various metrics to evaluate machine learning models.
+-   `MLmetrics`: This package provides various metrics to evaluate machine learning models.
 
--   rpart: This package is used for building and analyzing decision trees for data mordeling.
+-   `rpart`: This package is used for building and analyzing decision trees for data modeling.
 
--   rpart.plot: It enhances the visualization of decision trees, providing clearer and more detailed graphical representations.
+-   `rpart.plot`: It enhances the visualization of decision trees, providing clearer and more detailed graphical representations.
 
--   pROC :
+-   `pROC` : It visualizing and analyzing receiver operating characteristic (ROC) curves.

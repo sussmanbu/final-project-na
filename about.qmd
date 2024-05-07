@@ -15,7 +15,7 @@ about:
       href: https://github.com/sussmanbu/
 ---
 
-This is a website for the final project for MA\[46\]15 Data Science with R by Team TEAMNAME. The members of this team are below.
+This is a website for the final project for MA\[46\]15 Data Science with R by Team NA. The members of this team are below.
 
 <!-- Please leave in the information below -->
 
