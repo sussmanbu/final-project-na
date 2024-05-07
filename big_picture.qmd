@@ -8,7 +8,7 @@ editor:
     wrap: sentence
 ---
 
-![](images/nyc1.jpeg){width="80%"}
+![](images/nyc1.jpeg){width="90%"}
 
 ```{r echo= F,message=FALSE, warning= FALSE}
 library(dplyr)

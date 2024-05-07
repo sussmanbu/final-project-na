@@ -7,7 +7,7 @@ editor:
     wrap: sentence
 ---
 
-![](images/general-view-nypd-arm-patch-26440914.webp)
+![](images/general-view-nypd-arm-patch-26440914.webp){width="90%"}
 
 ## Data Background
 
