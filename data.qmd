@@ -169,3 +169,5 @@ These are the following new packages were used in making this project.
 -   `rpart.plot`: It enhances the visualization of decision trees, providing clearer and more detailed graphical representations.
 
 -   `pROC` : It visualizing and analyzing receiver operating characteristic (ROC) curves.
+
+-   `MASS` : including a variety of tools for linear and nonlinear modeling, statistical tests, and data exploration.
