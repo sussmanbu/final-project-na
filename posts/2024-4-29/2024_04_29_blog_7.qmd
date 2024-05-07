@@ -14,6 +14,17 @@ library(patchwork)
 library(pheatmap)
 library(gridExtra)
 library(data.table)
+library(ggplot2)
+library(viridis)
+library(dplyr)
+library(sp)
+library(sf)
+library(MLmetrics)
+library(MASS)
+library(rpart)
+library(rpart.plot)
+library(pROC)
+library(gt)
 data <- read_rds("dataset/load_and_clean_data.rds")
 data$ARREST_DATE <- as.Date(data$ARREST_DATE, "%m/%d/%Y")
 ```
@@ -135,6 +146,8 @@ combine_plot_crime
 ### Logistic Regression Model 
 
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
+ds <- read_rds("dataset/load_and_clean_data.rds") 
+
 ds$y <- ifelse(ds$OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES",1,0)
 ds$PD_DESC <- NULL
 ds$OFNS_DESC  <- NULL
@@ -160,7 +173,7 @@ model_lr <- glm(y ~ .
                 , data = data_train)
 ```
 
-```{r include=FALSE}
+```{r echo=FALSE, message=FALSE, warning= FALSE}
 summary(model_lr)
 ```
 
@@ -251,7 +264,7 @@ Conversely, the model predicts a higher likelihood that 76% probability((Last ro
 
 This scenario highlights how the decision tree uses combinations of demographic and environmental factors to determine the probability of assault-related offenses.
 
-```{r incldue=FALSE}
+```{r echo=FALSE, message=FALSE, warning= FALSE}
 summary(model_tree)
 ```
 
