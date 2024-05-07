@@ -382,6 +382,8 @@ occur in higher wind conditions.
 
 ## Model
 
+We choose Logistic regression model and Decision tree model to further analysis the relationship between key factors and Assault 3 crime rate.
+
 ## Logistic Regression Model
 
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
@@ -403,7 +405,7 @@ To identify patterns in ASSAULT 3 by considering various factors such as
 age, gender, race of the perpetrator, as well as environmental factors
 like temperature and weather conditions, we decide to build a logistic
 regression model to predict the likelihood of an arrest being for
-"ASSAULT 3 & RELATED OFFENSES". This helps police understand under what
+"ASSAULT 3". This helps police understand under what
 circumstances such crimes are more likely to occur, aiding in the
 development of proactive policing strategies.
 
@@ -557,8 +559,8 @@ valid_all <- data.frame(valid_dummy
 
 Next, we decide to use Decision tree model to predict whether an arrest
 falls into the category of "ASSAULT 3" based on various demographic,
-legal, and environmental factors.It will provides a clear framework for
-understanding and predicting "ASSAULT 3", helping law enforcement and
+legal, and environmental factors. It will provides a clear framework for
+understanding and predicting ASSAULT 3, helping law enforcement and
 policymakers make informed decisions based on data-driven insights.
 
 ### Prediction of Decision Tree Model
