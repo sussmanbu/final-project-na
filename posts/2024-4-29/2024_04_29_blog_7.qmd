@@ -1,7 +1,7 @@
 ---
 title: "Seventh Blog Post"
-subtitle: ""
-author: "TEAM 14"
+subtitle: "Logisitic and Decision Tree Models"
+author: "TEAM NA"
 date: "2024-04-29"
 draft: false
 ---
@@ -131,202 +131,14 @@ combine_plot_crime<-plot_count+plota3+plotfa+plotpl+
 combine_plot_crime
 ```
 
-These 4 graphs shows the total crime counts per season and top 3 crime categories per seasons. It all shows a trend that the crime rate will be higher in Summer and Spring, then it will gradually go lower in Autumn and Winter in 2023.This data suggests a correlation between warmer weather and increased crime rates in New York City, indicating that incidents tend to escalate during warmer periods.
 
-
-## Model 
+### Logistic Regression Model 
 
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
-
-ds <- read_rds("dataset/load_and_clean_data.rds") 
-daily_crime_count <- ds %>%
-  group_by(ARREST_DATE) %>%
-  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES")%>%
-  summarize(Daily_Count= n(), .groups = 'drop') %>%
-  arrange(ARREST_DATE)
-
-ds$ARREST_BORO = as.factor(ds$ARREST_BORO)
-ds$ARREST_PRECINCT=as.factor(ds$ARREST_PRECINCT)
-ds$AGE_GROUP= as.factor(ds$AGE_GROUP)
-ds$PERP_SEX= as.factor(ds$PERP_SEX)
-ds$PERP_RACE =as.factor(ds$PERP_RACE)
-ds$conditions =as.factor(ds$conditions)
-
-```
-
-
-```{r echo=FALSE, message=FALSE, warning= FALSE}
-library(dplyr)
-library(ggplot2)
-library(patchwork)
-library(lubridate)
-
-# Assuming 'ds' is your dataset and has 'ARREST_DATE', 'PD_DESC', and 'temp' columns
-
-# Prepare the assault data summary
-assault_data <- ds %>%
-  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
-  mutate(Month = floor_date(as.Date(ARREST_DATE), "month")) %>%
-  group_by(Month) %>%
-  summarise(Count = n()) %>%
-  ungroup() 
-
-# Prepare the temperature data summary
-mean_temp_by_month <- ds %>%
-  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
-  mutate(Month = floor_date(as.Date(ARREST_DATE), "month")) %>%
-  group_by(Month) %>%
-  summarise(Mean_Temp = mean(temp, na.rm = TRUE)) %>%
-  ungroup()
-
-mean_wind_by_month <- ds %>%
-  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
-  mutate(Month = floor_date(as.Date(ARREST_DATE), "month")) %>%
-  group_by(Month) %>%
-  summarise(Mean_wind = mean(windspeed, na.rm = TRUE)) %>%
-  ungroup()
-
-
-# Join the datasets
-correlation_data <- left_join(assault_data, mean_temp_by_month,mean_wind_by_month, by = "Month")%>%
-   left_join(mean_wind_by_month, by = "Month")
-
-# Calculate the correlation coefficient between Count and Mean_Temp
-correlation_coefficient <- cor(correlation_data$Count, correlation_data$Mean_Temp,use = "complete.obs")
-
-# Output the correlation coefficient
-print(correlation_coefficient)
-
-# If you want to plot this correlation, you can use a scatter plot with a smooth line
-correlation_plot <- ggplot(correlation_data, aes(x = Mean_Temp, y = Count)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
-  labs(x = "Average Monthly Temperature (°C)", y = "Count of Assault 3 Crimes", 
-       title = "Correlation between Temperature and 'Assault 3' Crime Count")
-
-# Print the correlation plot
-print(correlation_plot)
-
-cor_matrix1 <- cor(correlation_data[, c("Count", "Mean_Temp","Mean_wind")], use = "complete.obs")
-pheatmap(cor_matrix1, 
-         color = colorRampPalette(c("skyblue", "white", "lightgreen"))(200),
-         display_numbers = T,
-         clustering_distance_rows = "euclidean",
-         clustering_distance_cols = "euclidean",
-         clustering_method = "complete")
-
-```
-
-
-```{r}
-assault_data_weekly <- ds %>%
-  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
-  mutate(Week = floor_date(as.Date(ARREST_DATE), "week")) %>%
-  group_by(Week) %>%
-  summarise(Count = n()) %>%
-  ungroup() 
-
-mean_temp_by_week <- ds %>%
-  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
-  mutate(Week = floor_date(as.Date(ARREST_DATE), "week")) %>%
-  group_by(Week) %>%
-  summarise(Mean_Temp = mean(temp, na.rm = TRUE)) %>%
-  ungroup()
-
-mean_wind_by_week <- ds %>%
-  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES") %>%
-  mutate(Week = floor_date(as.Date(ARREST_DATE), "week")) %>%
-  group_by(Week) %>%
-  summarise(Mean_Wind = mean(windspeed, na.rm = TRUE)) %>%
-  ungroup()
-
-correlation_data_weekly <- left_join(assault_data_weekly, mean_temp_by_week, by = "Week") %>%
-  left_join(mean_wind_by_week, by = "Week")
-
-correlation_plot2 <- ggplot(correlation_data_weekly, aes(x = Mean_Temp, y = Count)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
-  labs(x = "Average Monthly Temperature (°C)", y = "Count of Assault 3 Crimes", 
-       title = "Correlation between Temperature and 'Assault 3' Crime Count")
-
-print(correlation_plot2)
-
-cor_matrix2 <- cor(correlation_data_weekly[, c("Count", "Mean_Temp","Mean_Wind")], use = "complete.obs")
-pheatmap(cor_matrix2, 
-         color = colorRampPalette(c("skyblue", "white", "lightgreen"))(200),
-         display_numbers = T,
-         clustering_distance_rows = "euclidean",
-         clustering_distance_cols = "euclidean",
-         clustering_method = "complete")
-```
-
-
-
-```{r echo=FALSE, message=FALSE, warning= FALSE}
-daily_crime_count <- ds %>%
-  group_by(ARREST_DATE) %>%
-  filter(OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES")%>%
-  summarize(Daily_Count= n(), .groups = 'drop') %>%
-  arrange(ARREST_DATE)
-
-daily_temperature <- ds %>%
-  group_by(ARREST_DATE) %>%
-  summarise(Temp = mean(temp, na.rm = TRUE)) %>%
-  ungroup()
-
-wind <-ds %>%
-  group_by(ARREST_DATE) %>%
-  summarise(Wind = mean(windspeed, na.rm = TRUE)) %>%
-  ungroup()
-
-daily_data <- daily_crime_count %>%
-  left_join(daily_temperature, by = "ARREST_DATE") %>%
-  left_join(wind, by = "ARREST_DATE")
-
-cor_matrix3 <- cor(daily_data[, c("Daily_Count", "Temp","Wind")], use = "complete.obs")
-pheatmap(cor_matrix3, 
-         color = colorRampPalette(c("skyblue", "white", "lightgreen"))(200),
-         display_numbers = T,
-         clustering_distance_rows = "euclidean",
-         clustering_distance_cols = "euclidean",
-         clustering_method = "complete")
-```
-
-
-
-```{r echo=FALSE, message=FALSE, warning= FALSE}
-modweek <- glm(correlation_data_weekly$Count~correlation_data_weekly$Mean_Temp+correlation_data_weekly$Mean_Wind)
-summary(modweek)
-modmonth <-glm(correlation_data$Count~ correlation_data$Mean_Temp + correlation_data$Mean_wind)
-summary(modmonth)
-modday <- lm(daily_data$Daily_Count ~ daily_data$Temp +daily_data$Wind)
-summary(modday)
-```
-
-```{r echo=FALSE, message=FALSE, warning= FALSE}
-ds %>% 
-  group_by(OFNS_DESC, LAW_CAT_CD, AGE_GROUP, PERP_SEX, PERP_RACE,ARREST_BORO,ARREST_PRECINCT,conditions) %>%
-  filter((OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES"))%>%
-  count(name = 'y') -> df_y
-
-mod <- glm(y ~  conditions+ AGE_GROUP + PERP_SEX + PERP_RACE+ ARREST_BORO+ ARREST_PRECINCT,
-           data = df_y, family = poisson)
-summary(mod)
-```
-
-
-
-## Model
-
-### train the model
-
-### 下面开始建模，先随机抽取80%作为训练集，20%作为验证集
-```{r}
 ds$y <- ifelse(ds$OFNS_DESC == "ASSAULT 3 & RELATED OFFENSES",1,0)
 ds$PD_DESC <- NULL
 ds$OFNS_DESC  <- NULL
 ds$`New Georeferenced Column` <- NULL
-# ds$LAW_CAT_CD <-  NULL
 ds$ARREST_PRECINCT <- as.factor(ds$ARREST_PRECINCT)
 
 set.seed(123)
@@ -337,16 +149,173 @@ data_valid <- ds[-index,]
 
 ```
 
+To identify patterns in ASSAULT 3 by considering various factors such as age, gender, race of the perpetrator, as well as environmental factors like temperature and weather conditions, we decide to build a logistic regression model to predict the likelihood of an arrest being for "ASSAULT 3 & RELATED OFFENSES". This helps police understand under what circumstances such crimes are more likely to occur, aiding in the development of proactive policing strategies.
 
+first,we use a binary response variable y is created to represent whether each arrest falls into this category. The data is then split into training and validation sets, we randomly select 80% to be training set, 20% to be validation set.
+
+### Logisitic Model result
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
 model_lr <- glm(y ~ .
                 , family = binomial
                 , data = data_train)
 ```
 
-```{r}
+```{r include=FALSE}
 summary(model_lr)
 ```
+
+
+# Confusion Matrix for log model
+```{r  echo=FALSE, message=FALSE, warning= FALSE}
+library(MLmetrics)
+predict_lr <- predict(model_lr,data_valid,type = "response")
+predict_classes <- ifelse(predict_lr > 0.5, 1, 0)
+```
+
+```{r  echo=FALSE, message=FALSE, warning= FALSE}
+
+conf_matrix <- table(Predicted = predict_classes, Actual = data_valid$y)
+
+print(conf_matrix)
+
+accuracy <- sum(diag(conf_matrix)) / sum(conf_matrix)
+print(paste("Accuracy:", accuracy))
+print(paste("AUC:", AUC(predict_lr,data_valid$y)))
+```
+
+To better evaluate the model, We build a confusion matrix to show the accuracy of the model, which is the proportion of correct predictions (true positives and true negatives) out of the total predictions, is calculated at approximately 84.88%. This indicates that the model performs well in general. Additionally, the Area Under the Curve (AUC) score of 0.8222, shown below the confusion matrix, further confirms the model's effectiveness in distinguishing between the two classes. 
+
+```{r  echo=FALSE, message=FALSE, warning= FALSE}
+data_valid[which(predict_lr>0.70), ]
+```
+
+We filtered out cases where the logistic regression model predicted a probability greater than 0.70 for the outcome of interest, focusing on instances where the model confidently predicted an arrest as "ASSAULT 3."
+
+The results indicate that "ASSAULT 3" crimes typically occur between March and December, especially during rainy or cloudy weather with temperatures above zero Celsius. These incidents predominantly happen in central Brooklyn, the Bronx, and uptown Manhattan. At the precinct level, Precincts 67, 32, and 42 are notable hotspots.
+
+Demographically, the majority of offenders are African American or White Hispanic, often around or below 18 years of age. Interestingly, the data also shows a significant proportion of female offenders, primarily involved in misdemeanor-level offenses.
+
+
+
+## Decision Trees model
+```{r  echo=FALSE, message=FALSE, warning= FALSE}
+
+train_dummy <- model.matrix(~ LAW_CAT_CD
+                            +ARREST_BORO+ARREST_PRECINCT
+                            +AGE_GROUP + PERP_SEX
+                            +PERP_RACE +conditions            
+                            - 1
+                            , data = data_train)
+train_all <- data.frame(train_dummy
+                        , ARREST_DATE  = data_train$ARREST_DATE
+                        , temp = data_train$temp
+                        , windspeed = data_train$windspeed
+                        , cloudcover = data_train$cloudcover
+                       ,y = data_train$y
+                        )
+```
+
+
+```{r  echo=FALSE, message=FALSE, warning= FALSE}
+
+valid_dummy <- model.matrix(~ LAW_CAT_CD
+                            +ARREST_BORO+ARREST_PRECINCT
+                            +AGE_GROUP + PERP_SEX
+                            +PERP_RACE +conditions            
+                            - 1
+                            , data = data_valid)
+valid_all <- data.frame(valid_dummy
+                        , ARREST_DATE  = data_valid$ARREST_DATE
+                        , temp = data_valid$temp
+                        , windspeed = data_valid$windspeed
+                        , cloudcover = data_valid$cloudcover
+                        ,y = data_valid$y
+                        )
+
+
+
+```
+
+Next， we decide to use Decision tree model to predict whether an arrest falls into the category of "ASSAULT 3" based on various demographic, legal, and environmental factors.It will provides a clear framework for understanding and predicting "ASSAULT 3", helping law enforcement and policymakers make informed decisions based on data-driven insights. 
+
+
+```{r  echo=FALSE, message=FALSE, warning= FALSE}
+model_tree <- rpart(y ~ .
+                    , data = train_all, method = "class"
+                    ,control=rpart.control(minsplit=1, minbucket=1, cp=0.0003))
+rpart.plot(model_tree,cex=0.35,type = 3) ###cex=0.35,type = 3
+```
+The decision tree model classifies incidents of "ASSAULT 3" based on a probability threshold of 50%. For instance, if the individual is a male, identified as white, and located in Precinct 14, there is only a 22%(Last row, fifth from the begin) chance of an assault crime occurring, thus placing it in the category of unlikely to experience "ASSAULT 3."
+
+Conversely, the model predicts a higher likelihood that 76% probability((Last row, fourth from the end)) of an "ASSAULT 3" related crime if the perpetrator is a female, non-white, located in Precinct 42, and the cloud cover exceeds 55%. 
+
+This scenario highlights how the decision tree uses combinations of demographic and environmental factors to determine the probability of assault-related offenses.
+
+```{r incldue=FALSE}
+summary(model_tree)
+```
+
+
+#Confusion Matrix 
+```{r  echo=FALSE, message=FALSE, warning= FALSE}
+predict_tree <- predict(model_tree,valid_all,type = "prob")[,2]
+predict_classes_tree <- ifelse(predict_tree > 0.5, 1, 0)
+```
+
+
+
+```{r  echo=FALSE, message=FALSE, warning= FALSE}
+
+conf_matrix_tree <- table(Predicted = predict_classes_tree, Actual = data_valid$y)
+
+
+print(conf_matrix_tree)
+
+accuracy_tree <- sum(diag(conf_matrix_tree)) / sum(conf_matrix_tree)
+print(paste("Accuracy:", accuracy_tree))
+print(paste("AUC:", AUC(predict_tree,data_valid$y)))
+```
+
+To better evaluate the model, We build a confusion matrix to show the accuracy of the model, which is the proportion of correct predictions (true positives and true negatives) out of the total predictions, is calculated at approximately 84.86%. This indicates that the model performs well in general. Additionally, the Area Under the Curve (AUC) score of 0.7897, shown below the confusion matrix, further confirms the model's effectiveness in distinguishing between the two classes. 
+
+
+
+## Compare the Accuracy between these two models
+```{r  include=FALSE}
+library(pROC)
+roc_lr <- roc(data_valid$y,predict_lr)
+roc_tree <- roc(data_valid$y,predict_tree)
+
+```
+
+
+```{r  echo=FALSE, message=FALSE, warning= FALSE}
+roc_df <- data.frame(
+  Sensitivity = c(0, roc_lr$sensitivities),
+  OneMinusSpecificity = c(0, 1 - roc_lr$specificities),
+  Model = rep("Logistic", length(roc_lr$sensitivities) + 1)
+)
+
+roc_df <- rbind(roc_df,
+                data.frame(
+                  Sensitivity = c(0, roc_tree$sensitivities),
+                  OneMinusSpecificity = c(0, 1 - roc_tree$specificities),
+                  Model = rep("Tree", length(roc_tree$sensitivities) + 1)
+                ))
+
+library(ggplot2)
+
+auc_plot <- ggplot(roc_df, aes(x = OneMinusSpecificity, y = Sensitivity, color = Model)) +
+  geom_line() +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+  labs(title = "AUC Comparison", x = "1 - Specificity", y = "Sensitivity") +
+  theme_minimal()
+auc_plot
+```
+
+We use the ROC curves to evaluate the performance of classification models. The area under the curve (AUC) for each model can be used to quantify the overall performance. The higher the AUC, the better the model's ability to discriminate between the two classes.The logistic model (red curve) appears to outperform the tree model (blue curve) by achieving a higher AUC, which indicates that it has a better overall classification performance for the arrest data. 
+
+
 
 ### Polish our graphs and charts
 
