@@ -177,7 +177,7 @@ ul.task-list li input[type="checkbox"] {
 <p>Our team will focus on the analysis of following variables in the dataset:</p>
 <ul>
 <li><p>Demographic factor : Age, Race, Borough</p></li>
-<li><p>Environmental factor: Temperature,weather condition,wind speed</p></li>
+<li><p>Environmental factor: Temperature,weather condition,wind speed, cloud space</p></li>
 </ul>
 <p>Briefly, we found these factors shows some effect to occurring of Assaults 3 crime in different levels.</p>
 </section>
@@ -218,17 +218,6 @@ ul.task-list li input[type="checkbox"] {
 <section id="temperature" class="level3">
 <h3 class="anchored" data-anchor-id="temperature">Temperature</h3>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>Reading layer `geo_export_87553334-fdcd-4d0c-8ab2-43a5e2975733' from data source `/Users/dingjiatong/R code/finalproject-jt/dataset/geo_export_87553334-fdcd-4d0c-8ab2-43a5e2975733.shp' 
-  using driver `ESRI Shapefile'
-Simple feature collection with 77 features and 3 fields
-Geometry type: MULTIPOLYGON
-Dimension:     XY
-Bounding box:  xmin: -74.25559 ymin: 40.49612 xmax: -73.70001 ymax: 40.91553
-Geodetic CRS:  WGS84(DD)</code></pre>
-</div>
-</div>
-<div class="cell">
 <div class="cell-output-display">
 <p><img src="analysis_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -264,50 +253,54 @@ Geodetic CRS:  WGS84(DD)</code></pre>
 <section id="confusion-matrix-for-log-model" class="level3">
 <h3 class="anchored" data-anchor-id="confusion-matrix-for-log-model">Confusion Matrix for log model</h3>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>&lt;table&gt;
-&lt;caption&gt;Confusion Matrix&lt;/caption&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Actual 0 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Actual 1 &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Predicted 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 38136 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 6600 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Predicted 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 236 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 277 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;</code></pre>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Confusion Matrix</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Actual 0</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Actual 1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Predicted 0</td>
+<td style="text-align: right;">38136</td>
+<td style="text-align: right;">6600</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Predicted 1</td>
+<td style="text-align: right;">236</td>
+<td style="text-align: right;">277</td>
+</tr>
+</tbody>
+</table>
+
+
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>&lt;table&gt;
-&lt;caption&gt;Model Performance Metrics&lt;/caption&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; Metric &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Value &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Accuracy &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.8489 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; AUC &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.8223 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;</code></pre>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Model Performance Metrics</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Metric</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Accuracy</td>
+<td style="text-align: right;">0.8489</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AUC</td>
+<td style="text-align: right;">0.8223</td>
+</tr>
+</tbody>
+</table>
+
+
 </div>
 </div>
 <p>To better evaluate the model, We build a confusion matrix to show the accuracy of the model, which is the proportion of correct predictions (true positives and true negatives) out of the total predictions, is calculated at approximately 84.88%. This indicates that the model performs well in general. Additionally, the Area Under the Curve (AUC) score of 0.8222, shown below the confusion matrix, further confirms the model’s effectiveness in distinguishing between the two classes.</p>
@@ -344,7 +337,7 @@ Geodetic CRS:  WGS84(DD)</code></pre>
   font-weight: normal;
   font-style: normal;
   background-color: #FFFFFF;
-  width: auto;
+  width: 100%;
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #A8A8A8;
@@ -366,7 +359,7 @@ Geodetic CRS:  WGS84(DD)</code></pre>
 
 #hrguosaaqk .gt_title {
   color: #333333;
-  font-size: 125%;
+  font-size: 18px;
   font-weight: initial;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -378,7 +371,7 @@ Geodetic CRS:  WGS84(DD)</code></pre>
 
 #hrguosaaqk .gt_subtitle {
   color: #333333;
-  font-size: 85%;
+  font-size: 14px;
   font-weight: initial;
   padding-top: 3px;
   padding-bottom: 5px;
@@ -527,8 +520,8 @@ Geodetic CRS:  WGS84(DD)</code></pre>
 }
 
 #hrguosaaqk .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   padding-left: 5px;
   padding-right: 5px;
   margin: 10px;
@@ -760,23 +753,25 @@ Geodetic CRS:  WGS84(DD)</code></pre>
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
   <thead>
     <tr class="gt_heading">
-      <td colspan="13" class="gt_heading gt_title gt_font_normal gt_bottom_border" style="">High Confidence Predictions for Assault 3 Crimes</td>
+      <td colspan="13" class="gt_heading gt_title gt_font_normal" style="">High Confidence Predictions for Assault 3 Crimes<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span></td>
     </tr>
-    
+    <tr class="gt_heading">
+      <td colspan="13" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="">Displaying cases with prediction probability above 70%</td>
+    </tr>
     <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Arrest Date">Arrest Date</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Offense level">Offense level</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Borough">Borough</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Precinct">Precinct</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Age group">Age group</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Sex">Sex</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Race">Race</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Temperature">Temperature</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Wind Speed">Wind Speed</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Weather Condition">Weather Condition</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Cloud Cover">Cloud Cover</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Arrest Month">Arrest Month</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="y">y</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="border-top-width: 1px; border-top-style: solid; border-top-color: gray;" scope="col" id="Arrest Date">Arrest Date</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="border-top-width: 1px; border-top-style: solid; border-top-color: gray;" scope="col" id="Offense Level">Offense Level</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="border-top-width: 1px; border-top-style: solid; border-top-color: gray;" scope="col" id="Borough">Borough</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="border-top-width: 1px; border-top-style: solid; border-top-color: gray;" scope="col" id="Precinct">Precinct</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="border-top-width: 1px; border-top-style: solid; border-top-color: gray;" scope="col" id="Age Group">Age Group</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="border-top-width: 1px; border-top-style: solid; border-top-color: gray;" scope="col" id="Sex">Sex</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="border-top-width: 1px; border-top-style: solid; border-top-color: gray;" scope="col" id="Race">Race</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="border-top-width: 1px; border-top-style: solid; border-top-color: gray;" scope="col" id="Temperature (°C)">Temperature (°C)</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="border-top-width: 1px; border-top-style: solid; border-top-color: gray;" scope="col" id="Wind Speed (km/h)">Wind Speed (km/h)</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="border-top-width: 1px; border-top-style: solid; border-top-color: gray;" scope="col" id="Weather Condition">Weather Condition</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="border-top-width: 1px; border-top-style: solid; border-top-color: gray;" scope="col" id="Cloud Cover (%)">Cloud Cover (%)</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="border-top-width: 1px; border-top-style: solid; border-top-color: gray;" scope="col" id="Arrest Month">Arrest Month</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="border-top-width: 1px; border-top-style: solid; border-top-color: gray;" scope="col" id="y">y</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
@@ -1029,7 +1024,11 @@ Geodetic CRS:  WGS84(DD)</code></pre>
 <td headers="y" class="gt_row gt_right">1</td></tr>
   </tbody>
   
-  
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="13"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;"><sup>1</sup></span> Data sourced from validated records with high predictive confidence.</td>
+    </tr>
+  </tfoot>
 </table>
 </div>
 </div>
@@ -1041,7 +1040,7 @@ Geodetic CRS:  WGS84(DD)</code></pre>
 </section>
 <section id="decision-trees-model" class="level2">
 <h2 class="anchored" data-anchor-id="decision-trees-model">Decision Trees model</h2>
-<p>Next，we decide to use Decision tree model to predict whether an arrest falls into the category of “ASSAULT 3” based on various demographic, legal, and environmental factors.It will provides a clear framework for understanding and predicting “ASSAULT 3”, helping law enforcement and policymakers make informed decisions based on data-driven insights.</p>
+<p>Next, we decide to use Decision tree model to predict whether an arrest falls into the category of “ASSAULT 3” based on various demographic, legal, and environmental factors.It will provides a clear framework for understanding and predicting “ASSAULT 3”, helping law enforcement and policymakers make informed decisions based on data-driven insights.</p>
 <section id="prediction-of-decision-tree-model" class="level3">
 <h3 class="anchored" data-anchor-id="prediction-of-decision-tree-model">Prediction of Decision Tree Model</h3>
 <div class="cell">
@@ -1056,50 +1055,54 @@ Geodetic CRS:  WGS84(DD)</code></pre>
 <section id="confusion-matrix-for-decision-tree-model" class="level3">
 <h3 class="anchored" data-anchor-id="confusion-matrix-for-decision-tree-model">Confusion Matrix for decision tree model</h3>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>&lt;table&gt;
-&lt;caption&gt;Confusion Matrix&lt;/caption&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Actual 0 &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Actual 1 &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Predicted 0 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 38076 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 6557 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Predicted 1 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 296 &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 320 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;</code></pre>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Confusion Matrix</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th"></th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Actual 0</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Actual 1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Predicted 0</td>
+<td style="text-align: right;">38076</td>
+<td style="text-align: right;">6557</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Predicted 1</td>
+<td style="text-align: right;">296</td>
+<td style="text-align: right;">320</td>
+</tr>
+</tbody>
+</table>
+
+
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>&lt;table&gt;
-&lt;caption&gt;Model Performance Metrics&lt;/caption&gt;
- &lt;thead&gt;
-  &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; Metric &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; Value &lt;/th&gt;
-  &lt;/tr&gt;
- &lt;/thead&gt;
-&lt;tbody&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; Accuracy &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.8485 &lt;/td&gt;
-  &lt;/tr&gt;
-  &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; AUC &lt;/td&gt;
-   &lt;td style="text-align:right;"&gt; 0.7897 &lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;</code></pre>
+<div class="cell-output-display">
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<caption>Model Performance Metrics</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">Metric</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Accuracy</td>
+<td style="text-align: right;">0.8485</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">AUC</td>
+<td style="text-align: right;">0.7897</td>
+</tr>
+</tbody>
+</table>
+
+
 </div>
 </div>
 <p>To better evaluate the model, We build a confusion matrix to show the accuracy of the model, which is the proportion of correct predictions (true positives and true negatives) out of the total predictions, is calculated at approximately 84.86%. This indicates that the model performs well in general. Additionally, the Area Under the Curve (AUC) score of 0.7897, shown below the confusion matrix, further confirms the model’s effectiveness in distinguishing between the two classes.</p>
