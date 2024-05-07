@@ -39,16 +39,6 @@ You will
 
 ## Rubric: Other components
 
-### Interactive
-
-You will also be required to make an interactive dashboard like [this one](/flex/flex.html).
-
-Your Big Data page should include a link to an interactive dashboard.
-The dashboard should be created either using Shiny or FlexDashboard (or another tool with professor's approval).
-This interactive component should in some way support your thesis from your big picture page.
-Good interactives often provide both high-level understanding of the data while allowing a user to investigate specific scenarios, observations, subgroups, etc.
-
--   Quality and ease of use of the interactive components. Is it clear what can be explored using your interactive components? Does it enhance and reinforce your conclusions from the Big Picture? Plotly with default hover text will get no credit. Be creative!
 
 ### Video Recording
 
@@ -77,17 +67,12 @@ library(ggplot2)
 library(viridis)
 library(dplyr)
 library(kableExtra)
-library(ggcorrplot)
-library(ggmap)
-library(leaflet)
-library(corrplot)
-library(reshape2) # for melting the correlation matrix
-library(pheatmap)
 library(gridExtra)
 library(data.table)
 library(sp)
 library(sf)
 library(RColorBrewer)
+library(MASS)
 ds <- read_rds("dataset/load_and_clean_data.rds") 
 ```
 
@@ -193,8 +178,7 @@ Warmer temperature causes higher incidents of “Assault 3” crimes
 
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
 # Load the necessary libraries
-library(patchwork)
-library(lubridate)  # For handling date objects
+ # For handling date objects
 
 # Load the data
 # Note: Make sure to change the file path to where your dataset is located.
@@ -270,6 +254,7 @@ plot_day <- ds %>%
   )
 
 ```
+
 
 
 ```{r echo=FALSE, message=FALSE, warning= FALSE}
