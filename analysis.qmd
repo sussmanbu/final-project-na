@@ -29,6 +29,7 @@ library(MASS)
 library(rpart)
 library(rpart.plot)
 library(pROC)
+library(gt)
 ds <- read_rds("dataset/load_and_clean_data.rds") 
 ```
 
@@ -458,9 +459,11 @@ model's effectiveness in distinguishing between the two classes.
 ### Prediction of Logistic Model
 
 ```{r  echo=FALSE, message=FALSE, warning= FALSE}
+
 high_confidence_cases <- data_valid[which(predict_lr > 0.70), ]
 
 # Create a gt table for the high confidence cases
+library(gt)
 gt(high_confidence_cases) %>%
   tab_header(
     title = "High Confidence Predictions for Assault 3 Crimes"
