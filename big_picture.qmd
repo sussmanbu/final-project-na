@@ -1,5 +1,5 @@
 ---
-title: "Big Picture"
+title: "Does Bad Weather Fuel Violent Crime in New York ?"
 description: "Unveiling the Interplay of Region, Weather, and Crime in New York City"
 toc: true
 draft: FALSE
@@ -27,7 +27,7 @@ ds <- read_rds("dataset/load_and_clean_data.rds")
 
 ```
 
-## **Does Bad Weather Fuel Violent Crime in New York ?**
+### Introduction
 
 In the busy city of New York, where every street has its own story, the complex relationship between weather patterns and crime rates tells a story that captures our attention.
 A sudden spike in crime during [an unexpected heatwave made headlines in 2023](https://www.worldweatherattribution.org/extreme-heat-in-north-america-europe-and-china-in-july-2023-made-much-more-likely-by-climate-change/), underscoring the urgency of this issue.
